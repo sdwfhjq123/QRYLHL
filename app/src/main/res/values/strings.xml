@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">亲仁医疗医护版</string>
+    <string name="register"><u>《用户注册协议》</u></string>
+
+    <string-array name="tab_names">
+        <item>派单模式</item>
+        <item>点单模式</item>
+    </string-array>
+</resources>

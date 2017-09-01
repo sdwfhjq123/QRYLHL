@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.qryl.qrylyh.activity.login.complete.CompleteInfoActivity">
+
+    <include layout="@layout/title" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/TextInItemStyle"
+            android:layout_marginLeft="10dp"
+            android:text="我的头像" />
+
+        <ImageView style="@style/ImgAdvanceInItemStyle" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="50dp"
+            android:background="#f00"
+            android:src="#ff0" />
+
+    </RelativeLayout>
+
+    <View style="@style/ViewLine" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/TextInItemStyle"
+            android:layout_marginLeft="10dp"
+            android:text="真实姓名" />
+
+        <TextView
+            style="@style/TextInItemStyle"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:text="未填写" />
+    </RelativeLayout>
+
+    <View style="@style/ViewLine" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/TextInItemStyle"
+            android:layout_marginLeft="10dp"
+            android:text="身份证号" />
+
+        <TextView
+            style="@style/TextInItemStyle"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:text="未填写" />
+    </RelativeLayout>
+
+    <View style="@style/ViewLine" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/TextInItemStyle"
+            android:layout_marginLeft="10dp"
+            android:text="我的性别" />
+
+        <ImageView style="@style/ImgAdvanceInItemStyle" />
+
+        <TextView
+            style="@style/TextInItemStyle"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:text="男" />
+    </RelativeLayout>
+
+    <View style="@style/ViewLine" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/TextInItemStyle"
+            android:layout_marginLeft="10dp"
+            android:text="我的年龄" />
+
+        <TextView
+            style="@style/TextInItemStyle"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:text="请选择" />
+
+        <ImageView style="@style/ImgAdvanceInItemStyle" />
+    </RelativeLayout>
+
+    <View style="@style/ViewLine" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/TextInItemStyle"
+            android:layout_marginLeft="10dp"
+            android:text="我的工作经验" />
+
+        <TextView
+            style="@style/TextInItemStyle"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:text="请选择" />
+
+        <ImageView style="@style/ImgAdvanceInItemStyle" />
+    </RelativeLayout>
+
+    <View style="@style/ViewLine" />
+
+    <View style="@style/ViewLine" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/TextInItemStyle"
+            android:layout_marginLeft="10dp"
+            android:text="我所在的医院" />
+
+        <TextView
+            style="@style/TextInItemStyle"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:text="请选择" />
+
+        <ImageView style="@style/ImgAdvanceInItemStyle" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/TextInItemStyle"
+            android:layout_marginLeft="10dp"
+            android:text="我所在的科室" />
+
+        <TextView
+            style="@style/TextInItemStyle"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:text="请选择" />
+
+        <ImageView style="@style/ImgAdvanceInItemStyle" />
+    </RelativeLayout>
+
+    <View style="@style/ViewLine" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/TextInItemStyle"
+            android:layout_marginLeft="10dp"
+            android:text="我擅长的工作" />
+
+        <TextView
+            style="@style/TextInItemStyle"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:text="请选择" />
+
+        <ImageView style="@style/ImgAdvanceInItemStyle" />
+    </RelativeLayout>
+
+    <View style="@style/ViewLine" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/TextInItemStyle"
+            android:layout_marginLeft="10dp"
+            android:text="我能够提供服务的区域" />
+
+        <TextView
+            style="@style/TextInItemStyle"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:text="请选择" />
+
+        <ImageView style="@style/ImgAdvanceInItemStyle" />
+    </RelativeLayout>
+
+    <View style="@style/ViewLine" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3">
+
+        <Button
+            style="@style/ButtonLoginStyle"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="30dp"
+            android:text="下一步" />
+
+    </RelativeLayout>
+
+</LinearLayout>

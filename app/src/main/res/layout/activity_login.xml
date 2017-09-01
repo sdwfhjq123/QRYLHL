@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/title"/>
+
+    <LinearLayout
+        android:id="@+id/ll_et_login"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="150dp"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/et_user_login"
+            style="@style/et_lab"
+            android:drawableLeft="@mipmap/ic_msg_pressed"
+            android:hint="请输入用户名" />
+
+        <com.qryl.qryl.view.PasswordToggleEditText
+            android:id="@+id/et_psd_login"
+            style="@style/et_lab"
+            android:drawableLeft="@mipmap/ic_msg_pressed"
+            android:hint="请输入账号/手机号" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_login_text"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@id/ll_et_login">
+
+        <RelativeLayout
+            android:id="@+id/rl_isCheck"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="20dp">
+
+            <CheckBox
+                android:id="@+id/cb_auto_login"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:checked="true"
+                android:shadowColor="#4581c7" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/cb_auto_login"
+                android:text="自动登录"
+                android:textColor="#4581c7"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_forgot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:text="忘记密码?"
+            android:textColor="#4581c7"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_login_login"
+        style="@style/ButtonLoginStyle"
+        android:layout_below="@id/rl_login_text"
+        android:layout_marginTop="50dp"
+        android:text="登录" />
+
+
+    <Button
+        android:id="@+id/btn_register_login"
+        style="@style/ButtonLoginStyle"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:text="注册" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btn_register_login"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="40dp"
+        android:text="目前还没有亲仁医疗账号？"
+        android:textColor="#404040" />
+
+</RelativeLayout>

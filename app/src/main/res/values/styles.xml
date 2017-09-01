@@ -1,0 +1,111 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+    <!-- 文字在选择条目中的布局样式 -->
+    <style name="TextInItemStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:src">@mipmap/ic_advance</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- 前进按钮在选择条目中的布局样式 -->
+    <style name="ImgAdvanceInItemStyle">
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:src">@mipmap/ic_advance</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <!-- 主页面radioButton的样式 -->
+    <style name="MainActivityRaodioButtonStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@drawable/selector_rb_text_color</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:drawablePadding">2dp</item>
+    </style>
+
+    <!-- HomeFragment的radioButton的样式 -->
+    <style name="HomeFragmentRaodioButtonStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:drawablePadding">5dp</item>
+    </style>
+
+
+    <!-- View-Line-->
+    <style name="ViewLine">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">#aaaaaa</item>
+    </style>
+
+    <!-- 标题名字-->
+    <style name="TitleName">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">18sp</item>
+
+    </style>
+
+    <!-- 标题栏相对布局的样式-->
+    <style name="TitleRelativeStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:background">@color/title_bg_color</item>
+
+    </style>
+
+    <style name="et_lab" parent="TextAppearance.AppCompat">
+        <!-- 默认状态提示颜色和字体-->
+        <item name="android:textSize">14sp</item>
+        <!-- 下面可以根据需要设置，如果没有将默认使用默认theme的颜色 -->
+        <!-- Label标签的颜色 -->
+        <item name="colorAccent">#666666</item>
+        <!-- 默认状态状态设置底线颜色 -->
+        <item name="colorControlNormal">#3F51b5</item>
+        <!-- 选择的底线颜色 -->
+        <item name="colorControlActivated">#666666</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:drawablePadding">3dp</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="ButtonLoginStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginLeft">30dp</item>
+        <item name="android:layout_marginRight">30dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:background">@drawable/selector_btn_login</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#ffffff</item>
+
+    </style>
+
+</resources>

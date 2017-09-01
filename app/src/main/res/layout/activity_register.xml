@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/title" />
+
+    <LinearLayout
+        android:id="@+id/ll_et_login"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="130dp"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/et_tel_register"
+            style="@style/et_lab"
+            android:drawableLeft="@mipmap/ic_msg_pressed"
+            android:hint="请输入手机号" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginRight="10dp">
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/et_verification_register"
+                style="@style/et_lab"
+                android:layout_weight="1"
+                android:drawableLeft="@mipmap/ic_msg_pressed"
+                android:hint="请输入验证码" />
+
+            <Button
+                android:id="@+id/btn_verification_register"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/selector_btn_login"
+                android:text="请输入验证码"
+                android:textColor="#fff" />
+        </LinearLayout>
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/et_psd_register"
+            style="@style/et_lab"
+            android:drawableLeft="@mipmap/ic_msg_pressed"
+            android:hint="密码为6至12个数字或字母" />
+
+        <android.support.v7.widget.AppCompatEditText
+            android:id="@+id/et_psd_confirm_register"
+            style="@style/et_lab"
+            android:drawableLeft="@mipmap/ic_msg_pressed"
+            android:hint="请再次确认密码" />
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_login_text"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@id/ll_et_login">
+
+        <RelativeLayout
+            android:id="@+id/rl_isCheck"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="20dp">
+
+            <CheckBox
+                android:id="@+id/cb_consent"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:checked="true"
+                android:shadowColor="#4581c7" />
+
+            <TextView
+                android:id="@+id/tv_confirm_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/cb_consent"
+                android:text="我已阅读并同意"
+                android:textColor="#999999"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_protocol_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/tv_confirm_register"
+                android:text="@string/register"
+                android:textColor="#ff0000"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_register_register"
+        style="@style/ButtonLoginStyle"
+        android:layout_below="@id/rl_login_text"
+        android:layout_marginTop="50dp"
+        android:text="注册" />
+
+</RelativeLayout>

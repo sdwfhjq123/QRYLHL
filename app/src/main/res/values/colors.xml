@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#5988be</color>
+    <color name="colorPrimaryDark">#5988be</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="rb_text_color_selector">#1296db</color><!-- 选中颜色文字 -->
+    <color name="rb_text_color_normal">#656565</color><!-- 未选中颜色文字 -->
+    <color name="title_bg_color">#5988be</color><!-- 标题的背景颜色 -->
+
+    <color name="bg_tab_pressed">#665988be</color>
+    <color name="bg_tab_normal">#00000000</color>
+
+
+    <color name="tab_text_color_selected">#ff5988be</color><!-- tab选中文字颜色 -->
+    <color name="tab_text_color_normal">#3b3b3b</color><!-- tab未选中文字颜色 -->
+</resources>
