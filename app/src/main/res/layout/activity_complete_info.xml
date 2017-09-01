@@ -146,8 +146,6 @@
 
     <View style="@style/ViewLine" />
 
-    <View style="@style/ViewLine" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -168,6 +166,8 @@
 
         <ImageView style="@style/ImgAdvanceInItemStyle" />
     </RelativeLayout>
+
+    <View style="@style/ViewLine" />
 
     <RelativeLayout
         android:layout_width="match_parent"
