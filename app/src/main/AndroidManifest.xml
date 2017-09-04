@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.qryl.qrylyh">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,13 +18,27 @@
         <activity android:name=".activity.login.FinishActivity" />
         <activity android:name=".activity.login.complete.ChooseAreaActivity" />
         <activity android:name=".activity.login.complete.CompleteInfoActivity">
+
+        </activity>
+        <activity android:name=".activity.login.complete.CompletePicActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <provider
+                android:name="android.support.v4.content.FileProvider"
+                android:authorities="com.qryl.qrylyh.activity.login.complete.fileprovider"
+                android:exported="true"
+                android:grantUriPermissions="true">
+                <meta-data
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/file_paths" />
+            </provider>
         </activity>
-        <activity android:name=".activity.login.complete.CompletePicActivity"></activity>
+
     </application>
 
 </manifest>

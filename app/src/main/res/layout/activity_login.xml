@@ -4,26 +4,59 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/title"/>
+    <include
+        android:id="@+id/include"
+        layout="@layout/title" />
 
     <LinearLayout
         android:id="@+id/ll_et_login"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginTop="150dp"
-        android:orientation="vertical">
+        android:layout_height="120dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/include"
+        android:layout_marginTop="104dp"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
-        <android.support.v7.widget.AppCompatEditText
-            android:id="@+id/et_user_login"
-            style="@style/et_lab"
-            android:drawableLeft="@mipmap/ic_msg_pressed"
-            android:hint="请输入用户名" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <com.qryl.qryl.view.PasswordToggleEditText
-            android:id="@+id/et_psd_login"
-            style="@style/et_lab"
-            android:drawableLeft="@mipmap/ic_msg_pressed"
-            android:hint="请输入账号/手机号" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/ic_user" />
+
+            <android.support.v7.widget.AppCompatEditText
+                android:id="@+id/et_user_login"
+                style="@style/et_lab"
+                android:hint="请输入用户名" />
+
+        </LinearLayout>
+
+        <View style="@style/ViewLine" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/ic_phone" />
+
+            <com.qryl.qryl.view.PasswordToggleEditText
+                android:id="@+id/et_psd_login"
+                style="@style/et_lab"
+                android:hint="请输入账号/手机号" />
+
+        </LinearLayout>
+
+        <View style="@style/ViewLine" />
+
     </LinearLayout>
 
     <RelativeLayout
