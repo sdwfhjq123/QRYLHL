@@ -37,6 +37,7 @@
     <View style="@style/ViewLine" />
 
     <RelativeLayout
+        android:id="@+id/real_name"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -58,6 +59,7 @@
     <View style="@style/ViewLine" />
 
     <RelativeLayout
+        android:id="@+id/identity"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -79,6 +81,7 @@
     <View style="@style/ViewLine" />
 
     <RelativeLayout
+        android:id="@+id/gender"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -102,6 +105,7 @@
     <View style="@style/ViewLine" />
 
     <RelativeLayout
+        android:id="@+id/age"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -125,6 +129,7 @@
     <View style="@style/ViewLine" />
 
     <RelativeLayout
+        android:id="@+id/work_experience"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -148,6 +153,7 @@
     <View style="@style/ViewLine" />
 
     <RelativeLayout
+        android:id="@+id/hospital"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -171,6 +177,7 @@
     <View style="@style/ViewLine" />
 
     <RelativeLayout
+        android:id="@+id/office"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -194,6 +201,7 @@
     <View style="@style/ViewLine" />
 
     <RelativeLayout
+        android:id="@+id/be_good_at_work"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -217,6 +225,7 @@
     <View style="@style/ViewLine" />
 
     <RelativeLayout
+        android:id="@+id/local_service"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

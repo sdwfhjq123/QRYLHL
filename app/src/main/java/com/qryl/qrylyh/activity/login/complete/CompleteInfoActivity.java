@@ -14,7 +14,7 @@ public class CompleteInfoActivity extends AppCompatActivity {
 
     private static final String TAG = "CompleteInfoActivity";
 
-    private RelativeLayout myHead;
+    private RelativeLayout myHead, realName, identity, gender, age, workExperience, hospital, beGoodAtWork, localService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,5 +47,13 @@ public class CompleteInfoActivity extends AppCompatActivity {
 
     private void initView() {
         myHead = (RelativeLayout) findViewById(R.id.my_head);
+        realName = (RelativeLayout) findViewById(R.id.real_name);
+        identity = (RelativeLayout) findViewById(R.id.identity);
+        gender = (RelativeLayout) findViewById(R.id.gender);
+        age = (RelativeLayout) findViewById(R.id.age);
+        workExperience = (RelativeLayout) findViewById(R.id.work_experience);
+        hospital = (RelativeLayout) findViewById(R.id.hospital);
+        beGoodAtWork = (RelativeLayout) findViewById(R.id.be_good_at_work);
+        localService = (RelativeLayout) findViewById(R.id.local_service);
     }
 }
