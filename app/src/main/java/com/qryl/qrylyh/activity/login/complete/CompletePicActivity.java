@@ -1,16 +1,18 @@
 package com.qryl.qrylyh.activity.login.complete;
 
+import android.content.ContentUris;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
-import android.os.SystemClock;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,26 +23,16 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.Request;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.SizeReadyCallback;
-import com.bumptech.glide.request.target.Target;
-import com.bumptech.glide.request.transition.Transition;
 import com.qryl.qrylyh.R;
-import com.qryl.qrylyh.util.ConvertPic;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 
 public class CompletePicActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -49,6 +41,13 @@ public class CompletePicActivity extends AppCompatActivity implements View.OnCli
     private static final int TAKE_PHOTO = 1;
     private static final int CHOOSE_PHOTO = 2;
     private int choosed_image = 0;
+
+    private HashMap<String, ByteArrayOutputStream> imageMap = new HashMap<>();
+
+    private static final String SFZ_KEY = "syz_key";
+    private static final String JKZ_KEY = "jkz_key";
+    private static final String ZGZ_KEY = "zgz_key";
+
     /**
      * 身份证
      */
@@ -139,13 +138,15 @@ public class CompletePicActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
-                openAlbum();
+                //调用相机
+                invokeAlbum();
             }
         });
         btnPopCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
+                //打开相机
                 openCarema();
             }
         });
@@ -157,8 +158,50 @@ public class CompletePicActivity extends AppCompatActivity implements View.OnCli
         });
     }
 
-    private void openAlbum() {
+    /**
+     * 打开相册
+     */
+    private void invokeAlbum() {
+        //动态申请危险时权限，运行时权限
+        if (ContextCompat.checkSelfPermission(CompletePicActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+                PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(CompletePicActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        } else {
+            openAlbum();
+        }
     }
+
+    /**
+     * 打开相册
+     */
+    private void openAlbum() {
+        Intent intent = new Intent("android.intent.action.GET_CONTENT");
+        intent.setType("image/*");
+        startActivityForResult(intent, CHOOSE_PHOTO);
+    }
+
+    /**
+     * 动态获取到的权限后的重写
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case 1:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    openAlbum();
+                } else {
+                    Toast.makeText(CompletePicActivity.this, "you denied the permission", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
 
     /**
      * 打开相机
@@ -193,8 +236,8 @@ public class CompletePicActivity extends AppCompatActivity implements View.OnCli
                     //将拍摄的图片显示出来
                     try {
                         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        long l = SystemClock.currentThreadTimeMillis();
-                        Log.i(TAG, "onActivityResult: " + l);
+                        //long l = SystemClock.currentThreadTimeMillis();
+                        //Log.i(TAG, "onActivityResult: " + l);
                         bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 10, baos);//这里压缩options%，把压缩后的数据存放到baos中
                         //long length = baos.toByteArray().length;
@@ -202,21 +245,109 @@ public class CompletePicActivity extends AppCompatActivity implements View.OnCli
                         Log.i("wechat", "压缩后图片的大小" + ("字节码：" + " 宽度为:" + bitmap.getWidth() + " 高度为:" + bitmap.getHeight()));
                         if (choosed_image == R.id.sfz_image) {//身份证
                             //sfzImage.setImageBitmap(bitmap);
-                            l = SystemClock.currentThreadTimeMillis();
-                            Log.i(TAG, "onActivityResult: " + l);
+                            //l = SystemClock.currentThreadTimeMillis();
+                            // Log.i(TAG, "onActivityResult: " + l);
                             Glide.with(this).asBitmap().load(bytes).thumbnail(0.1f).into(sfzImage);
+                            imageMap.put(SFZ_KEY, baos);
                         } else if (choosed_image == R.id.jkz_image) {//健康证
                             //jkzImage.setImageBitmap(bitmap);
                             Glide.with(this).asBitmap().load(bytes).thumbnail(0.1f).into(jkzImage);
+                            imageMap.put(JKZ_KEY, baos);
                         } else if (choosed_image == R.id.zgz_image) {//从业资格证
                             //zgzImage.setImageBitmap(bitmap);
                             Glide.with(this).asBitmap().load(bytes).thumbnail(0.1f).into(zgzImage);
+                            imageMap.put(ZGZ_KEY, baos);
                         }
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
                 }
                 break;
+            case CHOOSE_PHOTO:
+                if (resultCode == RESULT_OK) {
+                    //判断手机系统版本号
+                    if (Build.VERSION.SDK_INT >= 19) {
+                        handleImageOnKitKat(data);
+                    } else {
+                        handleImageBeforeKitKat(data);
+                    }
+                }
+                break;
+        }
+    }
+
+    private void handleImageBeforeKitKat(Intent data) {
+        Uri uri = data.getData();
+        String imagePath = getImagePath(uri, null);
+        displayImage(imagePath);
+    }
+
+    private void handleImageOnKitKat(Intent data) {
+        String imagePath = null;
+        Uri uri = data.getData();
+        //Log.i("uri", uri + "");
+        if (DocumentsContract.isDocumentUri(CompletePicActivity.this, uri)) {
+            //如果是document类型的uri，则通过document id 处理
+            String docId = DocumentsContract.getDocumentId(uri);
+            Log.i("type of document", docId);
+            if ("com.android.providers.media.documents".equals(uri.getAuthority())) {
+                String id = docId.split(":")[1];//解析出数字格式的id
+                Log.i("type of document id", id);
+                String selection = MediaStore.Images.Media._ID + "=" + id;
+                Log.i("selection", selection);
+                imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection);
+            } else if ("com.android.providers.downloads.documents".equals(uri.getAuthority())) {
+                Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(docId));
+                imagePath = getImagePath(contentUri, null);
+            }
+        } else if ("content".equalsIgnoreCase(uri.getScheme())) {
+            //如果是content类型的uri，就用普通方式处理
+            imagePath = getImagePath(uri, null);
+        } else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            //如果是file类型的Uri，直接获取图片路径
+            imagePath = uri.getPath();
+        }
+        displayImage(imagePath);
+    }
+
+    private String getImagePath(Uri uri, String selection) {
+        String path = null;
+        //通过uri和selection来获取真实的图片路径
+        Cursor cursor = getContentResolver().query(uri, null, selection, null, null);
+        if (cursor != null) {
+            if (cursor.moveToNext()) {
+                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+            }
+            cursor.close();
+        }
+        return path;
+    }
+
+    private void displayImage(String imagePath) {
+        if (imagePath != null) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap = BitmapFactory.decodeFile(imagePath);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 10, baos);//这里压缩options%，把压缩后的数据存放到baos中
+            byte[] bytes = baos.toByteArray();
+            //Log.i("wechat", "压缩后图片的大小" + ("字节码：" + " 宽度为:" + bitmap.getWidth() + " 高度为:" + bitmap.getHeight()));
+            if (choosed_image == R.id.sfz_image) {//身份证
+                //sfzImage.setImageBitmap(bitmap);
+                //l = SystemClock.currentThreadTimeMillis();
+                //Log.i(TAG, "onActivityResult: " + l);
+                Glide.with(this).asBitmap().load(bytes).thumbnail(0.1f).into(sfzImage);
+                imageMap.put(SFZ_KEY, baos);
+            } else if (choosed_image == R.id.jkz_image) {//健康证
+                //jkzImage.setImageBitmap(bitmap);
+                Glide.with(this).asBitmap().load(bytes).thumbnail(0.1f).into(jkzImage);
+                imageMap.put(JKZ_KEY, baos);
+            } else if (choosed_image == R.id.zgz_image) {//从业资格证
+                //zgzImage.setImageBitmap(bitmap);
+                Glide.with(this).asBitmap().load(bytes).thumbnail(0.1f).into(zgzImage);
+                imageMap.put(ZGZ_KEY, baos);
+            }
+            //picture.setImageBitmap(bitmap);
+        } else {
+            Toast.makeText(CompletePicActivity.this, "failed to get image ", Toast.LENGTH_SHORT).show();
         }
     }
 
