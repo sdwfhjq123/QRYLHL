@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -48,7 +47,7 @@
                 android:layout_gravity="center_vertical"
                 android:src="@mipmap/ic_phone" />
 
-            <com.qryl.qryl.view.PasswordToggleEditText
+            <com.qryl.qrylyh.view.PasswordToggleEditText
                 android:id="@+id/et_psd_login"
                 style="@style/et_lab"
                 android:hint="请输入账号/手机号" />

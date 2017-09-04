@@ -345,7 +345,6 @@ public class CompletePicActivity extends AppCompatActivity implements View.OnCli
                 Glide.with(this).asBitmap().load(bytes).thumbnail(0.1f).into(zgzImage);
                 imageMap.put(ZGZ_KEY, baos);
             }
-            //picture.setImageBitmap(bitmap);
         } else {
             Toast.makeText(CompletePicActivity.this, "failed to get image ", Toast.LENGTH_SHORT).show();
         }
