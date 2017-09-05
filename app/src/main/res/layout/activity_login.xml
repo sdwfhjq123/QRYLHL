@@ -28,6 +28,14 @@
                 android:layout_gravity="center_vertical"
                 android:src="@mipmap/ic_user" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="3dp"
+                android:text="用户名"
+                android:textColor="#666" />
+
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/et_user_login"
                 style="@style/et_lab"
@@ -46,6 +54,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:src="@mipmap/ic_phone" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="3dp"
+                android:text="密码"
+                android:textColor="#666" />
 
             <com.qryl.qrylyh.view.PasswordToggleEditText
                 android:id="@+id/et_psd_login"
@@ -75,6 +91,7 @@
                 android:id="@+id/cb_auto_login"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:background="@drawable/selector_check_box"
                 android:checked="true"
                 android:shadowColor="#4581c7" />
 

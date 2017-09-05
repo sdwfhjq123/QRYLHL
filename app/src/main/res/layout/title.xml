@@ -5,10 +5,11 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/rl_login"
+        android:id="@+id/rl_title"
         style="@style/TitleRelativeStyle">
 
         <TextView
+            android:id="@+id/return_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -20,12 +21,12 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/tv_title"
+            android:id="@+id/title_name"
             style="@style/TitleName"
             android:text="用户注册" />
 
         <TextView
-
+            android:id="@+id/help_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

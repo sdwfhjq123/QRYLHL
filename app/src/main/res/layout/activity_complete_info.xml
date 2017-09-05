@@ -9,6 +9,7 @@
 
     <include layout="@layout/title" />
 
+
     <RelativeLayout
         android:id="@+id/my_head"
         android:layout_width="match_parent"
@@ -24,6 +25,7 @@
         <ImageView style="@style/ImgAdvanceInItemStyle" />
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/civ_head"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentRight="true"
@@ -44,11 +46,13 @@
         android:padding="5dp">
 
         <TextView
+
             style="@style/TextInItemStyle"
             android:layout_marginLeft="10dp"
             android:text="真实姓名" />
 
         <TextView
+            android:id="@+id/tv_name"
             style="@style/TextInItemStyle"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
@@ -66,11 +70,13 @@
         android:padding="5dp">
 
         <TextView
+
             style="@style/TextInItemStyle"
             android:layout_marginLeft="10dp"
             android:text="身份证号" />
 
         <TextView
+            android:id="@+id/tv_identity"
             style="@style/TextInItemStyle"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
@@ -95,6 +101,7 @@
         <ImageView style="@style/ImgAdvanceInItemStyle" />
 
         <TextView
+            android:id="@+id/tv_gender"
             style="@style/TextInItemStyle"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
@@ -117,6 +124,7 @@
             android:text="我的年龄" />
 
         <TextView
+            android:id="@+id/tv_age"
             style="@style/TextInItemStyle"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
@@ -141,6 +149,7 @@
             android:text="我的工作经验" />
 
         <TextView
+            android:id="@+id/tv_work_experience"
             style="@style/TextInItemStyle"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
@@ -165,6 +174,7 @@
             android:text="我所在的医院" />
 
         <TextView
+            android:id="@+id/tv_hospital"
             style="@style/TextInItemStyle"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
@@ -174,7 +184,9 @@
         <ImageView style="@style/ImgAdvanceInItemStyle" />
     </RelativeLayout>
 
-    <View style="@style/ViewLine" />
+    <View
+        android:id="@+id/line1"
+        style="@style/ViewLine" />
 
     <RelativeLayout
         android:id="@+id/office"
@@ -189,6 +201,7 @@
             android:text="我所在的科室" />
 
         <TextView
+            android:id="@+id/tv_office"
             style="@style/TextInItemStyle"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
@@ -198,7 +211,9 @@
         <ImageView style="@style/ImgAdvanceInItemStyle" />
     </RelativeLayout>
 
-    <View style="@style/ViewLine" />
+    <View
+        android:id="@+id/line2"
+        style="@style/ViewLine" />
 
     <RelativeLayout
         android:id="@+id/be_good_at_work"
@@ -213,6 +228,7 @@
             android:text="我擅长的工作" />
 
         <TextView
+            android:id="@+id/tv_be_good_at_work"
             style="@style/TextInItemStyle"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
@@ -237,6 +253,7 @@
             android:text="我能够提供服务的区域" />
 
         <TextView
+            android:id="@+id/tv_local_service"
             style="@style/TextInItemStyle"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
@@ -255,6 +272,7 @@
         android:layout_weight="3">
 
         <Button
+            android:id="@+id/btn_next"
             style="@style/ButtonLoginStyle"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="30dp"

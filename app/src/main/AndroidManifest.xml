@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity"></activity>
+        <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,11 +23,8 @@
         <activity android:name=".activity.SplashActivity" />
         <activity android:name=".activity.login.FinishActivity" />
         <activity android:name=".activity.login.complete.ChooseAreaActivity" />
-        <activity android:name=".activity.login.complete.CompleteInfoActivity">
-
-        </activity>
+        <activity android:name=".activity.login.complete.CompleteInfoActivity" />
         <activity android:name=".activity.login.complete.CompletePicActivity">
-
             <provider
                 android:name="android.support.v4.content.FileProvider"
                 android:authorities="com.qryl.qrylyh.activity.login.complete.fileprovider"
@@ -38,7 +35,9 @@
                     android:resource="@xml/file_paths" />
             </provider>
         </activity>
-
+        <activity android:name=".activity.login.complete.HospitalActivity" />
+        <activity android:name=".activity.login.complete.OfficeActivity" />
+        <activity android:name=".activity.login.complete.LocalServiceActivity"></activity>
     </application>
 
 </manifest>

@@ -13,10 +13,7 @@ import com.qryl.qrylyh.R;
  */
 public class ChooseAreaActivity extends AppCompatActivity implements View.OnClickListener {
 
-    public static final String SKIP_HG = "skip_hg";
-    public static final String SKIP_HS = "skip_hs";
-    public static final String SKIP_YS = "skip_ys";
-    public static final String SKIP_TN = "skip_tn";
+    public static final String SKIP = "skip";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,22 +38,22 @@ public class ChooseAreaActivity extends AppCompatActivity implements View.OnClic
         switch (v.getId()) {
             case R.id.btn_choose_hg://点击跳转护工注册页面
                 Intent intent = new Intent(ChooseAreaActivity.this, CompleteInfoActivity.class);
-                intent.putExtra(SKIP_HG, "hg");
+                intent.putExtra(SKIP, "hg");
                 startActivity(intent);
                 break;
             case R.id.btn_choose_hs://点击跳转护士注册页面
                 Intent intent2 = new Intent(ChooseAreaActivity.this, CompleteInfoActivity.class);
-                intent2.putExtra(SKIP_HS, "hs");
+                intent2.putExtra(SKIP, "hs");
                 startActivity(intent2);
                 break;
             case R.id.btn_choose_ys://点击跳转医生注册页面
                 Intent intent3 = new Intent(ChooseAreaActivity.this, CompleteInfoActivity.class);
-                intent3.putExtra(SKIP_YS, "ys");
+                intent3.putExtra(SKIP, "ys");
                 startActivity(intent3);
                 break;
             case R.id.btn_choose_tn://点击跳转推拿注册页面
                 Intent intent4 = new Intent(ChooseAreaActivity.this, CompleteInfoActivity.class);
-                intent4.putExtra(SKIP_TN, "tn");
+                intent4.putExtra(SKIP, "tn");
                 startActivity(intent4);
                 break;
         }
