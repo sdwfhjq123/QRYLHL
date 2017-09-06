@@ -33,6 +33,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class CompletePicActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -68,7 +70,17 @@ public class CompletePicActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complete_pic);
         initView();
+
+        Bundle bundle = getIntent().getBundleExtra("last_map");
+//        Set<String> set = bundle.keySet();
+//        for (String map1 : set) {
+//            //System.out.println("键为 " + map1 + "     值为 " + maplast.get(map1));
+//            Log.i(TAG, "onCreate: 打印获取到的map" + map1 + ":" + bundle.get(map1));
+//        }
+        byte[] head = (byte[]) bundle.get("head");
+        Log.i(TAG, "onCreate: 照片字节流" + head	);
     }
+
 
     private void initView() {
         sfzImage = (ImageView) findViewById(R.id.sfz_image);

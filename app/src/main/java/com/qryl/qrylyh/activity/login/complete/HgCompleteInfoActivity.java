@@ -17,6 +17,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -37,6 +38,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -55,6 +58,14 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
     private CircleImageView civHead;
     private String[] genderArray;
     private String[] workExperienceArray;
+    private String nameDialogText;
+    private String identityDialogText;
+    private String genderDialogText;
+    private String ageDialogText;
+    private String workExperienceDialogText;
+    private String beGoodAtWorkDialogText;
+    private byte[] bytes;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +106,7 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                String nameDialogText = etHintDialog.getText().toString();
+                                nameDialogText = etHintDialog.getText().toString();
                                 tvName.setText(nameDialogText);
                                 dialog.dismiss();
                             }
@@ -116,7 +127,7 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                String identityDialogText = etHintDialog.getText().toString();
+                                identityDialogText = etHintDialog.getText().toString();
                                 tvIdentity.setText(identityDialogText);
                                 dialog.dismiss();
                             }
@@ -131,6 +142,8 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         tvGender.setText(genderArray[which]);
+                        genderDialogText = tvGender.getText().toString();
+                        Log.i(TAG, "onClick: 设置的性别" + genderDialogText);
                         dialog.dismiss();
                     }
                 });
@@ -150,7 +163,7 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                String ageDialogText = etHintDialog.getText().toString();
+                                ageDialogText = etHintDialog.getText().toString();
                                 tvAge.setText(ageDialogText);
                                 dialog.dismiss();
                             }
@@ -165,6 +178,7 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         tvWorkExperience.setText(workExperienceArray[which] + "年");
+                        workExperienceDialogText = workExperienceArray[which];
                         dialog.dismiss();
                     }
                 });
@@ -177,14 +191,14 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
                 View view = View.inflate(HgCompleteInfoActivity.this, R.layout.text_item_dialog, null);
                 TextView tvTitileDialog = (TextView) view.findViewById(R.id.tv_title_dialog);
                 final EditText etHintDialog = (EditText) view.findViewById(R.id.et_hint_dialog);
-                tvTitileDialog.setText("请输入年龄");
+                tvTitileDialog.setText("请输入擅长的工作");
                 new MyAlertDialog(HgCompleteInfoActivity.this, view)
                         //.setView(view)
                         .setNegativeButton("取消", null)
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                String beGoodAtWorkDialogText = etHintDialog.getText().toString();
+                                beGoodAtWorkDialogText = etHintDialog.getText().toString();
                                 tvBeGoodAtWork.setText(beGoodAtWorkDialogText);
                                 dialog.dismiss();
                             }
@@ -224,10 +238,75 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HgCompleteInfoActivity.this, CompletePicActivity.class);
-                startActivity(intent);
+                //不能为空时点击跳转
+                nextiFNotNull();
             }
         });
+    }
+
+    /**
+     * 如果所有的注册选项不为空，点击下一步然后跳转
+     */
+    private void nextiFNotNull() {
+        if (bitmap == null) {
+            Toast.makeText(HgCompleteInfoActivity.this, "您还未设置头像", Toast.LENGTH_SHORT).show();
+        } else {
+            if (TextUtils.isEmpty(nameDialogText)) {
+                Toast.makeText(HgCompleteInfoActivity.this, "您还未填写姓名", Toast.LENGTH_SHORT).show();
+            } else {
+                if (TextUtils.isEmpty(identityDialogText)) {
+                    Toast.makeText(HgCompleteInfoActivity.this, "您还未填写身份证", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (TextUtils.isEmpty(ageDialogText)) {
+                        Toast.makeText(HgCompleteInfoActivity.this, "您还未填写年龄", Toast.LENGTH_SHORT).show();
+                    } else {
+                        if (TextUtils.isEmpty(workExperienceDialogText)) {
+                            Toast.makeText(HgCompleteInfoActivity.this, "您还未填写工作经验", Toast.LENGTH_SHORT).show();
+                        } else {
+                            if (TextUtils.isEmpty(beGoodAtWorkDialogText)) {
+                                Toast.makeText(HgCompleteInfoActivity.this, "您还未填写擅长的工作", Toast.LENGTH_SHORT).show();
+                            } else {
+                                //如果全部不为空就传递数据
+                                putExtra();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 传递数据到下个页面
+     */
+    private void putExtra() {
+//        Map<String, Object> data = new HashMap<>();
+//        data.put("head", bitmap);
+//        data.put("name", ageDialogText);
+//        data.put("identity", identityDialogText);
+//        data.put("gender", genderDialogText);
+//        data.put("age", ageDialogText);
+//        data.put("workexperience", workExperienceDialogText);
+//        data.put("begoodat", beGoodAtWorkDialogText);
+//        data.put("localservice", null);
+//        for (String map1 : data.keySet()) {
+//            //System.out.println("键为 " + map1 + "     值为 " + maplast.get(map1));
+//            Log.i(TAG, "onCreate: 打印获取到的map: key 为：" + map1 + " value为：" + data.get(map1));
+//        }
+        //CompletePicActivity picActivity = new CompletePicActivity(data);
+        Intent intent = new Intent(HgCompleteInfoActivity.this, CompletePicActivity.class);
+        //传递数据
+        Bundle bundle = new Bundle();
+        bundle.putByteArray("head", bytes);
+        bundle.putString("name", ageDialogText);
+        bundle.putString("identity", identityDialogText);
+        bundle.putString("gender", genderDialogText);
+        bundle.putString("age", ageDialogText);
+        bundle.putString("workexperience", workExperienceDialogText);
+        bundle.putString("begoodat", beGoodAtWorkDialogText);
+        bundle.putString("localservice", null);
+        intent.putExtra("last_map", bundle);
+        startActivity(intent);
     }
 
     private void showPopupWindow() {
@@ -428,7 +507,7 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bitmap = BitmapFactory.decodeFile(imagePath);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 10, baos);//这里压缩options%，把压缩后的数据存放到baos中
-            byte[] bytes = baos.toByteArray();
+            bytes = baos.toByteArray();
             //Log.i("wechat", "压缩后图片的大小" + ("字节码：" + " 宽度为:" + bitmap.getWidth() + " 高度为:" + bitmap.getHeight()));
             Glide.with(this).asBitmap().load(bytes).thumbnail(0.1f).into(civHead);
         } else {

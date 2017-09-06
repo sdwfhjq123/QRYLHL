@@ -225,10 +225,47 @@ public class TnCompleteInfoActivity extends AppCompatActivity {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(TnCompleteInfoActivity.this, CompletePicActivity.class);
-                startActivity(intent);
+                nextiFNotNull();
             }
         });
+    }
+
+    /**
+     * 如果所有的注册选项不为空，点击下一步然后跳转
+     */
+    private void nextiFNotNull() {
+        if (bitmap == null) {
+            Toast.makeText(TnCompleteInfoActivity.this, "您还未设置头像", Toast.LENGTH_SHORT).show();
+            if (tvName.equals("未填写")) {
+                Toast.makeText(TnCompleteInfoActivity.this, "您还未填写姓名", Toast.LENGTH_SHORT).show();
+                if (tvIdentity.equals("未填写")) {
+                    Toast.makeText(TnCompleteInfoActivity.this, "您还未填写身份证", Toast.LENGTH_SHORT).show();
+                    if (tvGender.equals("男") || tvGender.equals("女")) {
+                        Toast.makeText(TnCompleteInfoActivity.this, "您还未设置性别", Toast.LENGTH_SHORT).show();
+                        if (tvAge.equals("请选择")) {
+                            Toast.makeText(TnCompleteInfoActivity.this, "您还未填写性别", Toast.LENGTH_SHORT).show();
+                            if (tvWorkExperience.equals("请选择")) {
+                                Toast.makeText(TnCompleteInfoActivity.this, "您还未填写工作经验", Toast.LENGTH_SHORT).show();
+                                if (tvBeGoodAtWork.equals("请选择")) {
+                                    Toast.makeText(TnCompleteInfoActivity.this, "您还未填写擅长的工作", Toast.LENGTH_SHORT).show();
+                                    return;
+                                } else {
+                                    Intent intent = new Intent(this, CompletePicActivity.class);
+                                    //intent.putExtra();
+                                    startActivity(intent);
+                                }
+                                return;
+                            }
+                            return;
+                        }
+                        return;
+                    }
+                    return;
+                }
+                return;
+            }
+            return;
+        }
     }
 
     private void showPopupWindow() {
