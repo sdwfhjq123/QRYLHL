@@ -37,23 +37,23 @@ public class ChooseAreaActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_choose_hg://点击跳转护工注册页面
-                Intent intent = new Intent(ChooseAreaActivity.this, CompleteInfoActivity.class);
-                intent.putExtra(SKIP, "hg");
+                Intent intent = new Intent(ChooseAreaActivity.this, HgCompleteInfoActivity.class);
+                //intent.putExtra(SKIP, "hg");
                 startActivity(intent);
                 break;
             case R.id.btn_choose_hs://点击跳转护士注册页面
-                Intent intent2 = new Intent(ChooseAreaActivity.this, CompleteInfoActivity.class);
-                intent2.putExtra(SKIP, "hs");
+                Intent intent2 = new Intent(ChooseAreaActivity.this, HsCompleteInfoActivity.class);
+                //intent2.putExtra(SKIP, "hs");
                 startActivity(intent2);
                 break;
             case R.id.btn_choose_ys://点击跳转医生注册页面
-                Intent intent3 = new Intent(ChooseAreaActivity.this, CompleteInfoActivity.class);
-                intent3.putExtra(SKIP, "ys");
+                Intent intent3 = new Intent(ChooseAreaActivity.this, YsCompleteInfoActivity.class);
+                //intent3.putExtra(SKIP, "ys");
                 startActivity(intent3);
                 break;
             case R.id.btn_choose_tn://点击跳转推拿注册页面
-                Intent intent4 = new Intent(ChooseAreaActivity.this, CompleteInfoActivity.class);
-                intent4.putExtra(SKIP, "tn");
+                Intent intent4 = new Intent(ChooseAreaActivity.this, TnCompleteInfoActivity.class);
+                //intent4.putExtra(SKIP, "tn");
                 startActivity(intent4);
                 break;
         }

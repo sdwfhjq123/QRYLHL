@@ -5,10 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.qryl.qrylyh.activity.login.complete.CompleteInfoActivity">
+    tools:context="com.qryl.qrylyh.activity.login.complete.HsCompleteInfoActivity">
 
     <include layout="@layout/title" />
-
 
     <RelativeLayout
         android:id="@+id/my_head"
@@ -160,60 +159,6 @@
     </RelativeLayout>
 
     <View style="@style/ViewLine" />
-
-    <RelativeLayout
-        android:id="@+id/hospital"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:padding="5dp">
-
-        <TextView
-            style="@style/TextInItemStyle"
-            android:layout_marginLeft="10dp"
-            android:text="我所在的医院" />
-
-        <TextView
-            android:id="@+id/tv_hospital"
-            style="@style/TextInItemStyle"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-            android:text="请选择" />
-
-        <ImageView style="@style/ImgAdvanceInItemStyle" />
-    </RelativeLayout>
-
-    <View
-        android:id="@+id/line1"
-        style="@style/ViewLine" />
-
-    <RelativeLayout
-        android:id="@+id/office"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:padding="5dp">
-
-        <TextView
-            style="@style/TextInItemStyle"
-            android:layout_marginLeft="10dp"
-            android:text="我所在的科室" />
-
-        <TextView
-            android:id="@+id/tv_office"
-            style="@style/TextInItemStyle"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-            android:text="请选择" />
-
-        <ImageView style="@style/ImgAdvanceInItemStyle" />
-    </RelativeLayout>
-
-    <View
-        android:id="@+id/line2"
-        style="@style/ViewLine" />
 
     <RelativeLayout
         android:id="@+id/be_good_at_work"

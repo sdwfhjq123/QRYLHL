@@ -23,7 +23,10 @@
         <activity android:name=".activity.SplashActivity" />
         <activity android:name=".activity.login.FinishActivity" />
         <activity android:name=".activity.login.complete.ChooseAreaActivity" />
-        <activity android:name=".activity.login.complete.CompleteInfoActivity" />
+        <activity android:name=".activity.login.complete.HsCompleteInfoActivity" />
+        <activity android:name=".activity.login.complete.YsCompleteInfoActivity" />
+        <activity android:name=".activity.login.complete.HgCompleteInfoActivity" />
+        <activity android:name=".activity.login.complete.TnCompleteInfoActivity" />
         <activity android:name=".activity.login.complete.CompletePicActivity">
             <provider
                 android:name="android.support.v4.content.FileProvider"

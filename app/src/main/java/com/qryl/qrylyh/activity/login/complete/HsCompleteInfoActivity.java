@@ -1,6 +1,5 @@
 package com.qryl.qrylyh.activity.login.complete;
 
-import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -38,13 +37,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class CompleteInfoActivity extends AppCompatActivity {
+public class HsCompleteInfoActivity extends AppCompatActivity {
 
-    private static final String TAG = "CompleteInfoActivity";
+    private static final String TAG = "HsCompleteInfoActivity";
 
     private TextView tvName, tvIdentity, tvGender, tvAge, tvHospital, tvWorkExperience, tvOffice, tvBeGoodAtWork, tvLocalService;
     private RelativeLayout myHead, realName, identity, gender, age, workExperience, hospital, office, beGoodAtWork, localService;
@@ -57,18 +55,16 @@ public class CompleteInfoActivity extends AppCompatActivity {
     private CircleImageView civHead;
     private String[] genderArray;
     private String[] workExperienceArray;
-    private View line1;
-    private View line2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_complete_info);
+        setContentView(R.layout.activity_complete_info_max);
         genderArray = getResources().getStringArray(R.array.gender);
         workExperienceArray = getResources().getStringArray(R.array.work_experience);
         initView();
         //隐藏一些布局
-        hiddenSomeView();
+        //hiddenSomeView();
         //点击每个条目实现dialog或者activity
         clickItemShowDialog();
     }
@@ -89,11 +85,11 @@ public class CompleteInfoActivity extends AppCompatActivity {
         realName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view = View.inflate(CompleteInfoActivity.this, R.layout.text_item_dialog, null);
+                View view = View.inflate(HsCompleteInfoActivity.this, R.layout.text_item_dialog, null);
                 TextView tvTitileDialog = (TextView) view.findViewById(R.id.tv_title_dialog);
                 final EditText etHintDialog = (EditText) view.findViewById(R.id.et_hint_dialog);
                 tvTitileDialog.setText("姓名");
-                new MyAlertDialog(CompleteInfoActivity.this, view)
+                new MyAlertDialog(HsCompleteInfoActivity.this, view)
                         //.setView(view)
                         .setNegativeButton("取消", null)
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -110,11 +106,11 @@ public class CompleteInfoActivity extends AppCompatActivity {
         identity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view = View.inflate(CompleteInfoActivity.this, R.layout.text_item_dialog, null);
+                View view = View.inflate(HsCompleteInfoActivity.this, R.layout.text_item_dialog, null);
                 TextView tvTitileDialog = (TextView) view.findViewById(R.id.tv_title_dialog);
                 final EditText etHintDialog = (EditText) view.findViewById(R.id.et_hint_dialog);
                 tvTitileDialog.setText("身份证");
-                new MyAlertDialog(CompleteInfoActivity.this, view)
+                new MyAlertDialog(HsCompleteInfoActivity.this, view)
                         //.setView(view)
                         .setNegativeButton("取消", null)
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -131,7 +127,7 @@ public class CompleteInfoActivity extends AppCompatActivity {
         gender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogUtil.showMultiItemsDialog(CompleteInfoActivity.this, "选择性别", R.array.gender, new DialogInterface.OnClickListener() {
+                DialogUtil.showMultiItemsDialog(HsCompleteInfoActivity.this, "选择性别", R.array.gender, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         tvGender.setText(genderArray[which]);
@@ -144,11 +140,11 @@ public class CompleteInfoActivity extends AppCompatActivity {
         age.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view = View.inflate(CompleteInfoActivity.this, R.layout.text_item_dialog, null);
+                View view = View.inflate(HsCompleteInfoActivity.this, R.layout.text_item_dialog, null);
                 TextView tvTitileDialog = (TextView) view.findViewById(R.id.tv_title_dialog);
                 final EditText etHintDialog = (EditText) view.findViewById(R.id.et_hint_dialog);
                 tvTitileDialog.setText("请输入年龄");
-                new MyAlertDialog(CompleteInfoActivity.this, view)
+                new MyAlertDialog(HsCompleteInfoActivity.this, view)
                         //.setView(view)
                         .setNegativeButton("取消", null)
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -165,7 +161,7 @@ public class CompleteInfoActivity extends AppCompatActivity {
         workExperience.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogUtil.showMultiItemsDialog(CompleteInfoActivity.this, "选择工作经验", R.array.work_experience, new DialogInterface.OnClickListener() {
+                DialogUtil.showMultiItemsDialog(HsCompleteInfoActivity.this, "选择工作经验", R.array.work_experience, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         tvWorkExperience.setText(workExperienceArray[which] + "年");
@@ -178,25 +174,25 @@ public class CompleteInfoActivity extends AppCompatActivity {
         hospital.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(CompleteInfoActivity.this, HospitalActivity.class));
+                startActivity(new Intent(HsCompleteInfoActivity.this, HospitalActivity.class));
             }
         });
         //我所在的科室
         office.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(CompleteInfoActivity.this, OfficeActivity.class));
+                startActivity(new Intent(HsCompleteInfoActivity.this, OfficeActivity.class));
             }
         });
         //擅长的工作
         beGoodAtWork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view = View.inflate(CompleteInfoActivity.this, R.layout.text_item_dialog, null);
+                View view = View.inflate(HsCompleteInfoActivity.this, R.layout.text_item_dialog, null);
                 TextView tvTitileDialog = (TextView) view.findViewById(R.id.tv_title_dialog);
                 final EditText etHintDialog = (EditText) view.findViewById(R.id.et_hint_dialog);
                 tvTitileDialog.setText("请输入年龄");
-                new MyAlertDialog(CompleteInfoActivity.this, view)
+                new MyAlertDialog(HsCompleteInfoActivity.this, view)
                         //.setView(view)
                         .setNegativeButton("取消", null)
                         .setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -213,36 +209,9 @@ public class CompleteInfoActivity extends AppCompatActivity {
         localService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(CompleteInfoActivity.this, LocalServiceActivity.class));
+                startActivity(new Intent(HsCompleteInfoActivity.this, LocalServiceActivity.class));
             }
         });
-    }
-
-    /**
-     * 根据传来的Extra值来让一些View隐藏
-     */
-    private void hiddenSomeView() {
-        Intent intent = getIntent();
-        //跳转后得到的值
-        String extra = intent.getStringExtra(ChooseAreaActivity.SKIP);
-        if (extra.equals("hg")) {//隐藏控件
-            Log.i(TAG, "护工界面");
-            hospital.setVisibility(View.GONE);
-            office.setVisibility(View.GONE);
-            line1.setVisibility(View.GONE);
-            line2.setVisibility(View.GONE);
-        } else if (extra.equals("hs")) {
-            Log.i(TAG, "护士界面");
-        } else if (extra.equals("tn")) {
-            Log.i(TAG, "推拿界面");
-            hospital.setVisibility(View.GONE);
-            office.setVisibility(View.GONE);
-            line1.setVisibility(View.GONE);
-            line2.setVisibility(View.GONE);
-        } else if (extra.equals("ys")) {//隐藏控件
-            Log.i(TAG, "医生界面");
-
-        }
     }
 
     private void initView() {
@@ -258,8 +227,6 @@ public class CompleteInfoActivity extends AppCompatActivity {
         beGoodAtWork = (RelativeLayout) findViewById(R.id.be_good_at_work);
         localService = (RelativeLayout) findViewById(R.id.local_service);
         civHead = (CircleImageView) findViewById(R.id.civ_head);
-        line1 = findViewById(R.id.line1);
-        line2 = findViewById(R.id.line2);
         //返回的数据
         tvName = (TextView) findViewById(R.id.tv_name);
         tvIdentity = (TextView) findViewById(R.id.tv_identity);
@@ -275,7 +242,7 @@ public class CompleteInfoActivity extends AppCompatActivity {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CompleteInfoActivity.this, CompletePicActivity.class);
+                Intent intent = new Intent(HsCompleteInfoActivity.this, CompletePicActivity.class);
                 startActivity(intent);
             }
         });
@@ -345,7 +312,7 @@ public class CompleteInfoActivity extends AppCompatActivity {
         }
 
         if (Build.VERSION.SDK_INT >= 24) {
-            imageUri = FileProvider.getUriForFile(CompleteInfoActivity.this, "com.qryl.qrylyh.activity.login.complete.fileprovider", outputImage);
+            imageUri = FileProvider.getUriForFile(HsCompleteInfoActivity.this, "com.qryl.qrylyh.activity.login.complete.fileprovider", outputImage);
         } else {
             imageUri = Uri.fromFile(outputImage);
         }
@@ -357,9 +324,9 @@ public class CompleteInfoActivity extends AppCompatActivity {
 
     private void invokeAlbum() {
         //动态申请危险时权限，运行时权限
-        if (ContextCompat.checkSelfPermission(CompleteInfoActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+        if (ContextCompat.checkSelfPermission(HsCompleteInfoActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
                 PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(CompleteInfoActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            ActivityCompat.requestPermissions(HsCompleteInfoActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         } else {
             openAlbum();
         }
@@ -385,7 +352,7 @@ public class CompleteInfoActivity extends AppCompatActivity {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     openAlbum();
                 } else {
-                    Toast.makeText(CompleteInfoActivity.this, "you denied the permission", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HsCompleteInfoActivity.this, "you denied the permission", Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:
@@ -437,7 +404,7 @@ public class CompleteInfoActivity extends AppCompatActivity {
         String imagePath = null;
         Uri uri = data.getData();
         //Log.i("uri", uri + "");
-        if (DocumentsContract.isDocumentUri(CompleteInfoActivity.this, uri)) {
+        if (DocumentsContract.isDocumentUri(HsCompleteInfoActivity.this, uri)) {
             //如果是document类型的uri，则通过document id 处理
             String docId = DocumentsContract.getDocumentId(uri);
             Log.i("type of document", docId);
@@ -483,7 +450,7 @@ public class CompleteInfoActivity extends AppCompatActivity {
             //Log.i("wechat", "压缩后图片的大小" + ("字节码：" + " 宽度为:" + bitmap.getWidth() + " 高度为:" + bitmap.getHeight()));
             Glide.with(this).asBitmap().load(bytes).thumbnail(0.1f).into(civHead);
         } else {
-            Toast.makeText(CompleteInfoActivity.this, "failed to get image ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(HsCompleteInfoActivity.this, "failed to get image ", Toast.LENGTH_SHORT).show();
         }
     }
 
