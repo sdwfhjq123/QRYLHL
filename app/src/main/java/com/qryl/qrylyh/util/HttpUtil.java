@@ -20,8 +20,8 @@ public class HttpUtil {
     public static void sendOkHttpRequest(String address, Callback callback) {
         OkHttpClient client = new OkHttpClient();
         FormBody.Builder builder = new FormBody.Builder();
-        //builder.add("xwdoor", "xwdoor");
-        //builder.add("xwdoor", "xwdoor");
+        //builder.add()
+        //builder.add
         RequestBody formBody = builder.build();
         Request request = new Request.Builder()
                 .url(address)

@@ -3,6 +3,7 @@ package com.qryl.qrylyh.activity.login.complete;
 import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -10,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -37,7 +39,9 @@ import com.qryl.qrylyh.view.MyAlertDialog;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,6 +57,8 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
     private static final int TAKE_PHOTO = 1;
     private static final int CHOOSE_PHOTO = 2;
 
+    private static final String HEAD_KEY = "head_key";
+
     private Uri imageUri;
     private Bitmap bitmap;
     private CircleImageView civHead;
@@ -64,7 +70,7 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
     private String ageDialogText;
     private String workExperienceDialogText;
     private String beGoodAtWorkDialogText;
-    private byte[] bytes;
+    private File headFile;
 
 
     @Override
@@ -74,8 +80,6 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
         genderArray = getResources().getStringArray(R.array.gender);
         workExperienceArray = getResources().getStringArray(R.array.work_experience);
         initView();
-        //隐藏一些布局
-        //hiddenSomeView();
         //点击每个条目实现dialog或者activity
         clickItemShowDialog();
     }
@@ -248,7 +252,7 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
      * 如果所有的注册选项不为空，点击下一步然后跳转
      */
     private void nextiFNotNull() {
-        if (bitmap == null) {
+        if (headFile == null) {
             Toast.makeText(HgCompleteInfoActivity.this, "您还未设置头像", Toast.LENGTH_SHORT).show();
         } else {
             if (TextUtils.isEmpty(nameDialogText)) {
@@ -283,7 +287,7 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
         Intent intent = new Intent(HgCompleteInfoActivity.this, CompletePicActivity.class);
         //传递数据
         Bundle bundle = new Bundle();
-        bundle.putByteArray("head", bytes);
+        //bundle.putByteArray("head", bytes);
         bundle.putString("name", ageDialogText);
         bundle.putString("identity", identityDialogText);
         bundle.putString("gender", genderDialogText);
@@ -414,15 +418,13 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
                 if (resultCode == RESULT_OK) {
                     //将拍摄的图片显示出来
                     try {
-                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        //long l = SystemClock.currentThreadTimeMillis();
-                        //Log.i(TAG, "onActivityResult: " + l);
                         bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 10, baos);//这里压缩options%，把压缩后的数据存放到baos中
-                        //long length = baos.toByteArray().length;
-                        byte[] bytes = baos.toByteArray();
+                        headFile = saveMyBitmap(bitmap, "head");
+                        //保存file到sp
+                        saveFile(headFile.getName());
+                        Glide.with(this).asBitmap().load(headFile).thumbnail(0.1f).into(civHead);
                         Log.i("wechat", "压缩后图片的大小" + ("字节码：" + " 宽度为:" + bitmap.getWidth() + " 高度为:" + bitmap.getHeight()));
-                        Glide.with(this).asBitmap().load(bytes).thumbnail(0.1f).into(civHead);
+                        Log.i(TAG, "File:" + headFile.getName() + " 路径:" + headFile.getAbsolutePath());
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -490,15 +492,49 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
 
     private void displayImage(String imagePath) {
         if (imagePath != null) {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bitmap = BitmapFactory.decodeFile(imagePath);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 10, baos);//这里压缩options%，把压缩后的数据存放到baos中
-            bytes = baos.toByteArray();
-            //Log.i("wechat", "压缩后图片的大小" + ("字节码：" + " 宽度为:" + bitmap.getWidth() + " 高度为:" + bitmap.getHeight()));
-            Glide.with(this).asBitmap().load(bytes).thumbnail(0.1f).into(civHead);
+            headFile = saveMyBitmap(bitmap, "head");
+            //保存file到sp
+            saveFile(headFile.getName());
+            Glide.with(this).asBitmap().load(headFile).thumbnail(0.1f).into(civHead);
         } else {
             Toast.makeText(HgCompleteInfoActivity.this, "failed to get image ", Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+    //将bitmap转化为png格式
+    public File saveMyBitmap(Bitmap mBitmap, String prefix) {
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+        File file = null;
+        try {
+            file = File.createTempFile(
+                    prefix,  /* prefix */
+                    ".jpg",         /* suffix */
+                    storageDir      /* directory */
+            );
+            FileOutputStream fos = new FileOutputStream(file);
+            mBitmap.compress(Bitmap.CompressFormat.JPEG, 10, fos);
+            fos.flush();
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
+
+    /**
+     * 保存file到sp
+     *
+     * @param fileName
+     */
+    private void saveFile(String fileName) {
+        SharedPreferences sp = getSharedPreferences("image", MODE_PRIVATE);
+        SharedPreferences.Editor edit = sp.edit();
+        edit.putString(HEAD_KEY, fileName);
+        //提交edit
+        edit.commit();
+        Log.i(TAG, "saveFile: 保存成功" + sp.getString("head", null));
     }
 
 }

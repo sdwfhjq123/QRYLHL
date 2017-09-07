@@ -1,13 +1,16 @@
 package com.qryl.qrylyh.activity.login.complete;
 
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -33,10 +36,20 @@ import com.qryl.qrylyh.R;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
 
 public class CompletePicActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -51,6 +64,7 @@ public class CompletePicActivity extends AppCompatActivity implements View.OnCli
     private static final String SFZ_KEY = "syz_key";
     private static final String JKZ_KEY = "jkz_key";
     private static final String ZGZ_KEY = "zgz_key";
+    private static final String HEAD_KEY = "head_key";
 
     /**
      * 身份证
@@ -69,6 +83,9 @@ public class CompletePicActivity extends AppCompatActivity implements View.OnCli
     private byte[] bytes;
     private EditText etMe;
     private Button btnRegister;
+    private File sfzFile;
+    private File jkzFile;
+    private File zgzFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,12 +94,7 @@ public class CompletePicActivity extends AppCompatActivity implements View.OnCli
         initView();
 
         Bundle bundle = getIntent().getExtras();
-//        Set<String> set = bundle.keySet();
-//        for (String map1 : set) {
-//            //System.out.println("键为 " + map1 + "     值为 " + maplast.get(map1));
-//            Log.i(TAG, "onCreate: 打印获取到的map" + map1 + ":" + bundle.get(map1));
-//        }
-        byte[] head = (byte[]) bundle.get("head");
+
         String name = (String) bundle.get("name");
         String indentity = (String) bundle.get("identity");
         String gender = (String) bundle.get("gender");
@@ -91,7 +103,7 @@ public class CompletePicActivity extends AppCompatActivity implements View.OnCli
         String begoodat = (String) bundle.get("begoodat");
         String localservice = (String) bundle.get("localservice");
 
-        dataMap.put("head", head);
+        //dataMap.put("head", head.toString());
         dataMap.put("name", name);
         dataMap.put("indentity", indentity);
         dataMap.put("gender", gender);
@@ -100,7 +112,6 @@ public class CompletePicActivity extends AppCompatActivity implements View.OnCli
         dataMap.put("begoodat", begoodat);
         dataMap.put("localservice", localservice);
 
-        Log.i(TAG, "onCreate: 照片字节流" + head);
     }
 
 
@@ -131,24 +142,91 @@ public class CompletePicActivity extends AppCompatActivity implements View.OnCli
         } else {
             String introduce = etMe.getText().toString();
             dataMap.put("introduce", introduce);
-            if (dataMap.get(SFZ_KEY) == null) {
+            if (sfzFile == null) {
                 Toast.makeText(this, "请上传身份证", Toast.LENGTH_SHORT).show();
             } else {
-                if (dataMap.get(JKZ_KEY) == null) {
+                if (jkzFile == null) {
                     Toast.makeText(this, "请上传健康证", Toast.LENGTH_SHORT).show();
                 } else {
-                    if (dataMap.get(ZGZ_KEY) == null) {
+                    if (zgzFile == null) {
                         Toast.makeText(this, "请上传从业资格证", Toast.LENGTH_SHORT).show();
                     } else {
                         //发送请求
                         for (String key : dataMap.keySet()) {
                             Log.i(TAG, "nextIfNotNull: 上传前获取到的map集合  key:" + key + ", value为:" + dataMap.get(key));
                         }
-                        //postData();
+                        //向服务器发送注册信息
+                        postData();
                     }
                 }
             }
         }
+    }
+
+    /**
+     * 向服务器发送请求
+     */
+    private void postData() {
+        SharedPreferences pref = getSharedPreferences("image", Context.MODE_PRIVATE);
+        String headImage = pref.getString(HEAD_KEY, null);
+        String sfzImage = pref.getString(SFZ_KEY, null);
+        String jkzImage = pref.getString(JKZ_KEY, null);
+        String zgzName = pref.getString(ZGZ_KEY, null);
+        //Log.i(TAG, "postData: 头像图片名字" + imageName);
+        OkHttpClient client = new OkHttpClient();
+        MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+        File headFile = new File(storageDir, headImage);
+        File sfzFile = new File(storageDir, sfzImage);
+        File jkzFile = new File(storageDir, jkzImage);
+        File zgzFile = new File(storageDir, zgzName);
+        if (headFile != null) {
+            // MediaType.parse() 里面是上传的文件类型。
+            RequestBody body = RequestBody.create(MediaType.parse("image/*"), headFile);
+            // 参数分别为， 请求key ，文件名称 ， RequestBody
+            builder.addFormDataPart("txImg", headFile.getName(), body);
+        }
+        if (sfzFile != null) {
+            // MediaType.parse() 里面是上传的文件类型。
+            RequestBody body = RequestBody.create(MediaType.parse("image/*"), sfzFile);
+            // 参数分别为， 请求key ，文件名称 ， RequestBody
+            builder.addFormDataPart("sfzImg", sfzFile.getName(), body);
+        }
+        if (jkzFile != null) {
+            // MediaType.parse() 里面是上传的文件类型。
+            RequestBody body = RequestBody.create(MediaType.parse("image/*"), jkzFile);
+            // 参数分别为， 请求key ，文件名称 ， RequestBody
+            builder.addFormDataPart("jkzImg", jkzFile.getName(), body);
+        }
+        if (zgzFile != null) {
+            // MediaType.parse() 里面是上传的文件类型。
+            RequestBody body = RequestBody.create(MediaType.parse("image/*"), zgzFile);
+            // 参数分别为， 请求key ，文件名称 ， RequestBody
+            builder.addFormDataPart("zgzImg", zgzFile.getName(), body);
+        }
+        builder.addFormDataPart("loginId", "1");
+        //builder.add("sfzImg", "1");
+        //builder.add("zgzImg", "1");
+        //builder.add("jkzImg", "1");
+        builder.addFormDataPart("realName", "sdfdf");
+        builder.addFormDataPart("gender", "0");
+        builder.addFormDataPart("age", "10");
+        builder.addFormDataPart("workYears", "10");
+        builder.addFormDataPart("introduce", "sdfsdfsf");
+        MultipartBody requestBody = builder.build();
+        Request request = new Request.Builder().url("http://192.168.2.134:8080/qryl/carer/addCarer").post(requestBody).build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i(TAG, "onFailure: 失败");
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Log.i(TAG, "onResponse: 成功 " + response.body().string());
+            }
+        });
     }
 
     @Override
@@ -304,28 +382,22 @@ public class CompletePicActivity extends AppCompatActivity implements View.OnCli
                 if (resultCode == RESULT_OK) {
                     //将拍摄的图片显示出来
                     try {
-                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        //long l = SystemClock.currentThreadTimeMillis();
-                        //Log.i(TAG, "onActivityResult: " + l);
                         bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 10, baos);//这里压缩options%，把压缩后的数据存放到baos中
-                        //long length = baos.toByteArray().length;
-                        bytes = baos.toByteArray();
-                        Log.i("wechat", "压缩后图片的大小" + ("字节码：" + " 宽度为:" + bitmap.getWidth() + " 高度为:" + bitmap.getHeight()));
                         if (choosed_image == R.id.sfz_image) {//身份证
-                            //sfzImage.setImageBitmap(bitmap);
-                            //l = SystemClock.currentThreadTimeMillis();
-                            // Log.i(TAG, "onActivityResult: " + l);
-                            Glide.with(this).asBitmap().load(bytes).thumbnail(0.1f).into(sfzImage);
-                            dataMap.put(SFZ_KEY, bytes);
+                            //保存file到sp
+                            sfzFile = saveMyBitmap(bitmap, "sfz");
+                            saveFile(SFZ_KEY, sfzFile.getName());
+                            Glide.with(this).asBitmap().load(sfzFile).thumbnail(0.1f).into(sfzImage);
                         } else if (choosed_image == R.id.jkz_image) {//健康证
-                            //jkzImage.setImageBitmap(bitmap);
-                            Glide.with(this).asBitmap().load(bytes).thumbnail(0.1f).into(jkzImage);
-                            dataMap.put(JKZ_KEY, bytes);
+                            jkzFile = saveMyBitmap(bitmap, "jkz");
+                            //保存file到sp
+                            saveFile(JKZ_KEY, jkzFile.getName());
+                            Glide.with(this).asBitmap().load(jkzFile).thumbnail(0.1f).into(jkzImage);
                         } else if (choosed_image == R.id.zgz_image) {//从业资格证
-                            //zgzImage.setImageBitmap(bitmap);
-                            Glide.with(this).asBitmap().load(bytes).thumbnail(0.1f).into(zgzImage);
-                            dataMap.put(ZGZ_KEY, bytes);
+                            zgzFile = saveMyBitmap(bitmap, "zgz");
+                            //保存file到sp
+                            saveFile(ZGZ_KEY, zgzFile.getName());
+                            Glide.with(this).asBitmap().load(zgzFile).thumbnail(0.1f).into(zgzImage);
                         }
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
@@ -394,29 +466,61 @@ public class CompletePicActivity extends AppCompatActivity implements View.OnCli
 
     private void displayImage(String imagePath) {
         if (imagePath != null) {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bitmap = BitmapFactory.decodeFile(imagePath);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 10, baos);//这里压缩options%，把压缩后的数据存放到baos中
-            bytes = baos.toByteArray();
-            //Log.i("wechat", "压缩后图片的大小" + ("字节码：" + " 宽度为:" + bitmap.getWidth() + " 高度为:" + bitmap.getHeight()));
             if (choosed_image == R.id.sfz_image) {//身份证
-                //sfzImage.setImageBitmap(bitmap);
-                //l = SystemClock.currentThreadTimeMillis();
-                //Log.i(TAG, "onActivityResult: " + l);
-                Glide.with(this).asBitmap().load(bytes).thumbnail(0.1f).into(sfzImage);
-                dataMap.put(SFZ_KEY, bytes);
+                //保存file到sp
+                sfzFile = saveMyBitmap(bitmap, "sfz");
+                saveFile(SFZ_KEY, sfzFile.getName());
+                Glide.with(this).asBitmap().load(sfzFile).thumbnail(0.1f).into(sfzImage);
             } else if (choosed_image == R.id.jkz_image) {//健康证
-                //jkzImage.setImageBitmap(bitmap);
-                Glide.with(this).asBitmap().load(bytes).thumbnail(0.1f).into(jkzImage);
-                dataMap.put(JKZ_KEY, bytes);
+                jkzFile = saveMyBitmap(bitmap, "jkz");
+                //保存file到sp
+                saveFile(JKZ_KEY, jkzFile.getName());
+                Glide.with(this).asBitmap().load(jkzFile).thumbnail(0.1f).into(jkzImage);
             } else if (choosed_image == R.id.zgz_image) {//从业资格证
-                //zgzImage.setImageBitmap(bitmap);
-                Glide.with(this).asBitmap().load(bytes).thumbnail(0.1f).into(zgzImage);
-                dataMap.put(ZGZ_KEY, bytes);
+                zgzFile = saveMyBitmap(bitmap, "zgz");
+                //保存file到sp
+                saveFile(ZGZ_KEY, zgzFile.getName());
+                Glide.with(this).asBitmap().load(zgzFile).thumbnail(0.1f).into(zgzImage);
             }
         } else {
             Toast.makeText(CompletePicActivity.this, "failed to get image ", Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+    //将bitmap转化为png格式
+    public File saveMyBitmap(Bitmap mBitmap, String prefix) {
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+        File file = null;
+        try {
+            file = File.createTempFile(
+                    prefix,  /* prefix */
+                    ".jpg",         /* suffix */
+                    storageDir      /* directory */
+            );
+            FileOutputStream fos = new FileOutputStream(file);
+            mBitmap.compress(Bitmap.CompressFormat.JPEG, 10, fos);
+            fos.flush();
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
+
+    /**
+     * 保存file到sp
+     *
+     * @param fileName
+     */
+    private void saveFile(String spKey, String fileName) {
+        SharedPreferences sp = getSharedPreferences("image", MODE_PRIVATE);
+        SharedPreferences.Editor edit = sp.edit();
+        edit.putString(spKey, fileName);
+        //提交edit
+        edit.commit();
+        Log.i(TAG, "saveFile: 保存成功" + sp.getString(spKey, null));
     }
 
 }
