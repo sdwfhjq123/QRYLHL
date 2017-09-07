@@ -280,20 +280,6 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
      * 传递数据到下个页面
      */
     private void putExtra() {
-//        Map<String, Object> data = new HashMap<>();
-//        data.put("head", bitmap);
-//        data.put("name", ageDialogText);
-//        data.put("identity", identityDialogText);
-//        data.put("gender", genderDialogText);
-//        data.put("age", ageDialogText);
-//        data.put("workexperience", workExperienceDialogText);
-//        data.put("begoodat", beGoodAtWorkDialogText);
-//        data.put("localservice", null);
-//        for (String map1 : data.keySet()) {
-//            //System.out.println("键为 " + map1 + "     值为 " + maplast.get(map1));
-//            Log.i(TAG, "onCreate: 打印获取到的map: key 为：" + map1 + " value为：" + data.get(map1));
-//        }
-        //CompletePicActivity picActivity = new CompletePicActivity(data);
         Intent intent = new Intent(HgCompleteInfoActivity.this, CompletePicActivity.class);
         //传递数据
         Bundle bundle = new Bundle();
@@ -305,7 +291,7 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
         bundle.putString("workexperience", workExperienceDialogText);
         bundle.putString("begoodat", beGoodAtWorkDialogText);
         bundle.putString("localservice", null);
-        intent.putExtra("last_map", bundle);
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 
