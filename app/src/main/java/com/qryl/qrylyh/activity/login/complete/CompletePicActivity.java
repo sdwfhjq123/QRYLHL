@@ -16,11 +16,13 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.Toast;
@@ -44,7 +46,7 @@ public class CompletePicActivity extends AppCompatActivity implements View.OnCli
     private static final int CHOOSE_PHOTO = 2;
     private int choosed_image = 0;
 
-    private HashMap<String, ByteArrayOutputStream> imageMap = new HashMap<>();
+    private Map<String, Object> dataMap = new HashMap<>();
 
     private static final String SFZ_KEY = "syz_key";
     private static final String JKZ_KEY = "jkz_key";
@@ -64,6 +66,9 @@ public class CompletePicActivity extends AppCompatActivity implements View.OnCli
     private ImageView zgzImage;
     private Uri imageUri;
     private Bitmap bitmap;
+    private byte[] bytes;
+    private EditText etMe;
+    private Button btnRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +83,23 @@ public class CompletePicActivity extends AppCompatActivity implements View.OnCli
 //            Log.i(TAG, "onCreate: 打印获取到的map" + map1 + ":" + bundle.get(map1));
 //        }
         byte[] head = (byte[]) bundle.get("head");
+        String name = (String) bundle.get("name");
+        String indentity = (String) bundle.get("identity");
+        String gender = (String) bundle.get("gender");
+        String age = (String) bundle.get("age");
+        String workexperience = (String) bundle.get("workexperience");
+        String begoodat = (String) bundle.get("begoodat");
+        String localservice = (String) bundle.get("localservice");
+
+        dataMap.put("head", head);
+        dataMap.put("name", name);
+        dataMap.put("indentity", indentity);
+        dataMap.put("gender", gender);
+        dataMap.put("age", age);
+        dataMap.put("workexperience", workexperience);
+        dataMap.put("begoodat", begoodat);
+        dataMap.put("localservice", localservice);
+
         Log.i(TAG, "onCreate: 照片字节流" + head);
     }
 
@@ -86,16 +108,49 @@ public class CompletePicActivity extends AppCompatActivity implements View.OnCli
         sfzImage = (ImageView) findViewById(R.id.sfz_image);
         jkzImage = (ImageView) findViewById(R.id.jkz_image);
         zgzImage = (ImageView) findViewById(R.id.zgz_image);
+        etMe = (EditText) findViewById(R.id.et_me);
+        btnRegister = (Button) findViewById(R.id.btn_register);
         sfzImage.setOnClickListener(this);
         jkzImage.setOnClickListener(this);
         zgzImage.setOnClickListener(this);
+        btnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nextIfNotNull();
+            }
+        });
     }
 
     /**
-     * 点击弹出popupWindow上传照片按钮
-     *
-     * @param v
+     * 点击注册除非全部不为空
      */
+    private void nextIfNotNull() {
+
+        if (TextUtils.isEmpty(etMe.getText().toString())) {
+            Toast.makeText(this, "请填写简介", Toast.LENGTH_SHORT).show();
+        } else {
+            String introduce = etMe.getText().toString();
+            dataMap.put("introduce", introduce);
+            if (dataMap.get(SFZ_KEY) == null) {
+                Toast.makeText(this, "请上传身份证", Toast.LENGTH_SHORT).show();
+            } else {
+                if (dataMap.get(JKZ_KEY) == null) {
+                    Toast.makeText(this, "请上传健康证", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (dataMap.get(ZGZ_KEY) == null) {
+                        Toast.makeText(this, "请上传从业资格证", Toast.LENGTH_SHORT).show();
+                    } else {
+                        //发送请求
+                        for (String key : dataMap.keySet()) {
+                            Log.i(TAG, "nextIfNotNull: 上传前获取到的map集合  key:" + key + ", value为:" + dataMap.get(key));
+                        }
+                        //postData();
+                    }
+                }
+            }
+        }
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -116,9 +171,11 @@ public class CompletePicActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
+
     /**
      * 弹出popupWindow的逻辑
      */
+
     private void showPopupWindow() {
         View popView = View.inflate(this, R.layout.popup_choose_pic, null);
         Button btnPopAlbum = (Button) popView.findViewById(R.id.btn_pop_album);
@@ -253,22 +310,22 @@ public class CompletePicActivity extends AppCompatActivity implements View.OnCli
                         bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 10, baos);//这里压缩options%，把压缩后的数据存放到baos中
                         //long length = baos.toByteArray().length;
-                        byte[] bytes = baos.toByteArray();
+                        bytes = baos.toByteArray();
                         Log.i("wechat", "压缩后图片的大小" + ("字节码：" + " 宽度为:" + bitmap.getWidth() + " 高度为:" + bitmap.getHeight()));
                         if (choosed_image == R.id.sfz_image) {//身份证
                             //sfzImage.setImageBitmap(bitmap);
                             //l = SystemClock.currentThreadTimeMillis();
                             // Log.i(TAG, "onActivityResult: " + l);
                             Glide.with(this).asBitmap().load(bytes).thumbnail(0.1f).into(sfzImage);
-                            imageMap.put(SFZ_KEY, baos);
+                            dataMap.put(SFZ_KEY, bytes);
                         } else if (choosed_image == R.id.jkz_image) {//健康证
                             //jkzImage.setImageBitmap(bitmap);
                             Glide.with(this).asBitmap().load(bytes).thumbnail(0.1f).into(jkzImage);
-                            imageMap.put(JKZ_KEY, baos);
+                            dataMap.put(JKZ_KEY, bytes);
                         } else if (choosed_image == R.id.zgz_image) {//从业资格证
                             //zgzImage.setImageBitmap(bitmap);
                             Glide.with(this).asBitmap().load(bytes).thumbnail(0.1f).into(zgzImage);
-                            imageMap.put(ZGZ_KEY, baos);
+                            dataMap.put(ZGZ_KEY, bytes);
                         }
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
@@ -340,22 +397,22 @@ public class CompletePicActivity extends AppCompatActivity implements View.OnCli
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bitmap = BitmapFactory.decodeFile(imagePath);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 10, baos);//这里压缩options%，把压缩后的数据存放到baos中
-            byte[] bytes = baos.toByteArray();
+            bytes = baos.toByteArray();
             //Log.i("wechat", "压缩后图片的大小" + ("字节码：" + " 宽度为:" + bitmap.getWidth() + " 高度为:" + bitmap.getHeight()));
             if (choosed_image == R.id.sfz_image) {//身份证
                 //sfzImage.setImageBitmap(bitmap);
                 //l = SystemClock.currentThreadTimeMillis();
                 //Log.i(TAG, "onActivityResult: " + l);
                 Glide.with(this).asBitmap().load(bytes).thumbnail(0.1f).into(sfzImage);
-                imageMap.put(SFZ_KEY, baos);
+                dataMap.put(SFZ_KEY, bytes);
             } else if (choosed_image == R.id.jkz_image) {//健康证
                 //jkzImage.setImageBitmap(bitmap);
                 Glide.with(this).asBitmap().load(bytes).thumbnail(0.1f).into(jkzImage);
-                imageMap.put(JKZ_KEY, baos);
+                dataMap.put(JKZ_KEY, bytes);
             } else if (choosed_image == R.id.zgz_image) {//从业资格证
                 //zgzImage.setImageBitmap(bitmap);
                 Glide.with(this).asBitmap().load(bytes).thumbnail(0.1f).into(zgzImage);
-                imageMap.put(ZGZ_KEY, baos);
+                dataMap.put(ZGZ_KEY, bytes);
             }
         } else {
             Toast.makeText(CompletePicActivity.this, "failed to get image ", Toast.LENGTH_SHORT).show();
