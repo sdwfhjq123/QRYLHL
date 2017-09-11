@@ -93,7 +93,7 @@ public class TnCompleteInfoActivity extends AppCompatActivity {
         realName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view = View.inflate(TnCompleteInfoActivity.this, R.layout.text_item_dialog, null);
+                View view = View.inflate(TnCompleteInfoActivity.this, R.layout.text_item_dialog_num, null);
                 TextView tvTitileDialog = (TextView) view.findViewById(R.id.tv_title_dialog);
                 final EditText etHintDialog = (EditText) view.findViewById(R.id.et_hint_dialog);
                 tvTitileDialog.setText("姓名");
@@ -114,7 +114,7 @@ public class TnCompleteInfoActivity extends AppCompatActivity {
         identity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view = View.inflate(TnCompleteInfoActivity.this, R.layout.text_item_dialog, null);
+                View view = View.inflate(TnCompleteInfoActivity.this, R.layout.text_item_dialog_num, null);
                 TextView tvTitileDialog = (TextView) view.findViewById(R.id.tv_title_dialog);
                 final EditText etHintDialog = (EditText) view.findViewById(R.id.et_hint_dialog);
                 tvTitileDialog.setText("身份证");
@@ -148,7 +148,7 @@ public class TnCompleteInfoActivity extends AppCompatActivity {
         age.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view = View.inflate(TnCompleteInfoActivity.this, R.layout.text_item_dialog, null);
+                View view = View.inflate(TnCompleteInfoActivity.this, R.layout.text_item_dialog_num, null);
                 TextView tvTitileDialog = (TextView) view.findViewById(R.id.tv_title_dialog);
                 final EditText etHintDialog = (EditText) view.findViewById(R.id.et_hint_dialog);
                 tvTitileDialog.setText("请输入年龄");
@@ -184,7 +184,7 @@ public class TnCompleteInfoActivity extends AppCompatActivity {
         beGoodAtWork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view = View.inflate(TnCompleteInfoActivity.this, R.layout.text_item_dialog, null);
+                View view = View.inflate(TnCompleteInfoActivity.this, R.layout.text_item_dialog_num, null);
                 TextView tvTitileDialog = (TextView) view.findViewById(R.id.tv_title_dialog);
                 final EditText etHintDialog = (EditText) view.findViewById(R.id.et_hint_dialog);
                 tvTitileDialog.setText("请输入年龄");

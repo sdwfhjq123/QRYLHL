@@ -36,14 +36,10 @@ import com.qryl.qrylyh.R;
 import com.qryl.qrylyh.util.DialogUtil;
 import com.qryl.qrylyh.view.MyAlertDialog;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -71,6 +67,7 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
     private String workExperienceDialogText;
     private String beGoodAtWorkDialogText;
     private File headFile;
+    private int genderNum;
 
 
     @Override
@@ -100,7 +97,7 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
         realName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view = View.inflate(HgCompleteInfoActivity.this, R.layout.text_item_dialog, null);
+                View view = View.inflate(HgCompleteInfoActivity.this, R.layout.text_item_dialog_text, null);
                 TextView tvTitileDialog = (TextView) view.findViewById(R.id.tv_title_dialog);
                 final EditText etHintDialog = (EditText) view.findViewById(R.id.et_hint_dialog);
                 tvTitileDialog.setText("姓名");
@@ -121,7 +118,7 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
         identity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view = View.inflate(HgCompleteInfoActivity.this, R.layout.text_item_dialog, null);
+                View view = View.inflate(HgCompleteInfoActivity.this, R.layout.text_item_dialog_num, null);
                 TextView tvTitileDialog = (TextView) view.findViewById(R.id.tv_title_dialog);
                 final EditText etHintDialog = (EditText) view.findViewById(R.id.et_hint_dialog);
                 tvTitileDialog.setText("身份证");
@@ -142,11 +139,17 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
         gender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 DialogUtil.showMultiItemsDialog(HgCompleteInfoActivity.this, "选择性别", R.array.gender, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         tvGender.setText(genderArray[which]);
                         genderDialogText = tvGender.getText().toString();
+                        if (genderDialogText.equals("男")) {
+                            genderNum = 1;
+                        } else if (genderDialogText.equals("女")) {
+                            genderNum = 0;
+                        }
                         Log.i(TAG, "onClick: 设置的性别" + genderDialogText);
                         dialog.dismiss();
                     }
@@ -157,7 +160,7 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
         age.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view = View.inflate(HgCompleteInfoActivity.this, R.layout.text_item_dialog, null);
+                View view = View.inflate(HgCompleteInfoActivity.this, R.layout.text_item_dialog_num, null);
                 TextView tvTitileDialog = (TextView) view.findViewById(R.id.tv_title_dialog);
                 final EditText etHintDialog = (EditText) view.findViewById(R.id.et_hint_dialog);
                 tvTitileDialog.setText("请输入年龄");
@@ -192,7 +195,7 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
         beGoodAtWork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view = View.inflate(HgCompleteInfoActivity.this, R.layout.text_item_dialog, null);
+                View view = View.inflate(HgCompleteInfoActivity.this, R.layout.text_item_dialog_num, null);
                 TextView tvTitileDialog = (TextView) view.findViewById(R.id.tv_title_dialog);
                 final EditText etHintDialog = (EditText) view.findViewById(R.id.et_hint_dialog);
                 tvTitileDialog.setText("请输入擅长的工作");
@@ -290,12 +293,15 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
         //bundle.putByteArray("head", bytes);
         bundle.putString("name", ageDialogText);
         bundle.putString("identity", identityDialogText);
-        bundle.putString("gender", genderDialogText);
+        bundle.putString("gender", String.valueOf(genderNum));
+        bundle.putInt("gender", genderNum);
         bundle.putString("age", ageDialogText);
         bundle.putString("workexperience", workExperienceDialogText);
         bundle.putString("begoodat", beGoodAtWorkDialogText);
         bundle.putString("localservice", null);
         intent.putExtras(bundle);
+        //发送这是护工的跳转标识
+        //intent.put
         startActivity(intent);
     }
 

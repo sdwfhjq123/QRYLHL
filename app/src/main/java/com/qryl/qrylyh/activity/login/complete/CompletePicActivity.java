@@ -97,7 +97,7 @@ public class CompletePicActivity extends AppCompatActivity implements View.OnCli
 
         String name = (String) bundle.get("name");
         String indentity = (String) bundle.get("identity");
-        String gender = (String) bundle.get("gender");
+        int gender = (int) bundle.get("gender");
         String age = (String) bundle.get("age");
         String workexperience = (String) bundle.get("workexperience");
         String begoodat = (String) bundle.get("begoodat");
