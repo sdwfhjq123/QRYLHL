@@ -499,7 +499,7 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
     private void displayImage(String imagePath) {
         if (imagePath != null) {
             bitmap = BitmapFactory.decodeFile(imagePath);
-            headFile = saveMyBitmap(bitmap, "head");
+            headFile = saveMyBitmap(bitmap, HEAD_KEY);
             //保存file到sp
             saveFile(headFile.getName());
             Glide.with(this).asBitmap().load(headFile).thumbnail(0.1f).into(civHead);
@@ -540,7 +540,7 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
         edit.putString(HEAD_KEY, fileName);
         //提交edit
         edit.commit();
-        Log.i(TAG, "saveFile: 保存成功" + sp.getString("head", null));
+        Log.i(TAG, "saveFile: 保存成功" + sp.getString(HEAD_KEY, null));
     }
 
 }
