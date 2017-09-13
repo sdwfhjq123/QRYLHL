@@ -3,12 +3,15 @@ package com.qryl.qrylyh.activity.login.complete;
 import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
+import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -16,7 +19,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -34,22 +36,24 @@ import com.qryl.qrylyh.R;
 import com.qryl.qrylyh.util.DialogUtil;
 import com.qryl.qrylyh.view.MyAlertDialog;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HsCompleteInfoActivity extends AppCompatActivity {
 
-    private static final String TAG = "HsCompleteInfoActivity";
+    private static final String TAG = "HgCompleteInfoActivity";
 
-    private TextView tvName, tvIdentity, tvGender, tvAge, tvHospital, tvWorkExperience, tvOffice, tvBeGoodAtWork, tvLocalService;
-    private RelativeLayout myHead, realName, identity, gender, age, workExperience, hospital, office, beGoodAtWork, localService;
+    private TextView tvName, tvIdentity, tvGender, tvAge, tvWorkExperience, tvBeGoodAtWork, tvLocalService;
+    private RelativeLayout myHead, realName, identity, gender, age, workExperience, beGoodAtWork, localService;
 
     private static final int TAKE_PHOTO = 1;
     private static final int CHOOSE_PHOTO = 2;
+
+    private static final String HEAD_KEY = "head_key";
 
     private Uri imageUri;
     private Bitmap bitmap;
@@ -58,21 +62,21 @@ public class HsCompleteInfoActivity extends AppCompatActivity {
     private String[] workExperienceArray;
     private String nameDialogText;
     private String identityDialogText;
+    private String genderDialogText;
     private String ageDialogText;
     private String workExperienceDialogText;
     private String beGoodAtWorkDialogText;
-    private String genderDialogText;
-    private byte[] bytes;
+    private File headFile;
+    private int genderNum;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_complete_info_max);
+        setContentView(R.layout.activity_complete_info_min);
         genderArray = getResources().getStringArray(R.array.gender);
         workExperienceArray = getResources().getStringArray(R.array.work_experience);
         initView();
-        //隐藏一些布局
-        //hiddenSomeView();
         //点击每个条目实现dialog或者activity
         clickItemShowDialog();
     }
@@ -93,7 +97,7 @@ public class HsCompleteInfoActivity extends AppCompatActivity {
         realName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view = View.inflate(HsCompleteInfoActivity.this, R.layout.text_item_dialog_num, null);
+                View view = View.inflate(HsCompleteInfoActivity.this, R.layout.text_item_dialog_text, null);
                 TextView tvTitileDialog = (TextView) view.findViewById(R.id.tv_title_dialog);
                 final EditText etHintDialog = (EditText) view.findViewById(R.id.et_hint_dialog);
                 tvTitileDialog.setText("姓名");
@@ -135,11 +139,18 @@ public class HsCompleteInfoActivity extends AppCompatActivity {
         gender.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 DialogUtil.showMultiItemsDialog(HsCompleteInfoActivity.this, "选择性别", R.array.gender, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         tvGender.setText(genderArray[which]);
-                        genderDialogText = genderArray[which];
+                        genderDialogText = tvGender.getText().toString();
+                        if (genderDialogText.equals("男")) {
+                            genderNum = 1;
+                        } else if (genderDialogText.equals("女")) {
+                            genderNum = 0;
+                        }
+                        Log.i(TAG, "onClick: 设置的性别" + genderDialogText);
                         dialog.dismiss();
                     }
                 });
@@ -180,28 +191,14 @@ public class HsCompleteInfoActivity extends AppCompatActivity {
                 });
             }
         });
-        //我所在的医院
-        hospital.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(HsCompleteInfoActivity.this, HospitalActivity.class));
-            }
-        });
-        //我所在的科室
-        office.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(HsCompleteInfoActivity.this, OfficeActivity.class));
-            }
-        });
         //擅长的工作
         beGoodAtWork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view = View.inflate(HsCompleteInfoActivity.this, R.layout.text_item_dialog_text, null);
+                View view = View.inflate(HsCompleteInfoActivity.this, R.layout.text_item_dialog_num, null);
                 TextView tvTitileDialog = (TextView) view.findViewById(R.id.tv_title_dialog);
                 final EditText etHintDialog = (EditText) view.findViewById(R.id.et_hint_dialog);
-                tvTitileDialog.setText("请输入年龄");
+                tvTitileDialog.setText("请输入擅长的工作");
                 new MyAlertDialog(HsCompleteInfoActivity.this, view)
                         //.setView(view)
                         .setNegativeButton("取消", null)
@@ -232,8 +229,6 @@ public class HsCompleteInfoActivity extends AppCompatActivity {
         gender = (RelativeLayout) findViewById(R.id.gender);
         age = (RelativeLayout) findViewById(R.id.age);
         workExperience = (RelativeLayout) findViewById(R.id.work_experience);
-        hospital = (RelativeLayout) findViewById(R.id.hospital);
-        office = (RelativeLayout) findViewById(R.id.office);
         beGoodAtWork = (RelativeLayout) findViewById(R.id.be_good_at_work);
         localService = (RelativeLayout) findViewById(R.id.local_service);
         civHead = (CircleImageView) findViewById(R.id.civ_head);
@@ -242,9 +237,7 @@ public class HsCompleteInfoActivity extends AppCompatActivity {
         tvIdentity = (TextView) findViewById(R.id.tv_identity);
         tvGender = (TextView) findViewById(R.id.tv_gender);
         tvAge = (TextView) findViewById(R.id.tv_age);
-        tvHospital = (TextView) findViewById(R.id.tv_hospital);
         tvWorkExperience = (TextView) findViewById(R.id.tv_work_experience);
-        tvOffice = (TextView) findViewById(R.id.tv_office);
         tvBeGoodAtWork = (TextView) findViewById(R.id.tv_be_good_at_work);
         tvLocalService = (TextView) findViewById(R.id.tv_local_service);
 
@@ -252,6 +245,7 @@ public class HsCompleteInfoActivity extends AppCompatActivity {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //不能为空时点击跳转
                 nextiFNotNull();
             }
         });
@@ -261,7 +255,7 @@ public class HsCompleteInfoActivity extends AppCompatActivity {
      * 如果所有的注册选项不为空，点击下一步然后跳转
      */
     private void nextiFNotNull() {
-        if (bitmap == null) {
+        if (headFile == null) {
             Toast.makeText(HsCompleteInfoActivity.this, "您还未设置头像", Toast.LENGTH_SHORT).show();
         } else {
             if (TextUtils.isEmpty(nameDialogText)) {
@@ -293,18 +287,20 @@ public class HsCompleteInfoActivity extends AppCompatActivity {
      * 传递数据到下个页面
      */
     private void putExtra() {
-        Intent intent = new Intent(HsCompleteInfoActivity.this, CompletePicActivity.class);
+        Intent intent = new Intent(HsCompleteInfoActivity.this, HsCompletePicActivity.class);
         //传递数据
         Bundle bundle = new Bundle();
-        bundle.putByteArray("head", bytes);
+        //bundle.putByteArray("head", bytes);
         bundle.putString("name", ageDialogText);
         bundle.putString("identity", identityDialogText);
-        bundle.putString("gender", genderDialogText);
+        bundle.putInt("gender", genderNum);
         bundle.putString("age", ageDialogText);
         bundle.putString("workexperience", workExperienceDialogText);
         bundle.putString("begoodat", beGoodAtWorkDialogText);
         bundle.putString("localservice", null);
         intent.putExtras(bundle);
+        //发送这是护工的跳转标识
+        //intent.put
         startActivity(intent);
     }
 
@@ -427,15 +423,13 @@ public class HsCompleteInfoActivity extends AppCompatActivity {
                 if (resultCode == RESULT_OK) {
                     //将拍摄的图片显示出来
                     try {
-                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        //long l = SystemClock.currentThreadTimeMillis();
-                        //Log.i(TAG, "onActivityResult: " + l);
                         bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 10, baos);//这里压缩options%，把压缩后的数据存放到baos中
-                        //long length = baos.toByteArray().length;
-                        bytes = baos.toByteArray();
+                        headFile = saveMyBitmap(bitmap, "head");
+                        //保存file到sp
+                        saveFile(headFile.getName());
+                        Glide.with(this).asBitmap().load(headFile).thumbnail(0.1f).into(civHead);
                         Log.i("wechat", "压缩后图片的大小" + ("字节码：" + " 宽度为:" + bitmap.getWidth() + " 高度为:" + bitmap.getHeight()));
-                        Glide.with(this).asBitmap().load(bytes).thumbnail(0.1f).into(civHead);
+                        Log.i(TAG, "File:" + headFile.getName() + " 路径:" + headFile.getAbsolutePath());
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -503,15 +497,49 @@ public class HsCompleteInfoActivity extends AppCompatActivity {
 
     private void displayImage(String imagePath) {
         if (imagePath != null) {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bitmap = BitmapFactory.decodeFile(imagePath);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 10, baos);//这里压缩options%，把压缩后的数据存放到baos中
-            bytes = baos.toByteArray();
-            //Log.i("wechat", "压缩后图片的大小" + ("字节码：" + " 宽度为:" + bitmap.getWidth() + " 高度为:" + bitmap.getHeight()));
-            Glide.with(this).asBitmap().load(bytes).thumbnail(0.1f).into(civHead);
+            headFile = saveMyBitmap(bitmap, HEAD_KEY);
+            //保存file到sp
+            saveFile(headFile.getName());
+            Glide.with(this).asBitmap().load(headFile).thumbnail(0.1f).into(civHead);
         } else {
             Toast.makeText(HsCompleteInfoActivity.this, "failed to get image ", Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+    //将bitmap转化为png格式
+    public File saveMyBitmap(Bitmap mBitmap, String prefix) {
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+        File file = null;
+        try {
+            file = File.createTempFile(
+                    prefix,  /* prefix */
+                    ".jpg",         /* suffix */
+                    storageDir      /* directory */
+            );
+            FileOutputStream fos = new FileOutputStream(file);
+            mBitmap.compress(Bitmap.CompressFormat.JPEG, 10, fos);
+            fos.flush();
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return file;
+    }
+
+    /**
+     * 保存file到sp
+     *
+     * @param fileName
+     */
+    private void saveFile(String fileName) {
+        SharedPreferences sp = getSharedPreferences("image", MODE_PRIVATE);
+        SharedPreferences.Editor edit = sp.edit();
+        edit.putString(HEAD_KEY, fileName);
+        //提交edit
+        edit.commit();
+        Log.i(TAG, "saveFile: 保存成功" + sp.getString(HEAD_KEY, null));
     }
 
 }

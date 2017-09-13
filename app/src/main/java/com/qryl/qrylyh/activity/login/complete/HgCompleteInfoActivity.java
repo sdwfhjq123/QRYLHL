@@ -287,13 +287,12 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
      * 传递数据到下个页面
      */
     private void putExtra() {
-        Intent intent = new Intent(HgCompleteInfoActivity.this, CompletePicActivity.class);
+        Intent intent = new Intent(HgCompleteInfoActivity.this, HgCompletePicActivity.class);
         //传递数据
         Bundle bundle = new Bundle();
         //bundle.putByteArray("head", bytes);
         bundle.putString("name", ageDialogText);
         bundle.putString("identity", identityDialogText);
-        bundle.putString("gender", String.valueOf(genderNum));
         bundle.putInt("gender", genderNum);
         bundle.putString("age", ageDialogText);
         bundle.putString("workexperience", workExperienceDialogText);

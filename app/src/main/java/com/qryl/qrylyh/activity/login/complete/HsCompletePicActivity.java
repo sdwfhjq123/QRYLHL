@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
@@ -18,7 +19,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -33,7 +33,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.qryl.qrylyh.R;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -51,9 +50,9 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 
-public class CompletePicActivity extends AppCompatActivity implements View.OnClickListener {
+public class HsCompletePicActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String TAG = "CompletePicActivity";
+    private static final String TAG = "HgCompletePicActivity";
 
     private static final int TAKE_PHOTO = 1;
     private static final int CHOOSE_PHOTO = 2;
@@ -113,7 +112,6 @@ public class CompletePicActivity extends AppCompatActivity implements View.OnCli
         dataMap.put("localservice", localservice);
 
     }
-
 
     private void initView() {
         sfzImage = (ImageView) findViewById(R.id.sfz_image);
@@ -249,7 +247,6 @@ public class CompletePicActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-
     /**
      * 弹出popupWindow的逻辑
      */
@@ -310,9 +307,9 @@ public class CompletePicActivity extends AppCompatActivity implements View.OnCli
      */
     private void invokeAlbum() {
         //动态申请危险时权限，运行时权限
-        if (ContextCompat.checkSelfPermission(CompletePicActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+        if (ContextCompat.checkSelfPermission(HsCompletePicActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
                 PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(CompletePicActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            ActivityCompat.requestPermissions(HsCompletePicActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         } else {
             openAlbum();
         }
@@ -341,7 +338,7 @@ public class CompletePicActivity extends AppCompatActivity implements View.OnCli
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     openAlbum();
                 } else {
-                    Toast.makeText(CompletePicActivity.this, "you denied the permission", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HsCompletePicActivity.this, "you denied the permission", Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:
@@ -365,7 +362,7 @@ public class CompletePicActivity extends AppCompatActivity implements View.OnCli
             e.printStackTrace();
         }
         if (Build.VERSION.SDK_INT >= 24) {
-            imageUri = FileProvider.getUriForFile(CompletePicActivity.this, "com.qryl.qrylyh.activity.login.complete.fileprovider", outputImage);
+            imageUri = FileProvider.getUriForFile(HsCompletePicActivity.this, "com.qryl.qrylyh.activity.login.complete.fileprovider", outputImage);
         } else {
             imageUri = Uri.fromFile(outputImage);
         }
@@ -427,7 +424,7 @@ public class CompletePicActivity extends AppCompatActivity implements View.OnCli
         String imagePath = null;
         Uri uri = data.getData();
         //Log.i("uri", uri + "");
-        if (DocumentsContract.isDocumentUri(CompletePicActivity.this, uri)) {
+        if (DocumentsContract.isDocumentUri(HsCompletePicActivity.this, uri)) {
             //如果是document类型的uri，则通过document id 处理
             String docId = DocumentsContract.getDocumentId(uri);
             Log.i("type of document", docId);
@@ -484,7 +481,7 @@ public class CompletePicActivity extends AppCompatActivity implements View.OnCli
                 Glide.with(this).asBitmap().load(zgzFile).thumbnail(0.1f).into(zgzImage);
             }
         } else {
-            Toast.makeText(CompletePicActivity.this, "failed to get image ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(HsCompletePicActivity.this, "failed to get image ", Toast.LENGTH_SHORT).show();
         }
     }
 

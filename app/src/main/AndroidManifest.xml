@@ -29,7 +29,7 @@
         <activity android:name=".activity.login.complete.YsCompleteInfoActivity" />
         <activity android:name=".activity.login.complete.HgCompleteInfoActivity" />
         <activity android:name=".activity.login.complete.TnCompleteInfoActivity" />
-        <activity android:name=".activity.login.complete.CompletePicActivity">
+        <activity android:name=".activity.login.complete.HgCompletePicActivity">
             <provider
                 android:name="android.support.v4.content.FileProvider"
                 android:authorities="com.qryl.qrylyh.activity.login.complete.fileprovider"

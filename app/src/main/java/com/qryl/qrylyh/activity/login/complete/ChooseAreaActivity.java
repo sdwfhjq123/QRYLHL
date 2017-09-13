@@ -40,21 +40,25 @@ public class ChooseAreaActivity extends AppCompatActivity implements View.OnClic
                 Intent intent = new Intent(ChooseAreaActivity.this, HgCompleteInfoActivity.class);
                 //intent.putExtra(SKIP, "hg");
                 startActivity(intent);
+                finish();
                 break;
             case R.id.btn_choose_hs://点击跳转护士注册页面
                 Intent intent2 = new Intent(ChooseAreaActivity.this, HsCompleteInfoActivity.class);
                 //intent2.putExtra(SKIP, "hs");
                 startActivity(intent2);
+                finish();
                 break;
             case R.id.btn_choose_ys://点击跳转医生注册页面
                 Intent intent3 = new Intent(ChooseAreaActivity.this, YsCompleteInfoActivity.class);
                 //intent3.putExtra(SKIP, "ys");
                 startActivity(intent3);
+                finish();
                 break;
             case R.id.btn_choose_tn://点击跳转推拿注册页面
                 Intent intent4 = new Intent(ChooseAreaActivity.this, TnCompleteInfoActivity.class);
                 //intent4.putExtra(SKIP, "tn");
                 startActivity(intent4);
+                finish();
                 break;
         }
     }
