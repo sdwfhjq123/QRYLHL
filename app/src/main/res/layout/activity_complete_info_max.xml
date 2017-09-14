@@ -239,31 +239,6 @@
 
     <View style="@style/ViewLine" />
 
-    <RelativeLayout
-        android:id="@+id/local_service"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:padding="5dp">
-
-        <TextView
-            style="@style/TextInItemStyle"
-            android:layout_marginLeft="10dp"
-            android:text="我能够提供服务的区域" />
-
-        <TextView
-            android:id="@+id/tv_local_service"
-            style="@style/TextInItemStyle"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-            android:text="请选择" />
-
-        <ImageView style="@style/ImgAdvanceInItemStyle" />
-    </RelativeLayout>
-
-    <View style="@style/ViewLine" />
-
 
     <RelativeLayout
         android:layout_width="match_parent"

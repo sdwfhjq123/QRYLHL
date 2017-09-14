@@ -52,6 +52,7 @@ public class YsCompleteInfoActivity extends AppCompatActivity {
 
     private static final int TAKE_PHOTO = 1;
     private static final int CHOOSE_PHOTO = 2;
+    private static final int CHOOSE_HOSPITAL = 3;
 
     private static final String HEAD_KEY = "head_key";
 
@@ -68,12 +69,14 @@ public class YsCompleteInfoActivity extends AppCompatActivity {
     private String beGoodAtWorkDialogText;
     private File headFile;
     private int genderNum;
+    private RelativeLayout hospital;
+    private TextView tvHospital;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_complete_info_min);
+        setContentView(R.layout.activity_complete_info_max);
         genderArray = getResources().getStringArray(R.array.gender);
         workExperienceArray = getResources().getStringArray(R.array.work_experience);
         initView();
@@ -212,11 +215,13 @@ public class YsCompleteInfoActivity extends AppCompatActivity {
                         }).show();
             }
         });
-        //选择服务区域
-        localService.setOnClickListener(new View.OnClickListener() {
+
+        //选择所在的医院
+        hospital.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(YsCompleteInfoActivity.this, LocalServiceActivity.class));
+                Intent intent = new Intent(YsCompleteInfoActivity.this, HospitalActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -230,8 +235,8 @@ public class YsCompleteInfoActivity extends AppCompatActivity {
         age = (RelativeLayout) findViewById(R.id.age);
         workExperience = (RelativeLayout) findViewById(R.id.work_experience);
         beGoodAtWork = (RelativeLayout) findViewById(R.id.be_good_at_work);
-        localService = (RelativeLayout) findViewById(R.id.local_service);
         civHead = (CircleImageView) findViewById(R.id.civ_head);
+        hospital = (RelativeLayout) findViewById(R.id.hospital);
         //返回的数据
         tvName = (TextView) findViewById(R.id.tv_name);
         tvIdentity = (TextView) findViewById(R.id.tv_identity);
@@ -239,8 +244,7 @@ public class YsCompleteInfoActivity extends AppCompatActivity {
         tvAge = (TextView) findViewById(R.id.tv_age);
         tvWorkExperience = (TextView) findViewById(R.id.tv_work_experience);
         tvBeGoodAtWork = (TextView) findViewById(R.id.tv_be_good_at_work);
-        tvLocalService = (TextView) findViewById(R.id.tv_local_service);
-
+        tvHospital = (TextView) findViewById(R.id.tv_hospital);
         Button btnNext = (Button) findViewById(R.id.btn_next);
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override

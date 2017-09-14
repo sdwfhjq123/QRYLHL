@@ -212,13 +212,6 @@ public class TnCompleteInfoActivity extends AppCompatActivity {
                         }).show();
             }
         });
-        //选择服务区域
-        localService.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(TnCompleteInfoActivity.this, LocalServiceActivity.class));
-            }
-        });
     }
 
     private void initView() {
@@ -230,7 +223,6 @@ public class TnCompleteInfoActivity extends AppCompatActivity {
         age = (RelativeLayout) findViewById(R.id.age);
         workExperience = (RelativeLayout) findViewById(R.id.work_experience);
         beGoodAtWork = (RelativeLayout) findViewById(R.id.be_good_at_work);
-        localService = (RelativeLayout) findViewById(R.id.local_service);
         civHead = (CircleImageView) findViewById(R.id.civ_head);
         //返回的数据
         tvName = (TextView) findViewById(R.id.tv_name);
@@ -239,7 +231,6 @@ public class TnCompleteInfoActivity extends AppCompatActivity {
         tvAge = (TextView) findViewById(R.id.tv_age);
         tvWorkExperience = (TextView) findViewById(R.id.tv_work_experience);
         tvBeGoodAtWork = (TextView) findViewById(R.id.tv_be_good_at_work);
-        tvLocalService = (TextView) findViewById(R.id.tv_local_service);
 
         Button btnNext = (Button) findViewById(R.id.btn_next);
         btnNext.setOnClickListener(new View.OnClickListener() {

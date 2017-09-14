@@ -47,8 +47,8 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
 
     private static final String TAG = "HgCompleteInfoActivity";
 
-    private TextView tvName, tvIdentity, tvGender, tvAge, tvWorkExperience, tvBeGoodAtWork, tvLocalService;
-    private RelativeLayout myHead, realName, identity, gender, age, workExperience, beGoodAtWork, localService;
+    private TextView tvName, tvIdentity, tvGender, tvAge, tvWorkExperience, tvBeGoodAtWork;
+    private RelativeLayout myHead, realName, identity, gender, age, workExperience, beGoodAtWork;
 
     private static final int TAKE_PHOTO = 1;
     private static final int CHOOSE_PHOTO = 2;
@@ -212,13 +212,6 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
                         }).show();
             }
         });
-        //选择服务区域
-        localService.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(HgCompleteInfoActivity.this, LocalServiceActivity.class));
-            }
-        });
     }
 
     private void initView() {
@@ -230,7 +223,6 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
         age = (RelativeLayout) findViewById(R.id.age);
         workExperience = (RelativeLayout) findViewById(R.id.work_experience);
         beGoodAtWork = (RelativeLayout) findViewById(R.id.be_good_at_work);
-        localService = (RelativeLayout) findViewById(R.id.local_service);
         civHead = (CircleImageView) findViewById(R.id.civ_head);
         //返回的数据
         tvName = (TextView) findViewById(R.id.tv_name);
@@ -239,7 +231,6 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
         tvAge = (TextView) findViewById(R.id.tv_age);
         tvWorkExperience = (TextView) findViewById(R.id.tv_work_experience);
         tvBeGoodAtWork = (TextView) findViewById(R.id.tv_be_good_at_work);
-        tvLocalService = (TextView) findViewById(R.id.tv_local_service);
 
         Button btnNext = (Button) findViewById(R.id.btn_next);
         btnNext.setOnClickListener(new View.OnClickListener() {
