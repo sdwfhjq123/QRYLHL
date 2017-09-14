@@ -50,8 +50,10 @@ public class ChooseHospitalAdapter extends RecyclerView.Adapter<ChooseHospitalAd
             public void onClick(View v) {
                 int position = holder.getAdapterPosition();
                 Log.i(TAG, "onClick: " + "点击了" + position + "名字是:" + hospitalList.get(position).getId());
-                //将数据保存在itemView的Tag中，以便点击时进行获取
-                holder.llRoot.setTag(hospitalList.get(position).getId());
+                if (mOnItemClickListener != null) {
+                    //接口实例化后的而对象，调用重写后的方法
+                    mOnItemClickListener.onItemClick(v, position);
+                }
             }
         });
         return holder;
@@ -74,7 +76,7 @@ public class ChooseHospitalAdapter extends RecyclerView.Adapter<ChooseHospitalAd
 
     //define interface
     public static interface OnRecyclerViewItemClickListener {
-        void onItemClick(View view, int data);
+        void onItemClick(View view, int position);
     }
 
 }

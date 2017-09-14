@@ -25,6 +25,7 @@ public class HospitalActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ChooseHospitalAdapter adapter;
     private List<Hospital> hospitalList = new ArrayList<>();
+    private int positionId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +41,9 @@ public class HospitalActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(new ChooseHospitalAdapter.OnRecyclerViewItemClickListener() {
             @Override
-            public void onItemClick(View view, int data) {
-                Log.i(TAG, "onItemClick:获取到的数据 " + data);
-                
+            public void onItemClick(View view, int position) {
+                Log.i(TAG, "onItemClick:获取到的数据 " + hospitalList.get(position).getId());
+                positionId = hospitalList.get(position).getId();
             }
         });
     }
