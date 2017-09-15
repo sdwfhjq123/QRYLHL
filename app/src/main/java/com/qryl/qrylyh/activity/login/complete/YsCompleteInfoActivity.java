@@ -47,12 +47,13 @@ public class YsCompleteInfoActivity extends AppCompatActivity {
 
     private static final String TAG = "HgCompleteInfoActivity";
 
-    private TextView tvName, tvIdentity, tvGender, tvAge, tvWorkExperience, tvBeGoodAtWork, tvLocalService;
-    private RelativeLayout myHead, realName, identity, gender, age, workExperience, beGoodAtWork, localService;
+    private TextView tvName, tvIdentity, tvGender, tvAge, tvWorkExperience, tvBeGoodAtWork;
+    private RelativeLayout myHead, realName, identity, gender, age, workExperience, beGoodAtWork;
 
     private static final int TAKE_PHOTO = 1;
     private static final int CHOOSE_PHOTO = 2;
     private static final int CHOOSE_HOSPITAL = 3;
+    private static final int CHOOSE_LOCATION = 4;
 
     private static final String HEAD_KEY = "head_key";
 
@@ -71,6 +72,8 @@ public class YsCompleteInfoActivity extends AppCompatActivity {
     private int genderNum;
     private RelativeLayout hospital;
     private TextView tvHospital;
+    private RelativeLayout location;
+    private TextView tvLocation;
 
 
     @Override
@@ -221,7 +224,15 @@ public class YsCompleteInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(YsCompleteInfoActivity.this, HospitalActivity.class);
-                startActivity(intent);
+                //startActivity(intent);
+                startActivityForResult(intent, CHOOSE_HOSPITAL);
+            }
+        });
+        location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(YsCompleteInfoActivity.this, LocationActivity.class);
+                startActivityForResult(intent, CHOOSE_LOCATION);
             }
         });
     }
@@ -237,6 +248,7 @@ public class YsCompleteInfoActivity extends AppCompatActivity {
         beGoodAtWork = (RelativeLayout) findViewById(R.id.be_good_at_work);
         civHead = (CircleImageView) findViewById(R.id.civ_head);
         hospital = (RelativeLayout) findViewById(R.id.hospital);
+        location = (RelativeLayout) findViewById(R.id.location);
         //返回的数据
         tvName = (TextView) findViewById(R.id.tv_name);
         tvIdentity = (TextView) findViewById(R.id.tv_identity);
@@ -245,6 +257,7 @@ public class YsCompleteInfoActivity extends AppCompatActivity {
         tvWorkExperience = (TextView) findViewById(R.id.tv_work_experience);
         tvBeGoodAtWork = (TextView) findViewById(R.id.tv_be_good_at_work);
         tvHospital = (TextView) findViewById(R.id.tv_hospital);
+        tvLocation = (TextView) findViewById(R.id.tv_location);
         Button btnNext = (Button) findViewById(R.id.btn_next);
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -449,6 +462,13 @@ public class YsCompleteInfoActivity extends AppCompatActivity {
                     }
                 }
                 break;
+            case CHOOSE_HOSPITAL:
+                if (resultCode == RESULT_OK) {
+                    int hospitalId = data.getIntExtra("hospital_id", 0);
+                    String hospitalName = data.getStringExtra("hospital_name");
+                    Log.i(TAG, "onActivityResult: 返回回来医院的id" + hospitalId);
+                    tvHospital.setText(hospitalName);
+                }
         }
     }
 

@@ -17,11 +17,10 @@ public class HttpUtil {
      * @param address
      * @param callback
      */
-    public static void sendOkHttpRequest(String address, Callback callback) {
+    public static void sendOkHttpRequest(String address, Callback callback, String params, int cityId) {
         OkHttpClient client = new OkHttpClient();
         FormBody.Builder builder = new FormBody.Builder();
-        //builder.add()
-        //builder.add
+        builder.add(params, String.valueOf(cityId));
         RequestBody formBody = builder.build();
         Request request = new Request.Builder()
                 .url(address)

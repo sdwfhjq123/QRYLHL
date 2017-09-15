@@ -13,4 +13,7 @@
 
     <color name="tab_text_color_selected">#ff5988be</color><!-- tab选中文字颜色 -->
     <color name="tab_text_color_normal">#3b3b3b</color><!-- tab未选中文字颜色 -->
+
+    <color name="choose_item_color_checked">#1296db</color><!-- tab未选中文字颜色 -->
+    <color name="choose_item_color_normal">#fff</color><!-- tab未选中文字颜色 -->
 </resources>

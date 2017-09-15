@@ -1,5 +1,6 @@
 package com.qryl.qrylyh.activity.login.complete;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -44,6 +45,12 @@ public class HospitalActivity extends AppCompatActivity {
             public void onItemClick(View view, int position) {
                 Log.i(TAG, "onItemClick:获取到的数据 " + hospitalList.get(position).getId());
                 positionId = hospitalList.get(position).getId();
+                //点击后结束页面
+                Intent intent = new Intent();
+                intent.putExtra("hospital_id", hospitalList.get(position).getId());
+                intent.putExtra("hospital_name", hospitalList.get(position).getHospitalName());
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
     }
