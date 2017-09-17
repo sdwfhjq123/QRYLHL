@@ -15,9 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.login.LoginActivity">
-
-        </activity>
+        <activity android:name=".activity.login.LoginActivity"></activity>
         <activity android:name=".activity.login.RegisterActivity" />
         <activity android:name=".activity.SplashActivity" />
         <activity android:name=".activity.login.FinishActivity" />
@@ -45,7 +43,8 @@
         </activity>
         <activity android:name=".activity.login.complete.HospitalActivity" />
         <activity android:name=".activity.login.complete.OfficeActivity" />
-        <activity android:name=".activity.login.complete.LocationActivity"></activity>
+        <activity android:name=".activity.login.complete.LocationActivity" />
+        <activity android:name=".activity.login.complete.BeGoodAtWorkActivity"></activity>
     </application>
 
 </manifest>

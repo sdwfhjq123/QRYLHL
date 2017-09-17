@@ -1,11 +1,10 @@
 package com.qryl.qrylyh.activity.login.complete;
 
-import android.inputmethodservice.Keyboard;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
@@ -30,10 +29,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-import static android.R.attr.name;
-import static android.R.attr.pointerIcon;
-
-public class LocationActivity extends AppCompatActivity {
+public class LocationActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "LocationActivity";
 
@@ -45,6 +41,9 @@ public class LocationActivity extends AppCompatActivity {
     private LocalExpandableAdapter adapter;
 
     private ExpandableListView exList;
+
+    private int addId;
+    private String addName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,28 +106,13 @@ public class LocationActivity extends AppCompatActivity {
 
     private void initView() {
         TextView tvReturn = (TextView) findViewById(R.id.return_text);
-        tvReturn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        Button btn_sure = (Button) findViewById(R.id.btn_sure);
-        btn_sure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        Button btnSure = (Button) findViewById(R.id.btn_sure);
+        tvReturn.setOnClickListener(this);
+        btnSure.setOnClickListener(this);
         exList = (ExpandableListView) findViewById(R.id.exList);
         adapter = new LocalExpandableAdapter(counties, items, this);
         exList.setAdapter(adapter);
-        final StringBuffer stringBuffer = new StringBuffer();
         adapter.setOnChooseItemClickListener(new LocalExpandableAdapter.OnChooseItemClickListener() {
-
-            private int addId;
-            private String addName;
-
             @Override
             public void onItemClick(View view, int groupPosition, int childPosition, int id) {
                 Log.i(TAG, "onItemClick: id :" + items.get(groupPosition).get(childPosition).getId());
@@ -146,10 +130,36 @@ public class LocationActivity extends AppCompatActivity {
             public void onDeleteItemClick(View view, int groupPosition, int childPosition) {
                 addName = items.get(groupPosition).get(childPosition).getName();
                 addId = items.get(groupPosition).get(childPosition).getId();
-
                 getRowsMap.remove(addName);
                 Log.i(TAG, "onDeleteItemClick: 移除了" + getRowsMap.get(addName) + " ,集合大小" + getRowsMap.size());
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.return_text:
+                finish();
+                break;
+            case R.id.btn_sure:
+                StringBuffer stringBufferName = new StringBuffer();
+                StringBuffer stringBufferId = new StringBuffer();
+                for (Map.Entry<String, Integer> entry : getRowsMap.entrySet()) {
+
+                    String key = entry.getKey();
+                    stringBufferName.append(key);
+                    stringBufferName.append(",");
+
+                    Integer value = entry.getValue();
+                    stringBufferId.append(value);
+                    stringBufferId.append(",");
+                }
+                Intent intent = new Intent();
+                intent.putExtra("location_name", stringBufferName.toString());
+                intent.putExtra("location_id", stringBufferId.toString());
+                setResult(RESULT_OK, intent);
+                break;
+        }
     }
 }

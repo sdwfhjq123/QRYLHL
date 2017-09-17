@@ -46,14 +46,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class YsCompleteInfoActivity extends AppCompatActivity {
 
     private static final String TAG = "HgCompleteInfoActivity";
-
     private TextView tvName, tvIdentity, tvGender, tvAge, tvWorkExperience, tvBeGoodAtWork;
+
     private RelativeLayout myHead, realName, identity, gender, age, workExperience, beGoodAtWork;
 
     private static final int TAKE_PHOTO = 1;
     private static final int CHOOSE_PHOTO = 2;
     private static final int CHOOSE_HOSPITAL = 3;
     private static final int CHOOSE_LOCATION = 4;
+    private static final int CHOOSE_WORK = 5;
 
     private static final String HEAD_KEY = "head_key";
 
@@ -74,6 +75,7 @@ public class YsCompleteInfoActivity extends AppCompatActivity {
     private TextView tvHospital;
     private RelativeLayout location;
     private TextView tvLocation;
+    private String location_id;
 
 
     @Override
@@ -201,21 +203,8 @@ public class YsCompleteInfoActivity extends AppCompatActivity {
         beGoodAtWork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view = View.inflate(YsCompleteInfoActivity.this, R.layout.text_item_dialog_num, null);
-                TextView tvTitileDialog = (TextView) view.findViewById(R.id.tv_title_dialog);
-                final EditText etHintDialog = (EditText) view.findViewById(R.id.et_hint_dialog);
-                tvTitileDialog.setText("请输入擅长的工作");
-                new MyAlertDialog(YsCompleteInfoActivity.this, view)
-                        //.setView(view)
-                        .setNegativeButton("取消", null)
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                beGoodAtWorkDialogText = etHintDialog.getText().toString();
-                                tvBeGoodAtWork.setText(beGoodAtWorkDialogText);
-                                dialog.dismiss();
-                            }
-                        }).show();
+                Intent intent = new Intent(YsCompleteInfoActivity.this, BeGoodAtWorkActivity.class);
+                startActivityForResult(intent, CHOOSE_WORK);
             }
         });
 
@@ -307,17 +296,14 @@ public class YsCompleteInfoActivity extends AppCompatActivity {
         Intent intent = new Intent(YsCompleteInfoActivity.this, YsCompletePicActivity.class);
         //传递数据
         Bundle bundle = new Bundle();
-        //bundle.putByteArray("head", bytes);
         bundle.putString("name", ageDialogText);
         bundle.putString("identity", identityDialogText);
         bundle.putInt("gender", genderNum);
         bundle.putString("age", ageDialogText);
         bundle.putString("workexperience", workExperienceDialogText);
         bundle.putString("begoodat", beGoodAtWorkDialogText);
-        bundle.putString("localservice", null);
+        bundle.putString("localservice", location_id);
         intent.putExtras(bundle);
-        //发送这是护工的跳转标识
-        //intent.put
         startActivity(intent);
     }
 
@@ -469,6 +455,15 @@ public class YsCompleteInfoActivity extends AppCompatActivity {
                     Log.i(TAG, "onActivityResult: 返回回来医院的id" + hospitalId);
                     tvHospital.setText(hospitalName);
                 }
+                break;
+            case CHOOSE_LOCATION:
+                if (requestCode == RESULT_OK) {
+                    location_id = data.getStringExtra("location_id");
+                    String location_name = data.getStringExtra("location_name");
+                    //回显
+                    tvLocation.setText(location_name);
+                }
+                break;
         }
     }
 

@@ -6,6 +6,9 @@ import android.widget.TextView;
 
 import com.qryl.qrylyh.R;
 
+/**
+ * http://192.168.2.134:8080/qryl/manager/getDepartments
+ */
 public class OfficeActivity extends AppCompatActivity {
 
     private TextView titleName;
