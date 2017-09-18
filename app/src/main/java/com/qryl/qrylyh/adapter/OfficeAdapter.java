@@ -8,6 +8,7 @@ import android.widget.CheckBox;
 
 import com.qryl.qrylyh.R;
 import com.qryl.qrylyh.VO.HospitalVO.DataArea;
+import com.qryl.qrylyh.VO.WorkVO.Work;
 import com.qryl.qrylyh.util.UIUtils;
 
 import java.util.ArrayList;
@@ -17,16 +18,16 @@ import java.util.List;
  * Created by yinhao on 2017/9/16.
  */
 
-public class HospitalAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class OfficeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final String TAG = "OfficeAdapter";
 
     private static final int TYPE_NORMAL = 0;
     private static final int TYPE_FOOTER = 1;
 
-    private List<DataArea> data = new ArrayList<>();
+    private List<com.qryl.qrylyh.VO.WorkVO.DataArea> data = new ArrayList<>();
 
-    public HospitalAdapter(List<DataArea> data) {
+    public OfficeAdapter(List<com.qryl.qrylyh.VO.WorkVO.DataArea> data) {
         this.data = data;
     }
 
@@ -45,18 +46,13 @@ public class HospitalAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ItemViewHolder) {
-            ((ItemViewHolder) holder).cbWork.setText(data.get(position).getName());
+            ((OfficeAdapter.ItemViewHolder) holder).cbWork.setText(data.get(position).getName());
             if (onItemClickListener != null) {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (((ItemViewHolder) holder).cbWork.isChecked()) {
-                            int position = holder.getAdapterPosition();
-                            onItemClickListener.onItemClick(v, position);
-                        } else if (!(((ItemViewHolder) holder).cbWork.isChecked())) {
-                            int position = holder.getAdapterPosition();
-                            onItemClickListener.onDeleteItemClick(v, position);
-                        }
+                        int position = holder.getAdapterPosition();
+                        onItemClickListener.onItemClick(v, position);
                     }
                 });
             }
@@ -65,11 +61,6 @@ public class HospitalAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-//        if (data.size() == 0) {
-//            return 0;
-//        } else {
-//            return data.size() + 1;
-//        }
         return data.size() == 0 ? 0 : data.size() + 1;
     }
 
@@ -82,9 +73,10 @@ public class HospitalAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    public void setData(List<DataArea> data) {
+    public void setData(List<com.qryl.qrylyh.VO.WorkVO.DataArea> data) {
         this.data = data;
     }
+
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
         CheckBox cbWork;
@@ -106,8 +98,6 @@ public class HospitalAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
-
-        void onDeleteItemClick(View view, int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {

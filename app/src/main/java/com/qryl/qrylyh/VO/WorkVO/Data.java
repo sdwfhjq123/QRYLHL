@@ -1,9 +1,9 @@
-package com.qryl.qrylyh.VO.HospitalVO;
+package com.qryl.qrylyh.VO.WorkVO;
 
 import java.util.List;
 
 /**
- * Created by yinhao on 2017/9/17.
+ * Created by hp on 2017/9/18.
  */
 
 public class Data {

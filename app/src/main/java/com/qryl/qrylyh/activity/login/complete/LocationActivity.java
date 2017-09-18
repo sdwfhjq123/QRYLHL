@@ -44,6 +44,7 @@ public class LocationActivity extends AppCompatActivity implements View.OnClickL
 
     private int addId;
     private String addName;
+    private TextView tvTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,11 +94,17 @@ public class LocationActivity extends AppCompatActivity implements View.OnClickL
                     JSONObject areaListObject = areaListArray.getJSONObject(x);
                     String rowName = areaListObject.getString("name");
                     int rowId = areaListObject.getInt("id");
-//                    Log.i(TAG, "handleJson: 得到的街道名字" + rowName + " ,街道id" + rowId);
+                    Log.i(TAG, "handleJson: 得到的街道名字" + rowName + " ,街道id" + rowId);
                     Row row = new Row(rowName, rowId);
                     rows.add(row);
                 }
                 items.add(rows);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.notifyDataSetChanged();
+                    }
+                });
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -107,6 +114,8 @@ public class LocationActivity extends AppCompatActivity implements View.OnClickL
     private void initView() {
         TextView tvReturn = (TextView) findViewById(R.id.return_text);
         Button btnSure = (Button) findViewById(R.id.btn_sure);
+        tvTitle = (TextView) findViewById(R.id.title_name);
+        tvTitle.setText("选择可服务的地址");
         tvReturn.setOnClickListener(this);
         btnSure.setOnClickListener(this);
         exList = (ExpandableListView) findViewById(R.id.exList);
@@ -159,6 +168,7 @@ public class LocationActivity extends AppCompatActivity implements View.OnClickL
                 intent.putExtra("location_name", stringBufferName.toString());
                 intent.putExtra("location_id", stringBufferId.toString());
                 setResult(RESULT_OK, intent);
+                finish();
                 break;
         }
     }

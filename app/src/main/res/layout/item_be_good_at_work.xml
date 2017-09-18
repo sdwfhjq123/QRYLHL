@@ -6,6 +6,7 @@
     android:background="@drawable/selector_choose_item"
     android:button="@null"
     android:paddingLeft="15dp"
-    android:text="擅长的工作">
+    android:text="擅长的工作"
+    android:textColor="#666">
 
 </CheckBox>

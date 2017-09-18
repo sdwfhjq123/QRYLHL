@@ -55,6 +55,7 @@ public class YsCompleteInfoActivity extends AppCompatActivity {
     private static final int CHOOSE_HOSPITAL = 3;
     private static final int CHOOSE_LOCATION = 4;
     private static final int CHOOSE_WORK = 5;
+    private static final int CHOOSE_OFFICE = 6;
 
     private static final String HEAD_KEY = "head_key";
 
@@ -76,6 +77,10 @@ public class YsCompleteInfoActivity extends AppCompatActivity {
     private RelativeLayout location;
     private TextView tvLocation;
     private String location_id;
+    private RelativeLayout office;
+    private TextView tvOffice;
+    private int hospitalId;
+    private int officeId;
 
 
     @Override
@@ -224,6 +229,13 @@ public class YsCompleteInfoActivity extends AppCompatActivity {
                 startActivityForResult(intent, CHOOSE_LOCATION);
             }
         });
+        office.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(YsCompleteInfoActivity.this, OfficeActivity.class);
+                startActivityForResult(intent, CHOOSE_OFFICE);
+            }
+        });
     }
 
     private void initView() {
@@ -238,6 +250,7 @@ public class YsCompleteInfoActivity extends AppCompatActivity {
         civHead = (CircleImageView) findViewById(R.id.civ_head);
         hospital = (RelativeLayout) findViewById(R.id.hospital);
         location = (RelativeLayout) findViewById(R.id.location);
+        office = (RelativeLayout) findViewById(R.id.office);
         //返回的数据
         tvName = (TextView) findViewById(R.id.tv_name);
         tvIdentity = (TextView) findViewById(R.id.tv_identity);
@@ -247,6 +260,7 @@ public class YsCompleteInfoActivity extends AppCompatActivity {
         tvBeGoodAtWork = (TextView) findViewById(R.id.tv_be_good_at_work);
         tvHospital = (TextView) findViewById(R.id.tv_hospital);
         tvLocation = (TextView) findViewById(R.id.tv_location);
+        tvOffice = (TextView) findViewById(R.id.tv_office);
         Button btnNext = (Button) findViewById(R.id.btn_next);
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -303,6 +317,7 @@ public class YsCompleteInfoActivity extends AppCompatActivity {
         bundle.putString("workexperience", workExperienceDialogText);
         bundle.putString("begoodat", beGoodAtWorkDialogText);
         bundle.putString("localservice", location_id);
+        bundle.putInt("hospital", hospitalId);
         intent.putExtras(bundle);
         startActivity(intent);
     }
@@ -448,20 +463,34 @@ public class YsCompleteInfoActivity extends AppCompatActivity {
                     }
                 }
                 break;
+            case CHOOSE_LOCATION:
+                if (resultCode == RESULT_OK) {
+                    location_id = data.getStringExtra("location_id");
+                    String location_name = data.getStringExtra("location_name");
+                    Log.i(TAG, "onActivityResult: id:" + location_id + ",name:" + location_name);
+                    //回显
+                    tvLocation.setText(location_name);
+                }
+                break;
             case CHOOSE_HOSPITAL:
                 if (resultCode == RESULT_OK) {
-                    int hospitalId = data.getIntExtra("hospital_id", 0);
+                    hospitalId = data.getIntExtra("hospital_id", 0);
                     String hospitalName = data.getStringExtra("hospital_name");
                     Log.i(TAG, "onActivityResult: 返回回来医院的id" + hospitalId);
                     tvHospital.setText(hospitalName);
                 }
                 break;
-            case CHOOSE_LOCATION:
-                if (requestCode == RESULT_OK) {
-                    location_id = data.getStringExtra("location_id");
-                    String location_name = data.getStringExtra("location_name");
-                    //回显
-                    tvLocation.setText(location_name);
+            case CHOOSE_OFFICE:
+                if (resultCode == RESULT_OK) {
+                    officeId = data.getIntExtra("office_id", 0);
+                    String officeName = data.getStringExtra("office_name");
+                    Log.i(TAG, "onActivityResult: 返回回来的科室id" + hospitalId);
+                    tvOffice.setText(officeName);
+                }
+                break;
+            case CHOOSE_WORK:
+                if (resultCode == RESULT_OK) {
+
                 }
                 break;
         }

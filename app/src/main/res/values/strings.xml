@@ -7,6 +7,13 @@
         <item>点单模式</item>
     </string-array>
 
+    <string-array name="tab_order_names">
+        <item>全部</item>
+        <item>未付款</item>
+        <item>进行中</item>
+        <item>已结束</item>
+    </string-array>
+
     <string-array name="gender">
         <item>男</item>
         <item>女</item>

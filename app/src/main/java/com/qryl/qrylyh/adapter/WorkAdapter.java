@@ -1,108 +1,79 @@
 package com.qryl.qrylyh.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 
 import com.qryl.qrylyh.R;
-import com.qryl.qrylyh.VO.Work;
+import com.qryl.qrylyh.VO.BeGoodAtWorkVO.Data;
 import com.qryl.qrylyh.util.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by yinhao on 2017/9/16.
+ * Created by hp on 2017/9/18.
  */
 
-public class WorkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class WorkAdapter extends RecyclerView.Adapter<WorkAdapter.ViewHolder> {
 
     private static final String TAG = "WorkAdapter";
 
-    private static final int TYPE_NORMAL = 0;
-    private static final int TYPE_FOOTER = 1;
+    private List<Data> datas = new ArrayList<>();
 
-    private List<Work> data = new ArrayList<>();
-
-    public WorkAdapter(List<Work> data) {
-        this.data = data;
+    public WorkAdapter(List<Data> datas) {
+        this.datas = datas;
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == TYPE_NORMAL) {
-            View view = LayoutInflater.from(UIUtils.getContext()).inflate(R.layout.item_be_good_at_work, parent, false);
-            return new ItemViewHolder(view);
-        } else if (viewType == TYPE_FOOTER) {
-            View view = LayoutInflater.from(UIUtils.getContext()).inflate(R.layout.item_footer_view, parent, false);
-            return new FooterViewHolder(view);
-        }
-        return null;
+    public WorkAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(UIUtils.getContext()).inflate(R.layout.item_be_good_at_work, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof ItemViewHolder) {
-            ((HospitalAdapter.ItemViewHolder) holder).cbWork.setText(data.get(position).getWorkName());
-            if (onItemClickListener != null) {
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int position = holder.getAdapterPosition();
-                        onItemClickListener.onItemClick(v, position);
-                    }
-                });
+    public void onBindViewHolder(final WorkAdapter.ViewHolder holder, final int position) {
+        //holder.cbBox.isChecked()
+        holder.cbBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (holder.cbBox.isChecked()) {
+                    Log.i(TAG, "onClick: 点击了" + position);
+                    onItemClickListener.onAddClickLister(v, position);
+                } else if (!holder.cbBox.isChecked()) {
+                    Log.i(TAG, "onClick: 取消点击了" + position);
+                    onItemClickListener.onDeleteClickLister(v, position);
+                }
             }
-
-        }
-
+        });
     }
 
     @Override
     public int getItemCount() {
-//        if (data.size() == 0) {
-//            return 0;
-//        } else {
-//            return data.size() + 1;
-//        }
-        return data.size() == 0 ? 0 : data.size() + 1;
+        return datas.size();
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        if (position + 1 == getItemCount()) {
-            return TYPE_FOOTER;
-        } else {
-            return TYPE_NORMAL;
-        }
-    }
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        CheckBox cbBox;
 
-    class ItemViewHolder extends RecyclerView.ViewHolder {
-        CheckBox cbWork;
-
-        public ItemViewHolder(View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
-            cbWork = (CheckBox) itemView;
-        }
-    }
-
-    class FooterViewHolder extends RecyclerView.ViewHolder {
-
-        public FooterViewHolder(View itemView) {
-            super(itemView);
+            cbBox = (CheckBox) itemView;
         }
     }
 
     private OnItemClickListener onItemClickListener;
 
-    public interface OnItemClickListener {
-        void onItemClick(View view, int position);
+    private interface OnItemClickListener {
+        void onAddClickLister(View view, int position);
+
+        void onDeleteClickLister(View view, int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 }
-

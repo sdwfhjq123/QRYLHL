@@ -1,18 +1,18 @@
-package com.qryl.qrylyh.VO.HospitalVO;
+package com.qryl.qrylyh.VO.BeGoodAtWorkVO;
+
+import java.util.List;
 
 /**
- * Created by yinhao on 2017/9/17.
+ * Created by hp on 2017/9/18.
  */
 
-public class DataArea {
+public class Data {
     private int id;
     private String name;
-    private String note;
 
-    public DataArea(int id, String name, String note) {
+    public Data(int id, String name) {
         this.id = id;
         this.name = name;
-        this.note = note;
     }
 
     public int getId() {
@@ -29,13 +29,5 @@ public class DataArea {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
     }
 }

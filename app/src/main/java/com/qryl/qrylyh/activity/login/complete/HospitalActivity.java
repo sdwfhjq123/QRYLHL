@@ -1,6 +1,7 @@
 package com.qryl.qrylyh.activity.login.complete;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,11 +32,13 @@ public class HospitalActivity extends AppCompatActivity implements View.OnClickL
     private static final String TAG = "HospitalActivity";
 
     private RecyclerView recyclerView;
+
     private List<DataArea> data = new ArrayList<>();
     private HospitalAdapter adapter = new HospitalAdapter(data);
     private int page = 1;
     private int lastVisibleItemPosition;
     private boolean isLoading;
+    private int total;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +46,6 @@ public class HospitalActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_hospital);
         initView();
         initData(page);
-
-
     }
 
     private void initData(int page) {
@@ -55,7 +56,8 @@ public class HospitalActivity extends AppCompatActivity implements View.OnClickL
     /**
      * 请求网络数据
      */
-    private void postData(String page) {
+    private void postData(final String page) {
+
         OkHttpClient client = new OkHttpClient();
         FormBody.Builder builder = new FormBody.Builder();
         builder.add("page", page);
@@ -87,18 +89,23 @@ public class HospitalActivity extends AppCompatActivity implements View.OnClickL
     private void handleJson(String result) {
         Gson gson = new Gson();
         Hospital hospital = gson.fromJson(result, Hospital.class);
-        List<DataArea> data = hospital.getData().getData();
+        total = hospital.getData().getTotal();
+        List<DataArea> dataAreas = hospital.getData().getData();
         //增加集合
-        for (int i = 0; i < data.size(); i++) {
-            Log.i(TAG, "handleJson: 解析dataArea" + data.get(i).getId());
-            Log.i(TAG, "handleJson: 解析dataArea" + data.get(i).getId());
-            Log.i(TAG, "handleJson: 解析dataArea" + data.get(i).getId());
+        for (int i = 0; i < dataAreas.size(); i++) {
+            //Log.i(TAG, "handleJson: 解析dataArea----------------------------------------------");
+            //Log.i(TAG, "handleJson: 解析dataArea" + data.get(i).getId());
+            Log.i(TAG, "handleJson: " + dataAreas.size());
+            Log.i(TAG, "handleJson: 解析dataArea" + dataAreas.get(i).getName());
+            Log.i(TAG, "handleJson: 解析dataArea" + total);
+            //Log.i(TAG, "handleJson: 解析dataArea" + data.get(i).getNote());
             //data.get(i).setName("获取到数据" + i);
-            data.add(data.get(i));
+            this.data.add(new DataArea(dataAreas.get(i).getId(), dataAreas.get(i).getName(), dataAreas.get(i).getNote()));
         }
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                adapter.setData(HospitalActivity.this.data);
                 adapter.notifyDataSetChanged();
                 adapter.notifyItemRemoved(adapter.getItemCount());
             }
@@ -107,9 +114,9 @@ public class HospitalActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void initView() {
-        TextView tvName = (TextView) findViewById(R.id.title_name);
         TextView tvReturn = (TextView) findViewById(R.id.return_text);
-        tvName.setOnClickListener(this);
+        TextView tvTitle = (TextView) findViewById(R.id.title_name);
+        tvTitle.setText("选择医院");
         tvReturn.setOnClickListener(this);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -129,21 +136,23 @@ public class HospitalActivity extends AppCompatActivity implements View.OnClickL
                     if (!isLoading) {
                         isLoading = true;
                         page += 1;
-                        initData(page);
+                        Log.i(TAG, "onScrolled: page=" + page);
+                        if (page <= total) {
+                            postData(String.valueOf(page));
+                        }
                         isLoading = false;
                     }
                 }
             }
         });
-
         adapter.setOnItemClickListener(new HospitalAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 //Log.i(TAG, "onItemClick:获取到的数据 " + hospitalList.get(position).getId());
                 //点击后结束页面
                 Intent intent = new Intent();
-                //intent.putExtra("hospital_id", hospitalList.get(position).getId());
-                //intent.putExtra("hospital_name", hospitalList.get(position).getHospitalName());
+                intent.putExtra("hospital_id", data.get(position).getId());
+                intent.putExtra("hospital_name", data.get(position).getName());
                 setResult(RESULT_OK, intent);
                 finish();
             }
@@ -160,9 +169,6 @@ public class HospitalActivity extends AppCompatActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.return_text:
                 finish();
-                break;
-            case R.id.btn_sure:
-
                 break;
         }
     }

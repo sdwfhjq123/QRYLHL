@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.qryl.qrylyh.R;
 import com.qryl.qrylyh.VO.County;
 import com.qryl.qrylyh.VO.Row;
+import com.qryl.qrylyh.util.UIUtils;
 
 import java.util.ArrayList;
 
@@ -76,7 +77,7 @@ public class LocalExpandableAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         ViewHolderCounty holderCounty;
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(
+            convertView = LayoutInflater.from(UIUtils.getContext()).inflate(
                     R.layout.list_exlist_group, parent, false);
             holderCounty = new ViewHolderCounty();
             holderCounty.tvGroupName = (TextView) convertView.findViewById(R.id.tv_group_name);
@@ -93,7 +94,7 @@ public class LocalExpandableAdapter extends BaseExpandableListAdapter {
     public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         final ViewHolderRow viewHolderRow;
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.list_exlist_item, parent, false);
+            convertView = LayoutInflater.from(UIUtils.getContext()).inflate(R.layout.list_exlist_item, parent, false);
             viewHolderRow = new ViewHolderRow();
             viewHolderRow.cbName = (CheckBox) convertView.findViewById(R.id.cb_name);
             convertView.setTag(viewHolderRow);
@@ -101,7 +102,7 @@ public class LocalExpandableAdapter extends BaseExpandableListAdapter {
             viewHolderRow = (ViewHolderRow) convertView.getTag();
         }
         viewHolderRow.cbName.setText(rows.get(groupPosition).get(childPosition).getName());
-        final ArrayList<ArrayList<Row>> arrayLists = new ArrayList<ArrayList<Row>>();
+        //final ArrayList<ArrayList<Row>> arrayLists = new ArrayList<ArrayList<Row>>();
         viewHolderRow.cbName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -13,6 +13,12 @@ public class Hospital {
     private Data data;
     private String resultCode;
 
+    public Hospital(Data data, String resultCode) {
+        this.data = data;
+        this.resultCode = resultCode;
+
+    }
+
     public Data getData() {
         return data;
     }
@@ -28,4 +34,5 @@ public class Hospital {
     public void setResultCode(String resultCode) {
         this.resultCode = resultCode;
     }
+
 }
