@@ -69,18 +69,18 @@ public class YsCompleteInfoActivity extends AppCompatActivity {
     private String genderDialogText;
     private String ageDialogText;
     private String workExperienceDialogText;
-    private String beGoodAtWorkDialogText;
     private File headFile;
     private int genderNum;
     private RelativeLayout hospital;
     private TextView tvHospital;
     private RelativeLayout location;
     private TextView tvLocation;
-    private String location_id;
+    private String locationId;
     private RelativeLayout office;
     private TextView tvOffice;
     private int hospitalId;
     private int officeId;
+    private String workId;
 
 
     @Override
@@ -209,6 +209,7 @@ public class YsCompleteInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(YsCompleteInfoActivity.this, BeGoodAtWorkActivity.class);
+                intent.putExtra("service_id", 2);
                 startActivityForResult(intent, CHOOSE_WORK);
             }
         });
@@ -222,6 +223,7 @@ public class YsCompleteInfoActivity extends AppCompatActivity {
                 startActivityForResult(intent, CHOOSE_HOSPITAL);
             }
         });
+        //选择可服务的区域
         location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -229,6 +231,7 @@ public class YsCompleteInfoActivity extends AppCompatActivity {
                 startActivityForResult(intent, CHOOSE_LOCATION);
             }
         });
+        //选择科室
         office.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -290,11 +293,23 @@ public class YsCompleteInfoActivity extends AppCompatActivity {
                         if (TextUtils.isEmpty(workExperienceDialogText)) {
                             Toast.makeText(YsCompleteInfoActivity.this, "您还未填写工作经验", Toast.LENGTH_SHORT).show();
                         } else {
-                            if (TextUtils.isEmpty(beGoodAtWorkDialogText)) {
+                            if (TextUtils.isEmpty(workId)) {
                                 Toast.makeText(YsCompleteInfoActivity.this, "您还未填写擅长的工作", Toast.LENGTH_SHORT).show();
                             } else {
-                                //如果全部不为空就传递数据
-                                putExtra();
+                                if (TextUtils.isEmpty(String.valueOf(hospitalId))) {
+                                    Toast.makeText(YsCompleteInfoActivity.this, "您还未填写所在的医院", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    if (TextUtils.isEmpty(String.valueOf(officeId))) {
+                                        Toast.makeText(YsCompleteInfoActivity.this, "您还未填写所在的科室", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        if (TextUtils.isEmpty(locationId)) {
+                                            Toast.makeText(YsCompleteInfoActivity.this, "您还未填写可服务的区域", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            //如果全部不为空就传递数据
+                                            putExtra();
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -315,9 +330,10 @@ public class YsCompleteInfoActivity extends AppCompatActivity {
         bundle.putInt("gender", genderNum);
         bundle.putString("age", ageDialogText);
         bundle.putString("workexperience", workExperienceDialogText);
-        bundle.putString("begoodat", beGoodAtWorkDialogText);
-        bundle.putString("localservice", location_id);
+        bundle.putString("begoodat", workId);
+        bundle.putString("localservice", locationId);
         bundle.putInt("hospital", hospitalId);
+        bundle.putInt("office", officeId);
         intent.putExtras(bundle);
         startActivity(intent);
     }
@@ -465,11 +481,11 @@ public class YsCompleteInfoActivity extends AppCompatActivity {
                 break;
             case CHOOSE_LOCATION:
                 if (resultCode == RESULT_OK) {
-                    location_id = data.getStringExtra("location_id");
-                    String location_name = data.getStringExtra("location_name");
-                    Log.i(TAG, "onActivityResult: id:" + location_id + ",name:" + location_name);
+                    locationId = data.getStringExtra("location_id");
+                    String locationName = data.getStringExtra("location_name");
+                    Log.i(TAG, "onActivityResult: id:" + locationId + ",name:" + locationName);
                     //回显
-                    tvLocation.setText(location_name);
+                    tvLocation.setText(locationName);
                 }
                 break;
             case CHOOSE_HOSPITAL:
@@ -484,13 +500,16 @@ public class YsCompleteInfoActivity extends AppCompatActivity {
                 if (resultCode == RESULT_OK) {
                     officeId = data.getIntExtra("office_id", 0);
                     String officeName = data.getStringExtra("office_name");
-                    Log.i(TAG, "onActivityResult: 返回回来的科室id" + hospitalId);
+                    Log.i(TAG, "onActivityResult: 返回回来的科室id: " + hospitalId);
                     tvOffice.setText(officeName);
                 }
                 break;
             case CHOOSE_WORK:
                 if (resultCode == RESULT_OK) {
-
+                    workId = data.getStringExtra("work_id");
+                    String workName = data.getStringExtra("work_name");
+                    Log.i(TAG, "onActivityResult: 返回回来的擅长的工作的id: " + workId);
+                    tvBeGoodAtWork.setText(workName);
                 }
                 break;
         }

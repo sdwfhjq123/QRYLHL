@@ -32,6 +32,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.qryl.qrylyh.R;
+import com.qryl.qrylyh.activity.MainActivity;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -92,7 +93,6 @@ public class YsCompletePicActivity extends AppCompatActivity implements View.OnC
         initView();
 
         Bundle bundle = getIntent().getExtras();
-
         String name = (String) bundle.get("name");
         String indentity = (String) bundle.get("identity");
         int gender = (int) bundle.get("gender");
@@ -100,7 +100,8 @@ public class YsCompletePicActivity extends AppCompatActivity implements View.OnC
         String workexperience = (String) bundle.get("workexperience");
         String begoodat = (String) bundle.get("begoodat");
         String localservice = (String) bundle.get("localservice");
-
+        int hospital = bundle.getInt("hospital");
+        int office = bundle.getInt("office");
         //dataMap.put("head", head.toString());
         dataMap.put("name", name);
         dataMap.put("indentity", indentity);
@@ -109,6 +110,8 @@ public class YsCompletePicActivity extends AppCompatActivity implements View.OnC
         dataMap.put("workexperience", workexperience);
         dataMap.put("begoodat", begoodat);
         dataMap.put("localservice", localservice);
+        dataMap.put("hospital", hospital);
+        dataMap.put("office", office);
 
     }
 
@@ -202,15 +205,25 @@ public class YsCompletePicActivity extends AppCompatActivity implements View.OnC
             // 参数分别为， 请求key ，文件名称 ， RequestBody
             builder.addFormDataPart("zgzImg", zgzFile.getName(), body);
         }
+
+//        dataMap.put("name", name);
+//        dataMap.put("indentity", indentity);
+//        dataMap.put("gender", gender);
+//        dataMap.put("age", age);
+//        dataMap.put("workexperience", workexperience);
+//        dataMap.put("begoodat", begoodat);
+//        dataMap.put("localservice", localservice);
+//        dataMap.put("hospital", hospital);
+//        dataMap.put("office", office);
+        //idNum:223232233232
+        //serviceAreaIds：370102009,370102010,370103003,370103006
         builder.addFormDataPart("loginId", "2");
-        //builder.add("sfzImg", "1");
-        //builder.add("zgzImg", "1");
-        //builder.add("jkzImg", "1");
-        builder.addFormDataPart("realName", "sdfdf");
-        builder.addFormDataPart("gender", "0");
-        builder.addFormDataPart("age", "10");
-        builder.addFormDataPart("workYears", "10");
-        builder.addFormDataPart("introduce", "sdfsdfsf");
+        builder.addFormDataPart("realName", (String) dataMap.get("name"));
+        builder.addFormDataPart("gender", (String) dataMap.get("gender"));
+        builder.addFormDataPart("age", (String) dataMap.get("age"));
+        builder.addFormDataPart("workYears", (String) dataMap.get("workexperience"));
+        builder.addFormDataPart("introduce", (String) dataMap.get("introduce"));
+        builder.addFormDataPart("serviceAreaIds", (String) dataMap.get("localservice"));
         MultipartBody requestBody = builder.build();
         Request request = new Request.Builder().url("http://192.168.2.134:8080/qryl/carer/addCarer").post(requestBody).build();
         client.newCall(request).enqueue(new Callback() {
@@ -223,6 +236,15 @@ public class YsCompletePicActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 Log.i(TAG, "onResponse: 成功 " + response.body().string());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent();
+                        intent.setClass(YsCompletePicActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
             }
         });
     }

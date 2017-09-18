@@ -56,6 +56,10 @@ public class WorkAdapter extends RecyclerView.Adapter<WorkAdapter.ViewHolder> {
         return datas.size();
     }
 
+    public void setData(List<Data> data) {
+        this.datas = data;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         CheckBox cbBox;
 
@@ -67,7 +71,7 @@ public class WorkAdapter extends RecyclerView.Adapter<WorkAdapter.ViewHolder> {
 
     private OnItemClickListener onItemClickListener;
 
-    private interface OnItemClickListener {
+    public interface OnItemClickListener {
         void onAddClickLister(View view, int position);
 
         void onDeleteClickLister(View view, int position);
