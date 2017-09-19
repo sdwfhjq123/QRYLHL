@@ -45,13 +45,17 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HsCompleteInfoActivity extends AppCompatActivity {
 
-    private static final String TAG = "HgCompleteInfoActivity";
+    private static final String TAG = "HsCompleteInfoActivity";
+    private TextView tvName, tvIdentity, tvGender, tvAge, tvWorkExperience, tvBeGoodAtWork;
 
-    private TextView tvName, tvIdentity, tvGender, tvAge, tvWorkExperience, tvBeGoodAtWork, tvLocalService;
-    private RelativeLayout myHead, realName, identity, gender, age, workExperience, beGoodAtWork, localService;
+    private RelativeLayout myHead, realName, identity, gender, age, workExperience, beGoodAtWork;
 
     private static final int TAKE_PHOTO = 1;
     private static final int CHOOSE_PHOTO = 2;
+    private static final int CHOOSE_HOSPITAL = 3;
+    private static final int CHOOSE_LOCATION = 4;
+    private static final int CHOOSE_WORK = 5;
+    private static final int CHOOSE_OFFICE = 6;
 
     private static final String HEAD_KEY = "head_key";
 
@@ -65,9 +69,18 @@ public class HsCompleteInfoActivity extends AppCompatActivity {
     private String genderDialogText;
     private String ageDialogText;
     private String workExperienceDialogText;
-    private String beGoodAtWorkDialogText;
     private File headFile;
     private int genderNum;
+    private RelativeLayout hospital;
+    private TextView tvHospital;
+    private RelativeLayout location;
+    private TextView tvLocation;
+    private String locationId;
+    private RelativeLayout office;
+    private TextView tvOffice;
+    private int hospitalId;
+    private int officeId;
+    private String workId;
 
 
     @Override
@@ -195,21 +208,35 @@ public class HsCompleteInfoActivity extends AppCompatActivity {
         beGoodAtWork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view = View.inflate(HsCompleteInfoActivity.this, R.layout.text_item_dialog_num, null);
-                TextView tvTitileDialog = (TextView) view.findViewById(R.id.tv_title_dialog);
-                final EditText etHintDialog = (EditText) view.findViewById(R.id.et_hint_dialog);
-                tvTitileDialog.setText("请输入擅长的工作");
-                new MyAlertDialog(HsCompleteInfoActivity.this, view)
-                        //.setView(view)
-                        .setNegativeButton("取消", null)
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                beGoodAtWorkDialogText = etHintDialog.getText().toString();
-                                tvBeGoodAtWork.setText(beGoodAtWorkDialogText);
-                                dialog.dismiss();
-                            }
-                        }).show();
+                Intent intent = new Intent(HsCompleteInfoActivity.this, BeGoodAtWorkActivity.class);
+                intent.putExtra("service_id", 2);
+                startActivityForResult(intent, CHOOSE_WORK);
+            }
+        });
+
+        //选择所在的医院
+        hospital.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HsCompleteInfoActivity.this, HospitalActivity.class);
+                //startActivity(intent);
+                startActivityForResult(intent, CHOOSE_HOSPITAL);
+            }
+        });
+        //选择可服务的区域
+        location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HsCompleteInfoActivity.this, LocationActivity.class);
+                startActivityForResult(intent, CHOOSE_LOCATION);
+            }
+        });
+        //选择科室
+        office.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HsCompleteInfoActivity.this, OfficeActivity.class);
+                startActivityForResult(intent, CHOOSE_OFFICE);
             }
         });
     }
@@ -224,6 +251,9 @@ public class HsCompleteInfoActivity extends AppCompatActivity {
         workExperience = (RelativeLayout) findViewById(R.id.work_experience);
         beGoodAtWork = (RelativeLayout) findViewById(R.id.be_good_at_work);
         civHead = (CircleImageView) findViewById(R.id.civ_head);
+        hospital = (RelativeLayout) findViewById(R.id.hospital);
+        location = (RelativeLayout) findViewById(R.id.location);
+        office = (RelativeLayout) findViewById(R.id.office);
         //返回的数据
         tvName = (TextView) findViewById(R.id.tv_name);
         tvIdentity = (TextView) findViewById(R.id.tv_identity);
@@ -231,7 +261,9 @@ public class HsCompleteInfoActivity extends AppCompatActivity {
         tvAge = (TextView) findViewById(R.id.tv_age);
         tvWorkExperience = (TextView) findViewById(R.id.tv_work_experience);
         tvBeGoodAtWork = (TextView) findViewById(R.id.tv_be_good_at_work);
-
+        tvHospital = (TextView) findViewById(R.id.tv_hospital);
+        tvLocation = (TextView) findViewById(R.id.tv_location);
+        tvOffice = (TextView) findViewById(R.id.tv_office);
         Button btnNext = (Button) findViewById(R.id.btn_next);
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -261,11 +293,23 @@ public class HsCompleteInfoActivity extends AppCompatActivity {
                         if (TextUtils.isEmpty(workExperienceDialogText)) {
                             Toast.makeText(HsCompleteInfoActivity.this, "您还未填写工作经验", Toast.LENGTH_SHORT).show();
                         } else {
-                            if (TextUtils.isEmpty(beGoodAtWorkDialogText)) {
+                            if (TextUtils.isEmpty(workId)) {
                                 Toast.makeText(HsCompleteInfoActivity.this, "您还未填写擅长的工作", Toast.LENGTH_SHORT).show();
                             } else {
-                                //如果全部不为空就传递数据
-                                putExtra();
+                                if (TextUtils.isEmpty(String.valueOf(hospitalId))) {
+                                    Toast.makeText(HsCompleteInfoActivity.this, "您还未填写所在的医院", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    if (TextUtils.isEmpty(String.valueOf(officeId))) {
+                                        Toast.makeText(HsCompleteInfoActivity.this, "您还未填写所在的科室", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        if (TextUtils.isEmpty(locationId)) {
+                                            Toast.makeText(HsCompleteInfoActivity.this, "您还未填写可服务的区域", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            //如果全部不为空就传递数据
+                                            putExtra();
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -281,17 +325,16 @@ public class HsCompleteInfoActivity extends AppCompatActivity {
         Intent intent = new Intent(HsCompleteInfoActivity.this, HsCompletePicActivity.class);
         //传递数据
         Bundle bundle = new Bundle();
-        //bundle.putByteArray("head", bytes);
         bundle.putString("name", ageDialogText);
         bundle.putString("identity", identityDialogText);
         bundle.putInt("gender", genderNum);
         bundle.putString("age", ageDialogText);
         bundle.putString("workexperience", workExperienceDialogText);
-        bundle.putString("begoodat", beGoodAtWorkDialogText);
-        bundle.putString("localservice", null);
+        bundle.putString("begoodat", workId);
+        bundle.putString("localservice", locationId);
+        bundle.putInt("hospital", hospitalId);
+        bundle.putInt("office", officeId);
         intent.putExtras(bundle);
-        //发送这是护工的跳转标识
-        //intent.put
         startActivity(intent);
     }
 
@@ -434,6 +477,39 @@ public class HsCompleteInfoActivity extends AppCompatActivity {
                     } else {
                         handleImageBeforeKitKat(data);
                     }
+                }
+                break;
+            case CHOOSE_LOCATION:
+                if (resultCode == RESULT_OK) {
+                    locationId = data.getStringExtra("location_id");
+                    String locationName = data.getStringExtra("location_name");
+                    Log.i(TAG, "onActivityResult: id:" + locationId + ",name:" + locationName);
+                    //回显
+                    tvLocation.setText(locationName);
+                }
+                break;
+            case CHOOSE_HOSPITAL:
+                if (resultCode == RESULT_OK) {
+                    hospitalId = data.getIntExtra("hospital_id", 0);
+                    String hospitalName = data.getStringExtra("hospital_name");
+                    Log.i(TAG, "onActivityResult: 返回回来医院的id" + hospitalId);
+                    tvHospital.setText(hospitalName);
+                }
+                break;
+            case CHOOSE_OFFICE:
+                if (resultCode == RESULT_OK) {
+                    officeId = data.getIntExtra("office_id", 0);
+                    String officeName = data.getStringExtra("office_name");
+                    Log.i(TAG, "onActivityResult: 返回回来的科室id: " + hospitalId);
+                    tvOffice.setText(officeName);
+                }
+                break;
+            case CHOOSE_WORK:
+                if (resultCode == RESULT_OK) {
+                    workId = data.getStringExtra("work_id");
+                    String workName = data.getStringExtra("work_name");
+                    Log.i(TAG, "onActivityResult: 返回回来的擅长的工作的id: " + workId);
+                    tvBeGoodAtWork.setText(workName);
                 }
                 break;
         }

@@ -32,6 +32,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.qryl.qrylyh.R;
+import com.qryl.qrylyh.activity.login.LoginActivity;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -79,7 +80,6 @@ public class HgCompletePicActivity extends AppCompatActivity implements View.OnC
     private ImageView zgzImage;
     private Uri imageUri;
     private Bitmap bitmap;
-    private byte[] bytes;
     private EditText etMe;
     private Button btnRegister;
     private File sfzFile;
@@ -105,7 +105,7 @@ public class HgCompletePicActivity extends AppCompatActivity implements View.OnC
         //dataMap.put("head", head.toString());
         dataMap.put("name", name);
         dataMap.put("indentity", indentity);
-        dataMap.put("gender", gender);
+        dataMap.put("gender", gender + "");
         dataMap.put("age", age);
         dataMap.put("workexperience", workexperience);
         dataMap.put("begoodat", begoodat);
@@ -204,14 +204,14 @@ public class HgCompletePicActivity extends AppCompatActivity implements View.OnC
             builder.addFormDataPart("zgzImg", zgzFile.getName(), body);
         }
         builder.addFormDataPart("loginId", "1");
-        //builder.add("sfzImg", "1");
-        //builder.add("zgzImg", "1");
-        //builder.add("jkzImg", "1");
-        builder.addFormDataPart("realName", "sdfdf");
-        builder.addFormDataPart("gender", "0");
-        builder.addFormDataPart("age", "10");
-        builder.addFormDataPart("workYears", "10");
-        builder.addFormDataPart("introduce", "sdfsdfsf");
+        builder.addFormDataPart("realName", (String) dataMap.get("name"));
+        builder.addFormDataPart("gender", (String) dataMap.get("gender"));
+        builder.addFormDataPart("age", (String) dataMap.get("age"));
+        builder.addFormDataPart("idNum", (String) dataMap.get("indentity"));
+        builder.addFormDataPart("workYears", (String) dataMap.get("workexperience"));
+        builder.addFormDataPart("introduce", (String) dataMap.get("introduce"));
+        builder.addFormDataPart("professionIds", (String) dataMap.get("begoodat"));
+        builder.addFormDataPart("serviceAreaIds", (String) dataMap.get("localservice"));
         MultipartBody requestBody = builder.build();
         Request request = new Request.Builder().url("http://192.168.2.134:8080/qryl/carer/addCarer").post(requestBody).build();
         client.newCall(request).enqueue(new Callback() {
@@ -224,6 +224,15 @@ public class HgCompletePicActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 Log.i(TAG, "onResponse: 成功 " + response.body().string());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent();
+                        intent.setClass(HgCompletePicActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
             }
         });
     }

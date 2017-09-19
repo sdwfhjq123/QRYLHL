@@ -27,7 +27,9 @@
             android:id="@+id/btn_sure"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/selector_btn_login" />
+            android:background="@drawable/selector_btn_login"
+            android:text="确定"
+            android:textColor="#fff" />
     </RelativeLayout>
 
 

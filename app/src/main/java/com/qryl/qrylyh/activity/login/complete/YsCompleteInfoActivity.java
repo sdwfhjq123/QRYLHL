@@ -45,7 +45,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class YsCompleteInfoActivity extends AppCompatActivity {
 
-    private static final String TAG = "HgCompleteInfoActivity";
+    private static final String TAG = "YsCompleteInfoActivity";
     private TextView tvName, tvIdentity, tvGender, tvAge, tvWorkExperience, tvBeGoodAtWork;
 
     private RelativeLayout myHead, realName, identity, gender, age, workExperience, beGoodAtWork;

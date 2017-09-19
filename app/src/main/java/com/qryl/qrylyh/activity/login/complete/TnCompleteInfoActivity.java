@@ -45,13 +45,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class TnCompleteInfoActivity extends AppCompatActivity {
 
-    private static final String TAG = "HgCompleteInfoActivity";
+    private static final String TAG = "TnCompleteInfoActivity";
+    private TextView tvName, tvIdentity, tvGender, tvAge, tvWorkExperience, tvBeGoodAtWork;
 
-    private TextView tvName, tvIdentity, tvGender, tvAge, tvWorkExperience, tvBeGoodAtWork, tvLocalService;
-    private RelativeLayout myHead, realName, identity, gender, age, workExperience, beGoodAtWork, localService;
+    private RelativeLayout myHead, realName, identity, gender, age, workExperience, beGoodAtWork;
 
     private static final int TAKE_PHOTO = 1;
     private static final int CHOOSE_PHOTO = 2;
+    private static final int CHOOSE_LOCATION = 4;
+    private static final int CHOOSE_WORK = 5;
 
     private static final String HEAD_KEY = "head_key";
 
@@ -65,9 +67,12 @@ public class TnCompleteInfoActivity extends AppCompatActivity {
     private String genderDialogText;
     private String ageDialogText;
     private String workExperienceDialogText;
-    private String beGoodAtWorkDialogText;
     private File headFile;
     private int genderNum;
+    private RelativeLayout location;
+    private TextView tvLocation;
+    private String locationId;
+    private String workId;
 
 
     @Override
@@ -195,21 +200,18 @@ public class TnCompleteInfoActivity extends AppCompatActivity {
         beGoodAtWork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view = View.inflate(TnCompleteInfoActivity.this, R.layout.text_item_dialog_num, null);
-                TextView tvTitileDialog = (TextView) view.findViewById(R.id.tv_title_dialog);
-                final EditText etHintDialog = (EditText) view.findViewById(R.id.et_hint_dialog);
-                tvTitileDialog.setText("请输入擅长的工作");
-                new MyAlertDialog(TnCompleteInfoActivity.this, view)
-                        //.setView(view)
-                        .setNegativeButton("取消", null)
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                beGoodAtWorkDialogText = etHintDialog.getText().toString();
-                                tvBeGoodAtWork.setText(beGoodAtWorkDialogText);
-                                dialog.dismiss();
-                            }
-                        }).show();
+                Intent intent = new Intent(TnCompleteInfoActivity.this, BeGoodAtWorkActivity.class);
+                intent.putExtra("service_id", 3);
+                startActivityForResult(intent, CHOOSE_WORK);
+            }
+        });
+
+        //选择可服务的区域
+        location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TnCompleteInfoActivity.this, LocationActivity.class);
+                startActivityForResult(intent, CHOOSE_LOCATION);
             }
         });
     }
@@ -224,6 +226,7 @@ public class TnCompleteInfoActivity extends AppCompatActivity {
         workExperience = (RelativeLayout) findViewById(R.id.work_experience);
         beGoodAtWork = (RelativeLayout) findViewById(R.id.be_good_at_work);
         civHead = (CircleImageView) findViewById(R.id.civ_head);
+        location = (RelativeLayout) findViewById(R.id.location);
         //返回的数据
         tvName = (TextView) findViewById(R.id.tv_name);
         tvIdentity = (TextView) findViewById(R.id.tv_identity);
@@ -231,7 +234,7 @@ public class TnCompleteInfoActivity extends AppCompatActivity {
         tvAge = (TextView) findViewById(R.id.tv_age);
         tvWorkExperience = (TextView) findViewById(R.id.tv_work_experience);
         tvBeGoodAtWork = (TextView) findViewById(R.id.tv_be_good_at_work);
-
+        tvLocation = (TextView) findViewById(R.id.tv_location);
         Button btnNext = (Button) findViewById(R.id.btn_next);
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -261,11 +264,15 @@ public class TnCompleteInfoActivity extends AppCompatActivity {
                         if (TextUtils.isEmpty(workExperienceDialogText)) {
                             Toast.makeText(TnCompleteInfoActivity.this, "您还未填写工作经验", Toast.LENGTH_SHORT).show();
                         } else {
-                            if (TextUtils.isEmpty(beGoodAtWorkDialogText)) {
+                            if (TextUtils.isEmpty(workId)) {
                                 Toast.makeText(TnCompleteInfoActivity.this, "您还未填写擅长的工作", Toast.LENGTH_SHORT).show();
                             } else {
-                                //如果全部不为空就传递数据
-                                putExtra();
+                                if (TextUtils.isEmpty(locationId)) {
+                                    Toast.makeText(TnCompleteInfoActivity.this, "您还未填写可服务的区域", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    //如果全部不为空就传递数据
+                                    putExtra();
+                                }
                             }
                         }
                     }
@@ -277,21 +284,19 @@ public class TnCompleteInfoActivity extends AppCompatActivity {
     /**
      * 传递数据到下个页面
      */
+
     private void putExtra() {
         Intent intent = new Intent(TnCompleteInfoActivity.this, TnCompletePicActivity.class);
         //传递数据
         Bundle bundle = new Bundle();
-        //bundle.putByteArray("head", bytes);
         bundle.putString("name", ageDialogText);
         bundle.putString("identity", identityDialogText);
         bundle.putInt("gender", genderNum);
         bundle.putString("age", ageDialogText);
         bundle.putString("workexperience", workExperienceDialogText);
-        bundle.putString("begoodat", beGoodAtWorkDialogText);
-        bundle.putString("localservice", null);
+        bundle.putString("begoodat", workId);
+        bundle.putString("localservice", locationId);
         intent.putExtras(bundle);
-        //发送这是护工的跳转标识
-        //intent.put
         startActivity(intent);
     }
 
@@ -434,6 +439,23 @@ public class TnCompleteInfoActivity extends AppCompatActivity {
                     } else {
                         handleImageBeforeKitKat(data);
                     }
+                }
+                break;
+            case CHOOSE_LOCATION:
+                if (resultCode == RESULT_OK) {
+                    locationId = data.getStringExtra("location_id");
+                    String locationName = data.getStringExtra("location_name");
+                    Log.i(TAG, "onActivityResult: id:" + locationId + ",name:" + locationName);
+                    //回显
+                    tvLocation.setText(locationName);
+                }
+                break;
+            case CHOOSE_WORK:
+                if (resultCode == RESULT_OK) {
+                    workId = data.getStringExtra("work_id");
+                    String workName = data.getStringExtra("work_name");
+                    Log.i(TAG, "onActivityResult: 返回回来的擅长的工作的id: " + workId);
+                    tvBeGoodAtWork.setText(workName);
                 }
                 break;
         }

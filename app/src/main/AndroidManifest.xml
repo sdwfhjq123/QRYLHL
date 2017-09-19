@@ -21,14 +21,16 @@
         <activity android:name=".activity.login.RegisterActivity" />
         <activity android:name=".activity.SplashActivity" />
         <activity android:name=".activity.login.FinishActivity" />
-        <activity android:name=".activity.login.complete.ChooseAreaActivity" />
-        <activity android:name=".activity.login.complete.HsCompleteInfoActivity" />
-        <activity android:name=".activity.login.complete.YsCompleteInfoActivity">
+        <activity android:name=".activity.login.complete.ChooseAreaActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".activity.login.complete.HsCompleteInfoActivity" />
+        <activity android:name=".activity.login.complete.YsCompleteInfoActivity">
+
         </activity>
         <activity android:name=".activity.login.complete.HgCompleteInfoActivity" />
         <activity android:name=".activity.login.complete.TnCompleteInfoActivity" />

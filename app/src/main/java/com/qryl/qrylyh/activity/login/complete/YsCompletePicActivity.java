@@ -33,6 +33,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.qryl.qrylyh.R;
 import com.qryl.qrylyh.activity.MainActivity;
+import com.qryl.qrylyh.activity.login.LoginActivity;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -105,7 +106,7 @@ public class YsCompletePicActivity extends AppCompatActivity implements View.OnC
         //dataMap.put("head", head.toString());
         dataMap.put("name", name);
         dataMap.put("indentity", indentity);
-        dataMap.put("gender", gender);
+        dataMap.put("gender", gender + "");
         dataMap.put("age", age);
         dataMap.put("workexperience", workexperience);
         dataMap.put("begoodat", begoodat);
@@ -206,26 +207,18 @@ public class YsCompletePicActivity extends AppCompatActivity implements View.OnC
             builder.addFormDataPart("zgzImg", zgzFile.getName(), body);
         }
 
-//        dataMap.put("name", name);
-//        dataMap.put("indentity", indentity);
-//        dataMap.put("gender", gender);
-//        dataMap.put("age", age);
-//        dataMap.put("workexperience", workexperience);
-//        dataMap.put("begoodat", begoodat);
-//        dataMap.put("localservice", localservice);
-//        dataMap.put("hospital", hospital);
-//        dataMap.put("office", office);
-        //idNum:223232233232
-        //serviceAreaIds：370102009,370102010,370103003,370103006
-        builder.addFormDataPart("loginId", "2");
+        builder.addFormDataPart("loginId", "1");
         builder.addFormDataPart("realName", (String) dataMap.get("name"));
         builder.addFormDataPart("gender", (String) dataMap.get("gender"));
         builder.addFormDataPart("age", (String) dataMap.get("age"));
         builder.addFormDataPart("workYears", (String) dataMap.get("workexperience"));
         builder.addFormDataPart("introduce", (String) dataMap.get("introduce"));
+        builder.addFormDataPart("idNum", (String) dataMap.get("indentity"));
         builder.addFormDataPart("serviceAreaIds", (String) dataMap.get("localservice"));
+        builder.addFormDataPart("hospitalId", (String) dataMap.get("hospital"));
+        builder.addFormDataPart("departmentId", (String) dataMap.get("office"));
         MultipartBody requestBody = builder.build();
-        Request request = new Request.Builder().url("http://192.168.2.134:8080/qryl/carer/addCarer").post(requestBody).build();
+        Request request = new Request.Builder().url("http://192.168.2.134:8080/qryl/dn/add").post(requestBody).build();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -240,7 +233,7 @@ public class YsCompletePicActivity extends AppCompatActivity implements View.OnC
                     @Override
                     public void run() {
                         Intent intent = new Intent();
-                        intent.setClass(YsCompletePicActivity.this, MainActivity.class);
+                        intent.setClass(YsCompletePicActivity.this, LoginActivity.class);
                         startActivity(intent);
                         finish();
                     }

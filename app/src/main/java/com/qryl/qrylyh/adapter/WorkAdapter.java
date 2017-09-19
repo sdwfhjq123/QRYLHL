@@ -36,7 +36,7 @@ public class WorkAdapter extends RecyclerView.Adapter<WorkAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final WorkAdapter.ViewHolder holder, final int position) {
-        //holder.cbBox.isChecked()
+        holder.cbBox.setText(datas.get(position).getName());
         holder.cbBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

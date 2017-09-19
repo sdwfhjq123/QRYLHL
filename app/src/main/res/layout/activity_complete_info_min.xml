@@ -185,6 +185,30 @@
 
     <View style="@style/ViewLine" />
 
+    <RelativeLayout
+        android:id="@+id/location"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="5dp">
+
+        <TextView
+            style="@style/TextInItemStyle"
+            android:layout_marginLeft="10dp"
+            android:text="选择服务地址" />
+
+        <TextView
+            android:id="@+id/tv_location"
+            style="@style/TextInItemStyle"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:text="请选择" />
+
+        <ImageView style="@style/ImgAdvanceInItemStyle" />
+    </RelativeLayout>
+
+    <View style="@style/ViewLine" />
 
 
     <RelativeLayout
