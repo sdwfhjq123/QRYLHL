@@ -29,5 +29,23 @@ public class HttpUtil {
         client.newCall(request).enqueue(callback);
     }
 
+    /**
+     * post
+     *
+     * @param address
+     * @param callback
+     */
+    public static void sendOkHttpRequestInt(String address, Callback callback, String params, String cityId) {
+        OkHttpClient client = new OkHttpClient();
+        FormBody.Builder builder = new FormBody.Builder();
+        builder.add(params, cityId);
+        RequestBody formBody = builder.build();
+        Request request = new Request.Builder()
+                .url(address)
+                .post(formBody)
+                .build();
+        client.newCall(request).enqueue(callback);
+    }
+
 
 }

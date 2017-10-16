@@ -14,7 +14,9 @@ import com.google.gson.Gson;
 import com.qryl.qrylyh.R;
 import com.qryl.qrylyh.VO.HospitalVO.DataArea;
 import com.qryl.qrylyh.VO.HospitalVO.Hospital;
+import com.qryl.qrylyh.activity.BaseActivity;
 import com.qryl.qrylyh.adapter.HospitalAdapter;
+import com.qryl.qrylyh.util.ConstantValue;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,7 +29,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class HospitalActivity extends AppCompatActivity implements View.OnClickListener {
+public class HospitalActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = "HospitalActivity";
 
@@ -64,7 +66,7 @@ public class HospitalActivity extends AppCompatActivity implements View.OnClickL
         builder.add("limit", "3");
         FormBody formBody = builder.build();
         final Request request = new Request.Builder()
-                .url("http://192.168.2.134:8080/qryl/common/getHospitals")
+                .url(ConstantValue.URL+"/common/getHospitals")
                 .post(formBody)
                 .build();
         client.newCall(request).enqueue(new Callback() {

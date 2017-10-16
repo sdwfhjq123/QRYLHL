@@ -7,11 +7,12 @@ import android.view.View;
 import android.widget.Button;
 
 import com.qryl.qrylyh.R;
+import com.qryl.qrylyh.activity.BaseActivity;
 
 /**
  * 选择职业
  */
-public class ChooseAreaActivity extends AppCompatActivity implements View.OnClickListener {
+public class ChooseAreaActivity extends BaseActivity implements View.OnClickListener {
 
     public static final String SKIP = "skip";
 

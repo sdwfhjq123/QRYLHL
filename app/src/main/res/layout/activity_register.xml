@@ -181,7 +181,7 @@
     </RelativeLayout>
 
     <Button
-        android:id="@+id/btn_register_register"
+        android:id="@+id/btn_register"
         style="@style/ButtonLoginStyle"
         android:layout_below="@id/rl_login_text"
         android:layout_marginTop="50dp"

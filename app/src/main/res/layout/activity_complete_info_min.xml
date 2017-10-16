@@ -208,7 +208,8 @@
         <ImageView style="@style/ImgAdvanceInItemStyle" />
     </RelativeLayout>
 
-    <View style="@style/ViewLine" />
+    <View style="@style/ViewLine"
+        android:id="@+id/location_view_line"/>
 
 
     <RelativeLayout

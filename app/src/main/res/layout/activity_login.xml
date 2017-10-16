@@ -91,8 +91,8 @@
                 android:id="@+id/cb_auto_login"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:checked="false"
                 android:background="@drawable/selector_check_box"
-                android:checked="true"
                 android:shadowColor="#4581c7" />
 
             <TextView

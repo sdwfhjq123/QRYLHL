@@ -12,7 +12,9 @@ import android.widget.TextView;
 import com.qryl.qrylyh.R;
 import com.qryl.qrylyh.VO.County;
 import com.qryl.qrylyh.VO.Row;
+import com.qryl.qrylyh.activity.BaseActivity;
 import com.qryl.qrylyh.adapter.LocalExpandableAdapter;
+import com.qryl.qrylyh.util.ConstantValue;
 import com.qryl.qrylyh.util.HttpUtil;
 
 import org.json.JSONArray;
@@ -29,7 +31,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class LocationActivity extends AppCompatActivity implements View.OnClickListener {
+public class LocationActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = "LocationActivity";
 
@@ -63,7 +65,7 @@ public class LocationActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void postData() {
-        HttpUtil.sendOkHttpRequest("http://192.168.2.134:8080/qryl/common/getAreaByCityId", new Callback() {
+        HttpUtil.sendOkHttpRequest(ConstantValue.URL+"/common/getAreaByCityId", new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();

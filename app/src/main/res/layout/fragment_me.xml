@@ -17,6 +17,7 @@
             android:src="@mipmap/ic_left" />
 
         <TextView
+            android:id="@+id/tv_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="登录/注册(登录后显示姓名)" />
@@ -29,13 +30,45 @@
         android:layout_width="match_parent"
         android:layout_height="150dp">
 
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="100dp"
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="150dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:background="#f00" />
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_head"
+                android:layout_width="70dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="#f00" />
+
+            <LinearLayout
+                android:id="@+id/ll_compile"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp"
+                    android:src="@mipmap/ic_input" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="编辑资料"
+                    android:textColor="#666" />
+
+            </LinearLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -43,11 +76,6 @@
             android:layout_gravity="center_vertical"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="账    号:"
-                android:textColor="#666" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -64,7 +92,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="医保号:"
+                android:text="职    业:"
                 android:textColor="#666" />
 
             <TextView
@@ -72,13 +100,6 @@
                 android:layout_height="wrap_content"
                 android:text="电    话:"
                 android:textColor="#666" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="地    址:"
-                android:textColor="#666" />
-
 
         </LinearLayout>
 
@@ -88,13 +109,6 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textColor="#666" />
 
             <TextView
                 android:id="@+id/tv_name"
@@ -111,7 +125,7 @@
                 android:textColor="#666" />
 
             <TextView
-                android:id="@+id/tv_ybh"
+                android:id="@+id/tv_profession"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
@@ -119,13 +133,6 @@
 
             <TextView
                 android:id="@+id/tv_tel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textColor="#666" />
-
-            <TextView
-                android:id="@+id/tv_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
@@ -142,6 +149,7 @@
     <View style="@style/ViewLine" />
 
     <RelativeLayout
+        android:id="@+id/rl_wallet"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:padding="5dp">
@@ -174,44 +182,13 @@
     <View style="@style/ViewLine" />
 
     <RelativeLayout
+        android:id="@+id/rl_location"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:padding="5dp">
 
         <ImageView
-            android:id="@+id/ic_wallet_2"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginRight="15dp"
-            android:src="@mipmap/ic_people_2" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/ic_wallet_2"
-            android:text="我的常用联系人"
-            android:textColor="#666"
-            android:textSize="16sp" />
-
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:src="@mipmap/ic_right" />
-    </RelativeLayout>
-
-    <View style="@style/ViewLine" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:padding="5dp">
-
-        <ImageView
-            android:id="@+id/ic_wallet_2"
+            android:id="@+id/ic_illness_2"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginRight="15dp"
@@ -221,8 +198,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/ic_wallet_2"
-            android:text="我的常用地址"
+            android:layout_toRightOf="@id/ic_illness_2"
+            android:text="我的常用服务地址"
             android:textColor="#666"
             android:textSize="16sp" />
 
@@ -243,7 +220,7 @@
         android:padding="5dp">
 
         <ImageView
-            android:id="@+id/ic_wallet_2"
+            android:id="@+id/ic_follow"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginRight="15dp"
@@ -253,8 +230,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/ic_wallet_2"
-            android:text="我的关注"
+            android:layout_toRightOf="@id/ic_follow"
+            android:text="我的粉丝"
             android:textColor="#666"
             android:textSize="16sp" />
 
@@ -279,7 +256,7 @@
         android:padding="5dp">
 
         <ImageView
-            android:id="@+id/ic_wallet_2"
+            android:id="@+id/ic_content_2"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginRight="15dp"
@@ -289,7 +266,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/ic_wallet_2"
+            android:layout_toRightOf="@id/ic_content_2"
             android:text="意见反馈"
             android:textColor="#666"
             android:textSize="16sp" />
@@ -312,7 +289,7 @@
         android:padding="5dp">
 
         <ImageView
-            android:id="@+id/ic_wallet_2"
+            android:id="@+id/ic_people_2"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginRight="15dp"
@@ -322,7 +299,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/ic_wallet_2"
+            android:layout_toRightOf="@id/ic_people_2"
             android:text="我的客服"
             android:textColor="#666"
             android:textSize="16sp" />
@@ -337,5 +314,20 @@
     </RelativeLayout>
 
     <View style="@style/ViewLine" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/btn_exit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/selector_btn_login"
+            android:text="退出登录" />
+    </RelativeLayout>
 
 </LinearLayout>

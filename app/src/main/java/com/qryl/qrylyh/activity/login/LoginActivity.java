@@ -1,6 +1,8 @@
 package com.qryl.qrylyh.activity.login;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
@@ -8,12 +10,18 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.qryl.qrylyh.R;
+import com.qryl.qrylyh.activity.BaseActivity;
 import com.qryl.qrylyh.activity.MainActivity;
+import com.qryl.qrylyh.util.ConstantValue;
 import com.qryl.qrylyh.util.HttpUtil;
 import com.qryl.qrylyh.view.PasswordToggleEditText;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -24,23 +32,38 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
     private static final String TAG = "LoginActivity";
 
     private AppCompatEditText etUser;
     private PasswordToggleEditText etPsd;
+    private int id;
+    private int roleType;
+    private CheckBox cbAuto;
+    private SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initView();
+        //自动登录逻辑
+        prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+        String userId = prefs.getString("user_id", "");
+        if (prefs.getBoolean("is_auto_login", false) == true) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        } else if (prefs.getBoolean("is_auto_login", false) == false) {
+            return;
+        }
     }
 
     private void initView() {
         etUser = (AppCompatEditText) findViewById(R.id.et_user_login);
         etPsd = (PasswordToggleEditText) findViewById(R.id.et_psd_login);
         Button btnRegister = (Button) findViewById(R.id.btn_register_login);
+        cbAuto = (CheckBox) findViewById(R.id.cb_auto_login);
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,9 +76,22 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String psd = etPsd.getText().toString();
                 String user = etUser.getText().toString();
-                if (TextUtils.isEmpty(psd) && TextUtils.isEmpty(user)) {
+                if (!TextUtils.isEmpty(psd) && !TextUtils.isEmpty(user)) {
                     postData(user, psd);
                 }
+            }
+        });
+        //判断是否登录
+        cbAuto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (cbAuto.isChecked()) {
+                    cbAuto.setChecked(true);
+                } else {
+                    cbAuto.setChecked(false);
+                }
+                prefs.edit().putBoolean("is_auto_login", cbAuto.isChecked()).commit();
+                Log.i(TAG, "保存checkbox状态:" + cbAuto.isChecked());
             }
         });
     }
@@ -73,7 +109,7 @@ public class LoginActivity extends AppCompatActivity {
         builder.add("password", psd);
         FormBody formBody = builder.build();
         Request request = new Request.Builder()
-                .url("http://192.168.2.134:8080/qryl/login/login")
+                .url(ConstantValue.URL+"/login/login")
                 .post(formBody)
                 .build();
         client.newCall(request).enqueue(new Callback() {
@@ -90,18 +126,27 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
+                String result = response.body().string();
+                Log.i(TAG, "run: " + result);
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    JSONObject data = jsonObject.getJSONObject("data");
+                    id = data.getInt("id");
+                    roleType = data.getInt("roleType");
+                    Log.i(TAG, "onResponse: "+roleType);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        try {
-                            Log.i(TAG, "run: " + response.body().string());
-                            Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+                        prefs.edit().putString("user_id", String.valueOf(id)).commit();
+                        prefs.edit().putInt("role_type", roleType).commit();
+                        Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
                     }
                 });
             }

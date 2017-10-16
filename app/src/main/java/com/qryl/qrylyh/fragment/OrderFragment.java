@@ -17,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.qryl.qrylyh.R;
-import com.qryl.qrylyh.fragment.two.BaseFragment;
 import com.qryl.qrylyh.util.UIUtils;
 
 import java.lang.reflect.Field;

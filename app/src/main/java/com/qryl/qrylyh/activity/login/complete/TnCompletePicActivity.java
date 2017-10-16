@@ -32,7 +32,9 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.qryl.qrylyh.R;
+import com.qryl.qrylyh.activity.BaseActivity;
 import com.qryl.qrylyh.activity.login.LoginActivity;
+import com.qryl.qrylyh.util.ConstantValue;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -53,9 +55,9 @@ import okhttp3.Response;
 import static com.qryl.qrylyh.R.id.age;
 
 
-public class TnCompletePicActivity extends AppCompatActivity implements View.OnClickListener {
+public class TnCompletePicActivity extends BaseActivity implements View.OnClickListener {
 
-    private static final String TAG = "HgCompletePicActivity";
+    private static final String TAG = "HgCompilePicActivity";
 
     private static final int TAKE_PHOTO = 1;
     private static final int CHOOSE_PHOTO = 2;
@@ -87,11 +89,14 @@ public class TnCompletePicActivity extends AppCompatActivity implements View.OnC
     private File sfzFile;
     private File jkzFile;
     private File zgzFile;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complete_pic);
+        SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+        userId = prefs.getString("user_id", "");
         initView();
 
         Bundle bundle = getIntent().getExtras();
@@ -205,7 +210,7 @@ public class TnCompletePicActivity extends AppCompatActivity implements View.OnC
             // 参数分别为， 请求key ，文件名称 ， RequestBody
             builder.addFormDataPart("zgzImg", zgzFile.getName(), body);
         }
-        builder.addFormDataPart("loginId", "1");
+        builder.addFormDataPart("loginId", userId);
         builder.addFormDataPart("realName", (String) dataMap.get("name"));
         builder.addFormDataPart("gender", (String) dataMap.get("gender"));
         builder.addFormDataPart("age", (String) dataMap.get("age"));
@@ -215,7 +220,7 @@ public class TnCompletePicActivity extends AppCompatActivity implements View.OnC
         builder.addFormDataPart("professionIds", (String) dataMap.get("begoodat"));
         builder.addFormDataPart("serviceAreaIds", (String) dataMap.get("localservice"));
         MultipartBody requestBody = builder.build();
-        Request request = new Request.Builder().url("http://192.168.2.134:8080/qryl/massager/add").post(requestBody).build();
+        Request request = new Request.Builder().url(ConstantValue.URL+"/massager/add").post(requestBody).build();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {

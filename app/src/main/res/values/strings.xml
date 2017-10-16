@@ -6,6 +6,10 @@
         <item>派单模式</item>
         <item>点单模式</item>
     </string-array>
+    <string-array name="hg_tab_names">
+        <item>登记</item>
+        <item>上岗</item>
+    </string-array>
 
     <string-array name="tab_order_names">
         <item>全部</item>
@@ -29,5 +33,11 @@
         <item>8</item>
         <item>9</item>
         <item>10</item>
+    </string-array>
+
+    <string-array name="particulars_status">
+        <item>您还没上开始上班，可以开始上班接单了！</item>
+        <item>您已开始上班，正在等待接单</item>
+        <item>已选择您的服务，查看详情</item>
     </string-array>
 </resources>

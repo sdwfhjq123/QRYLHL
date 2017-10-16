@@ -7,9 +7,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.qryl.qrylyh.R;
+import com.qryl.qrylyh.activity.BaseActivity;
 import com.qryl.qrylyh.activity.login.complete.ChooseAreaActivity;
 
-public class FinishActivity extends AppCompatActivity {
+public class FinishActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,7 +1,11 @@
 package com.qryl.qrylyh.activity;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -9,12 +13,13 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.qryl.qrylyh.R;
-import com.qryl.qrylyh.fragment.HomeFragment;
+import com.qryl.qrylyh.fragment.HomeHgFragment;
+import com.qryl.qrylyh.fragment.HomeOtherFragment;
 import com.qryl.qrylyh.fragment.MeFragment;
 import com.qryl.qrylyh.fragment.MsgFragment;
 import com.qryl.qrylyh.fragment.OrderFragment;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = "MainActivity";
 
@@ -31,13 +36,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView tvLocation;
     private LinearLayout llSetting;
     private TextView tvHelp, tvReturn;
+    private String userId;
+    private int roleType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        float density = getResources().getDisplayMetrics().density;
-//        Log.e(TAG, "像素密度: " + density);
+        SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+        userId = prefs.getString("user_id", "");
+        roleType = prefs.getInt("role_type", 0);
+        Log.i(TAG, "onCreate: " + roleType);
         initUI();
         initData();
     }
@@ -53,9 +62,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 初始化fragment
      */
     private void initFragment() {
+        setTitleName("亲仁医疗护理");
         fm = getSupportFragmentManager();
         ft = fm.beginTransaction();
-        ft.replace(R.id.fl_home, new HomeFragment(), HOME_FRAGMENT);
+        if (roleType == 0) {
+            ft.replace(R.id.fl_home, new HomeHgFragment(), HOME_FRAGMENT);
+        } else if (roleType == 1 || roleType == 2 || roleType == 3) {
+            ft.replace(R.id.fl_home, new HomeOtherFragment(), HOME_FRAGMENT);
+        }
         ft.commit();
     }
 
@@ -63,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 初始化UI
      */
     private void initUI() {
-
+        hiddenView();
         rgMain = (RadioGroup) findViewById(R.id.rg_main);
         rbHome = (RadioButton) findViewById(R.id.rb_home);
         rbOrder = (RadioButton) findViewById(R.id.rb_order);
@@ -77,6 +91,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         rbMe.setOnClickListener(this);
     }
 
+    private void hiddenView() {
+      tvReturn= (TextView) findViewById(R.id.return_text);
+        tvReturn.setVisibility(View.GONE);
+    }
+
     @Override
     public void onClick(View v) {
         ft = fm.beginTransaction();
@@ -84,7 +103,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //首页
             case R.id.rb_home:
                 setTitleName("亲仁医疗护理");
-                ft.replace(R.id.fl_home, new HomeFragment(), HOME_FRAGMENT);
+                //未判断加载哪个网页
+                if (roleType == 0) {
+                    ft.replace(R.id.fl_home, new HomeHgFragment(), HOME_FRAGMENT);
+                } else if (roleType == 1 || roleType == 2 || roleType == 3) {
+                    ft.replace(R.id.fl_home, new HomeOtherFragment(), HOME_FRAGMENT);
+                }
                 break;
             //定单
             case R.id.rb_order:

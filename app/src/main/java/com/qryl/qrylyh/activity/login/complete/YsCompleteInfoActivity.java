@@ -33,6 +33,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.qryl.qrylyh.R;
+import com.qryl.qrylyh.activity.BaseActivity;
 import com.qryl.qrylyh.util.DialogUtil;
 import com.qryl.qrylyh.view.MyAlertDialog;
 
@@ -43,9 +44,9 @@ import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class YsCompleteInfoActivity extends AppCompatActivity {
+public class YsCompleteInfoActivity extends BaseActivity {
 
-    private static final String TAG = "YsCompleteInfoActivity";
+    private static final String TAG = "YsCompileInfoActivity";
     private TextView tvName, tvIdentity, tvGender, tvAge, tvWorkExperience, tvBeGoodAtWork;
 
     private RelativeLayout myHead, realName, identity, gender, age, workExperience, beGoodAtWork;

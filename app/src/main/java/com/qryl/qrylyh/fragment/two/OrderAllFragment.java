@@ -4,6 +4,8 @@ import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
 
+import com.qryl.qrylyh.fragment.BaseFragment;
+
 /**
  * Created by hp on 2017/9/12.
  */

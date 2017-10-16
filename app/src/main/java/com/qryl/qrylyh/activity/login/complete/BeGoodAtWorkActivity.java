@@ -14,7 +14,9 @@ import com.google.gson.Gson;
 import com.qryl.qrylyh.R;
 import com.qryl.qrylyh.VO.BeGoodAtWorkVO.BeGoodAtWork;
 import com.qryl.qrylyh.VO.BeGoodAtWorkVO.Data;
+import com.qryl.qrylyh.activity.BaseActivity;
 import com.qryl.qrylyh.adapter.WorkAdapter;
+import com.qryl.qrylyh.util.ConstantValue;
 import com.qryl.qrylyh.util.HttpUtil;
 
 import java.io.IOException;
@@ -30,7 +32,7 @@ import okhttp3.Response;
 /**
  * http://192.168.2.134:8080/qryl/manager/getDepartments
  */
-public class BeGoodAtWorkActivity extends AppCompatActivity implements View.OnClickListener {
+public class BeGoodAtWorkActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = "BeGoodAtWorkActivity";
 
@@ -60,7 +62,7 @@ public class BeGoodAtWorkActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void postData() {
-        HttpUtil.sendOkHttpRequest("http://192.168.2.134:8080/qryl/common/getProfessionList", new Callback() {
+        HttpUtil.sendOkHttpRequest(ConstantValue.URL+"/common/getProfessionList", new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();

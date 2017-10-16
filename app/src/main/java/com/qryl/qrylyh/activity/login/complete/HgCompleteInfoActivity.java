@@ -33,6 +33,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.qryl.qrylyh.R;
+import com.qryl.qrylyh.activity.BaseActivity;
 import com.qryl.qrylyh.util.DialogUtil;
 import com.qryl.qrylyh.view.MyAlertDialog;
 
@@ -43,9 +44,9 @@ import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class HgCompleteInfoActivity extends AppCompatActivity {
+public class HgCompleteInfoActivity extends BaseActivity {
 
-    private static final String TAG = "HgCompleteInfoActivity";
+    private static final String TAG = "HgCompileInfoActivity";
     private TextView tvName, tvIdentity, tvGender, tvAge, tvWorkExperience, tvBeGoodAtWork;
 
     private RelativeLayout myHead, realName, identity, gender, age, workExperience, beGoodAtWork;
@@ -73,6 +74,7 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
     private TextView tvLocation;
     private String locationId;
     private String workId;
+    private SharedPreferences sp;
 
 
     @Override
@@ -547,7 +549,7 @@ public class HgCompleteInfoActivity extends AppCompatActivity {
      * @param fileName
      */
     private void saveFile(String fileName) {
-        SharedPreferences sp = getSharedPreferences("image", MODE_PRIVATE);
+        sp = getSharedPreferences("image", MODE_PRIVATE);
         SharedPreferences.Editor edit = sp.edit();
         edit.putString(HEAD_KEY, fileName);
         //提交edit

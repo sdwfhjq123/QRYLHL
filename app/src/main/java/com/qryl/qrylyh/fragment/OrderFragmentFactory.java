@@ -1,7 +1,6 @@
 package com.qryl.qrylyh.fragment;
 
 
-import com.qryl.qrylyh.fragment.two.BaseFragment;
 import com.qryl.qrylyh.fragment.two.OrderAllFragment;
 import com.qryl.qrylyh.fragment.two.OrderFinishedFragment;
 import com.qryl.qrylyh.fragment.two.OrderNoPayFragment;
