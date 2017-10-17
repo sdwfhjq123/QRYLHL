@@ -131,7 +131,7 @@ public class LoginActivity extends BaseActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(result);
                     JSONObject data = jsonObject.getJSONObject("data");
-                    id = data.getInt("id");
+                    id = data.getInt("loginId");
                     roleType = data.getInt("roleType");
                     Log.i(TAG, "onResponse: "+roleType);
                 } catch (JSONException e) {

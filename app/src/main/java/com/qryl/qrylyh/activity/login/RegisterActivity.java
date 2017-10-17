@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.qryl.qrylyh.R;
 import com.qryl.qrylyh.activity.BaseActivity;
+import com.qryl.qrylyh.activity.MainActivity;
 import com.qryl.qrylyh.util.ConstantValue;
 import com.qryl.qrylyh.util.VerificationCountDownTimer;
 
@@ -36,6 +37,8 @@ import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+
+import static android.R.attr.data;
 
 public class RegisterActivity extends BaseActivity {
 
@@ -161,7 +164,7 @@ public class RegisterActivity extends BaseActivity {
         builder.addFormDataPart("mobile", etTel.getText().toString());
         MultipartBody requestBody = builder.build();
         Request requset = new Request.Builder()
-                .url(ConstantValue.URL+"/login/register")
+                .url(ConstantValue.URL + "/login/register")
                 .post(requestBody)
                 .build();
         client.newCall(requset).enqueue(new Callback() {
@@ -184,9 +187,10 @@ public class RegisterActivity extends BaseActivity {
                 Log.i(TAG, "onResponse: 服务器连接成功" + response.body().string());
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().string());
-                    int data = jsonObject.getInt("data");
+                    JSONObject data = jsonObject.getJSONObject("data");
+                    int loginId = data.getInt("loginId");
                     SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
-                    prefs.edit().putString("user_id", String.valueOf(data)).commit();
+                    prefs.edit().putString("user_id", String.valueOf(loginId)).commit();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -197,7 +201,7 @@ public class RegisterActivity extends BaseActivity {
                             progressDialog.dismiss();
                         }
                         Toast.makeText(RegisterActivity.this, "注册成功!", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(RegisterActivity.this, FinishActivity.class);
+                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
                     }
