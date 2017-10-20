@@ -210,7 +210,7 @@ public class YsCompleteInfoActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(YsCompleteInfoActivity.this, BeGoodAtWorkActivity.class);
-                intent.putExtra("service_id", 2);
+                intent.putExtra("service_id", 1);
                 startActivityForResult(intent, CHOOSE_WORK);
             }
         });

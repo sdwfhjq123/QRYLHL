@@ -62,7 +62,7 @@ public class BeGoodAtWorkActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void postData() {
-        HttpUtil.sendOkHttpRequest(ConstantValue.URL+"/common/getProfessionList", new Callback() {
+        HttpUtil.sendOkHttpRequest(ConstantValue.URL+"/common/getProfessionListByRoleType", new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
@@ -73,7 +73,7 @@ public class BeGoodAtWorkActivity extends BaseActivity implements View.OnClickLi
                 String result = response.body().string();
                 handlerJson(result);
             }
-        }, "serviceId", serviceId);
+        }, "roleType", serviceId);
     }
 
     /**

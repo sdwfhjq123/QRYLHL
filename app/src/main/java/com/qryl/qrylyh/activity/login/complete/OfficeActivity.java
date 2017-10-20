@@ -64,7 +64,7 @@ public class OfficeActivity extends BaseActivity implements View.OnClickListener
         builder.add("limit", "3");
         FormBody formBody = builder.build();
         final Request request = new Request.Builder()
-                .url(ConstantValue.URL+"/manager/getDepartments")//获取擅长的工作
+                .url(ConstantValue.URL + "/common/getDepartments")//获取擅长的工作
                 .post(formBody)
                 .build();
         client.newCall(request).enqueue(new Callback() {

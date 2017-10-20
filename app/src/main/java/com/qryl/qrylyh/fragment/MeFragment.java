@@ -42,7 +42,6 @@ import okhttp3.Response;
 
 public class MeFragment extends android.support.v4.app.Fragment {
 
-
     private static final String TAG = "MeFragment";
 
     private TextView tvInfo;
@@ -71,14 +70,19 @@ public class MeFragment extends android.support.v4.app.Fragment {
     private void initData() {
         //在这里根据登录用户的类型判断不同的请求地址
         if (roleType == 0) {//护工
-            postData(ConstantValue.URL+"/carer/getMyInfo");
+            postData(ConstantValue.URL + "/carer/getMyInfo");
             Log.i(TAG, "initData: 0");
             tvProfession.setText("护工");
         } else if (roleType == 1 || roleType == 2) {
-            postData(ConstantValue.URL+"/dn/getMyInfo");
+            postData(ConstantValue.URL + "/dn/getMyInfo");
             Log.i(TAG, "initData: 1,2");
+            if (roleType == 1) {
+                tvProfession.setText("护士");
+            } else if (roleType == 2) {
+                tvProfession.setText("医生");
+            }
         } else if (roleType == 3) {
-            postData(ConstantValue.URL+"/massager/getMyInfo");
+            postData(ConstantValue.URL + "/massager/getMyInfo");
             Log.i(TAG, "initData: 3");
             tvProfession.setText("推拿师");
         }

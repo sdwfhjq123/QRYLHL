@@ -61,8 +61,47 @@ public class HgRegisterFragment extends BaseFragment implements View.OnClickList
 
     @Override
     public void loadData() {
+        //获取登记状态
+        getRegisterStatus();
         //把可服务的时间区域上传到服务器
         chooseServiceTimes = getChooseServiceTimes();
+    }
+
+    /**
+     * 获取登记状态
+     */
+    private void getRegisterStatus() {
+        HttpUtil.sendOkHttpRequestInt(ConstantValue.URL + "/publishCarer/getPublishByCarerId", new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                handleStatusJson(response.body().string());
+            }
+        }, "carerId", userId);
+    }
+
+    private void handleStatusJson(String result) {
+        try {
+            JSONObject jsonObject = new JSONObject(result);
+            JSONObject data = jsonObject.getJSONObject("data");
+            final int status = data.getInt("status");//有发布信息为1，没有为0
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (status == 0) {
+                        button.setText("发布");
+                    } else {
+                        button.setText("撤销");
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -109,6 +148,7 @@ public class HgRegisterFragment extends BaseFragment implements View.OnClickList
                 timeSelectorStart.show();
                 break;
             case R.id.button:
+                Log.i(TAG, "护工id" + userId);
                 if (button.getText().toString().equals("发布")) {
                     if (cbEightHours.isChecked() || cbTwelveHours.isChecked() || cbTwentyFourHours.isChecked()) {
                         if (!tvServiceDay.getText().toString().equals("请选择")) {
@@ -135,11 +175,11 @@ public class HgRegisterFragment extends BaseFragment implements View.OnClickList
     private void revocationInfo() {
         OkHttpClient client = new OkHttpClient();
         FormBody.Builder builder = new FormBody.Builder();
-        builder.add("id", "1");//有疑问，id
+        builder.add("carerId", userId);
         FormBody formBody = builder.build();
         Request request = new Request.Builder()
                 .post(formBody)
-                .url(ConstantValue.URL+"/publishCarer/delPublish")
+                .url(ConstantValue.URL + "/publishCarer/delPublish")
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -153,7 +193,7 @@ public class HgRegisterFragment extends BaseFragment implements View.OnClickList
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        button.setText("登记");
+                        button.setText("发布");
                     }
                 });
             }
@@ -171,7 +211,7 @@ public class HgRegisterFragment extends BaseFragment implements View.OnClickList
         builder.add("carerId", userId);
         FormBody formBody = builder.build();
         Request request = new Request.Builder()
-                .url(ConstantValue.URL+"/publishCarer/addPublish")
+                .url(ConstantValue.URL + "/publishCarer/addPublish")
                 .post(formBody)
                 .build();
         client.newCall(request).enqueue(new Callback() {
@@ -182,11 +222,11 @@ public class HgRegisterFragment extends BaseFragment implements View.OnClickList
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.i(TAG, "onResponse: 登记成功");
+                Log.i(TAG, "onResponse: 发布成功" + response.body().string());
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getActivity(), "登记成功", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "发布成功", Toast.LENGTH_LONG).show();
                         if (button.getText().toString().equals("发布")) {
                             button.setText("撤销");
                         }

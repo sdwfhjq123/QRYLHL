@@ -35,6 +35,8 @@ import okhttp3.Response;
 
 public class HomeOtherFragment extends Fragment {
     private static final String TAG = "HomeOtherFragment";
+    private static final String UP = "我要上班接单";
+    private static final String DOWN = "我要下班回家";
     private String userId;
     private TextView tvStatus;
     private TextView tvName;
@@ -68,7 +70,7 @@ public class HomeOtherFragment extends Fragment {
      * 初始化页面时加载的状态
      */
     private void postData() {
-        HttpUtil.sendOkHttpRequestInt(ConstantValue.URL+"/dn/getHomePageInfo", new Callback() {
+        HttpUtil.sendOkHttpRequestInt(ConstantValue.URL + "/order/getHomePageInfo", new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.i(TAG, "onFailure: ");
@@ -76,43 +78,52 @@ public class HomeOtherFragment extends Fragment {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                handleJson(response.body().string());
+                String result = response.body().string();
+                Log.i(TAG, "获取医护首页信息" + result);
+                handleJson(result);
             }
-        }, "loginId", userId);//后期改成userId
+        }, "loginId", userId);
     }
 
     private void handleJson(final String result) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    JSONObject jsonObject = new JSONObject(result);
-                    JSONObject jo = jsonObject.getJSONObject("data");
-                    String realName = jo.getString("realName");
-                    int serviceNum = jo.getInt("serviceNum");
-                    JSONObject patient = jo.getJSONObject("patient");
-                    String patientName = patient.getString("name");
-                    tvServiceTimes.setText(serviceNum + "");
-                    tvName.setText(realName);
-                    status = jo.getInt("status");
-                    if (status == 0) {//空闲
-                        button.setText("我要上班接单");
-                        tvStatus.setText("未上班");
-                        tvPatient.setText(patientName);
-                    } else if (status == 1) {//上班未接单
-                        button.setText("我要下班回家");
-                        tvStatus.setText("已上班");
-                        tvPatient.setText(patientName);
-                    } else if (status == 2) {//已接单
-                        button.setText("我要下班回家");
-                        tvStatus.setText("已接单");
-                        tvPatient.setText(patientName);
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(result);
+            final JSONObject jo = jsonObject.getJSONObject("data");
+            final String serviceTimes = jo.getString("serviceTimes");
+            JSONObject doctorNurse = jo.getJSONObject("doctorNurse");
+            final String realName = doctorNurse.getString("realName");
+            final String patient = jo.getString("patient");
+            status = jo.getInt("status");
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    tvServiceTimes.setText(serviceTimes + "");
+                    if (tvServiceTimes.getText().toString().equals("null")) {
+                        tvServiceTimes.setText(0 + "");
+                    } else {
+                        tvServiceTimes.setText(serviceTimes + "");
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    tvName.setText(realName);
+                    if (status == 0) {//空闲
+                        button.setText(UP);
+                        tvStatus.setText("未上班");
+                        tvPatient.setText(patient);
+                    } else if (status == 1) {//上班未接单
+                        button.setText(DOWN);
+                        tvStatus.setText("已上班");
+                        tvPatient.setText(patient);
+                    } else if (status == 2) {
+                        button.setText(DOWN);
+                        tvStatus.setText("已上班");
+                        tvPatient.setText(patient);
+                    }
                 }
-            }
-        });
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -128,39 +139,45 @@ public class HomeOtherFragment extends Fragment {
         tvParticulars = (TextView) view.findViewById(R.id.tv_particulars);
         button = (Button) view.findViewById(R.id.button);
         llPatient = (LinearLayout) view.findViewById(R.id.ll_patient);
-        if (button.getText().toString().equals("我要下班回家")) {
-            llPatient.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //点击查看详情
-                }
-            });
-        } else if (button.getText().toString().equals("我要上班接单")) {
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    OkHttpClient client = new OkHttpClient();
-                    FormBody.Builder builder = new FormBody.Builder();
-                    builder.add("loginId", userId);//以后修改成userId
-                    builder.add("status", String.valueOf(1));
-                    FormBody formBody = builder.build();
-                    Request request = new Request.Builder()
-                            .post(formBody)
-                            .url(ConstantValue.URL+"/dn/getHomePageInfo")
-                            .build();
-                    client.newCall(request).enqueue(new Callback() {
-                        @Override
-                        public void onFailure(Call call, IOException e) {
 
-                        }
-
-                        @Override
-                        public void onResponse(Call call, Response response) throws IOException {
-                            postData();
-                        }
-                    });
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (button.getText().toString().equals(UP)) {
+                    getStatus(1 + "", DOWN);
+                } else if (button.getText().toString().equals(DOWN)) {
+                    getStatus(0 + "", UP);
                 }
-            });
-        }
+            }
+        });
+    }
+
+    private void getStatus(String status, final String buttonText) {
+        OkHttpClient client = new OkHttpClient();
+        FormBody.Builder builder = new FormBody.Builder();
+        builder.add("loginId", userId);//以后修改成userId
+        builder.add("status", status);
+        FormBody formBody = builder.build();
+        Request request = new Request.Builder()
+                .post(formBody)
+                .url(ConstantValue.URL + "/order/getHomePageInfo")
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Log.i(TAG, "onResponse: 点击上班时获取的状态" + response.body().string());
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        button.setText(buttonText);
+                    }
+                });
+            }
+        });
     }
 }

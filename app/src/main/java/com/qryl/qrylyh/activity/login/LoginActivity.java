@@ -108,8 +108,8 @@ public class LoginActivity extends BaseActivity {
         builder.add("mobile", user);
         builder.add("password", psd);
         FormBody formBody = builder.build();
-        Request request = new Request.Builder()
-                .url(ConstantValue.URL+"/login/login")
+        final Request request = new Request.Builder()
+                .url(ConstantValue.URL + "/login/login")
                 .post(formBody)
                 .build();
         client.newCall(request).enqueue(new Callback() {
@@ -119,7 +119,7 @@ public class LoginActivity extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(LoginActivity.this, "注册失败，请重试", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "网络连接失败，请重试", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -130,25 +130,38 @@ public class LoginActivity extends BaseActivity {
                 Log.i(TAG, "run: " + result);
                 try {
                     JSONObject jsonObject = new JSONObject(result);
-                    JSONObject data = jsonObject.getJSONObject("data");
-                    id = data.getInt("loginId");
-                    roleType = data.getInt("roleType");
-                    Log.i(TAG, "onResponse: "+roleType);
+                    String resultCode = jsonObject.getString("resultCode");
+                    if (resultCode.equals("200")) {
+                        JSONObject data = jsonObject.getJSONObject("data");
+                        id = data.getInt("loginId");
+                        roleType = data.getInt("roleType");
+                        Log.i(TAG, "onResponse: " + roleType);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+                                prefs.edit().putString("user_id", String.valueOf(id)).commit();
+                                prefs.edit().putInt("role_type", roleType).commit();
+                                Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+                    } else if (resultCode.equals("500")) {
+                        final String errorMessage = jsonObject.getString("erroMessage");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(LoginActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
-                        prefs.edit().putString("user_id", String.valueOf(id)).commit();
-                        prefs.edit().putInt("role_type", roleType).commit();
-                        Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                });
+
             }
         });
     }

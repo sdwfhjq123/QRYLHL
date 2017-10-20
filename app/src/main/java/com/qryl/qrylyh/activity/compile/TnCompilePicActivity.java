@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -35,6 +36,7 @@ import com.qryl.qrylyh.R;
 import com.qryl.qrylyh.activity.BaseActivity;
 import com.qryl.qrylyh.activity.MainActivity;
 import com.qryl.qrylyh.activity.login.LoginActivity;
+import com.qryl.qrylyh.util.ConstantValue;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -98,7 +100,6 @@ public class TnCompilePicActivity extends BaseActivity implements View.OnClickLi
         initView();
 
         Bundle bundle = getIntent().getExtras();
-
         String name = (String) bundle.get("name");
         String indentity = (String) bundle.get("identity");
         int gender = (int) bundle.get("gender");
@@ -106,7 +107,17 @@ public class TnCompilePicActivity extends BaseActivity implements View.OnClickLi
         String workexperience = (String) bundle.get("workexperience");
         String begoodat = (String) bundle.get("begoodat");
         String localservice = (String) bundle.get("localservice");
+        int hospital = bundle.getInt("hospital");
+        int office = bundle.getInt("office");
 
+        String introduce = bundle.getString("introduce", "");
+        etMe.setText(introduce);
+        String idImg = bundle.getString("idImg", "");
+        Glide.with(this).load(ConstantValue.URL + idImg).thumbnail(0.1f).into(sfzImage);
+        String qualificationCertificateImg = bundle.getString("qualificationCertificateImg", "");
+        Glide.with(this).load(ConstantValue.URL + qualificationCertificateImg).thumbnail(0.1f).into(zgzImage);
+        String healthCertificateImg = bundle.getString("healthCertificateImg", "");
+        Glide.with(this).load(ConstantValue.URL + healthCertificateImg).thumbnail(0.1f).into(jkzImage);
         //dataMap.put("head", head.toString());
         dataMap.put("name", name);
         dataMap.put("indentity", indentity);
@@ -115,11 +126,13 @@ public class TnCompilePicActivity extends BaseActivity implements View.OnClickLi
         dataMap.put("workexperience", workexperience);
         dataMap.put("begoodat", begoodat);
         dataMap.put("localservice", localservice);
+        dataMap.put("hospital", hospital);
+        dataMap.put("office", office);
 
     }
 
-
     private void initView() {
+        changeTitle();
         sfzImage = (ImageView) findViewById(R.id.sfz_image);
         jkzImage = (ImageView) findViewById(R.id.jkz_image);
         zgzImage = (ImageView) findViewById(R.id.zgz_image);
@@ -140,6 +153,7 @@ public class TnCompilePicActivity extends BaseActivity implements View.OnClickLi
      * 向服务器发送请求
      */
     private void postData() {
+        dataMap.put("introduce", etMe.getText().toString());
         SharedPreferences pref = getSharedPreferences("image", Context.MODE_PRIVATE);
         String headImage = pref.getString(HEAD_KEY, null);
         String sfzImage = pref.getString(SFZ_KEY, null);
@@ -149,45 +163,58 @@ public class TnCompilePicActivity extends BaseActivity implements View.OnClickLi
         OkHttpClient client = new OkHttpClient();
         MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-        File headFile = new File(storageDir, headImage);
-        File sfzFile = new File(storageDir, sfzImage);
-        File jkzFile = new File(storageDir, jkzImage);
-        File zgzFile = new File(storageDir, zgzName);
-        if (headFile != null) {
-            // MediaType.parse() 里面是上传的文件类型。
-            RequestBody body = RequestBody.create(MediaType.parse("image/*"), headFile);
-            // 参数分别为， 请求key ，文件名称 ， RequestBody
-            builder.addFormDataPart("txImg", headFile.getName(), body);
-        }
-        if (sfzFile != null) {
-            // MediaType.parse() 里面是上传的文件类型。
-            RequestBody body = RequestBody.create(MediaType.parse("image/*"), sfzFile);
-            // 参数分别为， 请求key ，文件名称 ， RequestBody
-            builder.addFormDataPart("sfzImg", sfzFile.getName(), body);
-        }
-        if (jkzFile != null) {
-            // MediaType.parse() 里面是上传的文件类型。
-            RequestBody body = RequestBody.create(MediaType.parse("image/*"), jkzFile);
-            // 参数分别为， 请求key ，文件名称 ， RequestBody
-            builder.addFormDataPart("jkzImg", jkzFile.getName(), body);
-        }
-        if (zgzFile != null) {
-            // MediaType.parse() 里面是上传的文件类型。
-            RequestBody body = RequestBody.create(MediaType.parse("image/*"), zgzFile);
-            // 参数分别为， 请求key ，文件名称 ， RequestBody
-            builder.addFormDataPart("zgzImg", zgzFile.getName(), body);
+        if (!headImage.equals("") && !sfzImage.equals("") && !jkzImage.equals("") && !zgzName.equals("")) {
+            File headFile = new File(storageDir, headImage);
+            File sfzFile = new File(storageDir, sfzImage);
+            File jkzFile = new File(storageDir, jkzImage);
+            File zgzFile = new File(storageDir, zgzName);
+            if (headFile != null) {
+                // MediaType.parse() 里面是上传的文件类型。
+                RequestBody body = RequestBody.create(MediaType.parse("image/*"), headFile);
+                // 参数分别为， 请求key ，文件名称 ， RequestBody
+                builder.addFormDataPart("txImg", headFile.getName(), body);
+            } else {
+                builder.addFormDataPart("txImg", "");
+            }
+            if (sfzFile != null) {
+                // MediaType.parse() 里面是上传的文件类型。
+                RequestBody body = RequestBody.create(MediaType.parse("image/*"), sfzFile);
+                // 参数分别为， 请求key ，文件名称 ， RequestBody
+                builder.addFormDataPart("sfzImg", sfzFile.getName(), body);
+            } else {
+                builder.addFormDataPart("sfzImg", "");
+            }
+            if (jkzFile != null) {
+                // MediaType.parse() 里面是上传的文件类型。
+                RequestBody body = RequestBody.create(MediaType.parse("image/*"), jkzFile);
+                // 参数分别为， 请求key ，文件名称 ， RequestBody
+                builder.addFormDataPart("jkzImg", jkzFile.getName(), body);
+            } else {
+                builder.addFormDataPart("jkzImg", "");
+            }
+            if (zgzFile != null) {
+                // MediaType.parse() 里面是上传的文件类型。
+                RequestBody body = RequestBody.create(MediaType.parse("image/*"), zgzFile);
+                // 参数分别为， 请求key ，文件名称 ， RequestBody
+                builder.addFormDataPart("zgzImg", zgzFile.getName(), body);
+            } else {
+                builder.addFormDataPart("zgzImg", "");
+            }
         }
         builder.addFormDataPart("loginId", userId);
+        builder.addFormDataPart("roleType", "2");
         builder.addFormDataPart("realName", (String) dataMap.get("name"));
         builder.addFormDataPart("gender", (String) dataMap.get("gender"));
         builder.addFormDataPart("age", (String) dataMap.get("age"));
-        builder.addFormDataPart("idNum", (String) dataMap.get("indentity"));
         builder.addFormDataPart("workYears", (String) dataMap.get("workexperience"));
         builder.addFormDataPart("introduce", (String) dataMap.get("introduce"));
-        builder.addFormDataPart("professionIds", (String) dataMap.get("begoodat"));
-        builder.addFormDataPart("serviceAreaIds", (String) dataMap.get("localservice"));
+        builder.addFormDataPart("idNum", (String) dataMap.get("indentity"));
+        //builder.addFormDataPart("serviceAreaIds", "");
+        //builder.addFormDataPart("serviceAreaIds", (String) dataMap.get("localservice"));
+        builder.addFormDataPart("hospitalId", String.valueOf(dataMap.get("hospital")));
+        builder.addFormDataPart("departmentId", String.valueOf(dataMap.get("office")));
         MultipartBody requestBody = builder.build();
-        Request request = new Request.Builder().url("http://192.168.2.134:8080/qryl/massager/add").post(requestBody).build();
+        Request request = new Request.Builder().url(ConstantValue.URL + "/dn/modify").post(requestBody).build();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -201,8 +228,6 @@ public class TnCompilePicActivity extends BaseActivity implements View.OnClickLi
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Intent intent = new Intent(TnCompilePicActivity.this, MainActivity.class);
-                        startActivity(intent);
                         finish();
                     }
                 });
@@ -229,7 +254,6 @@ public class TnCompilePicActivity extends BaseActivity implements View.OnClickLi
                 break;
         }
     }
-
 
     /**
      * 弹出popupWindow的逻辑
@@ -504,4 +528,15 @@ public class TnCompilePicActivity extends BaseActivity implements View.OnClickLi
         Log.i(TAG, "saveFile: 保存成功" + sp.getString(spKey, null));
     }
 
+    private void changeTitle() {
+        TextView tvReturn = (TextView) findViewById(R.id.return_text);
+        TextView tvTitle = (TextView) findViewById(R.id.title_name);
+        tvTitle.setText("编辑资料");
+        tvReturn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
 }

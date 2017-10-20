@@ -202,7 +202,7 @@ public class TnCompleteInfoActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(TnCompleteInfoActivity.this, BeGoodAtWorkActivity.class);
-                intent.putExtra("service_id", 3);
+                intent.putExtra("service_id", 2);
                 startActivityForResult(intent, CHOOSE_WORK);
             }
         });

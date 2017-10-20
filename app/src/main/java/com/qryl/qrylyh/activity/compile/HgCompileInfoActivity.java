@@ -112,7 +112,7 @@ public class HgCompileInfoActivity extends BaseActivity {
      * 获取之前编辑的资料
      */
     private void postData() {
-        HttpUtil.sendOkHttpRequestInt(ConstantValue.URL+"/carer/getMyDetail", new Callback() {
+        HttpUtil.sendOkHttpRequestInt(ConstantValue.URL + "/carer/getMyDetail", new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.i(TAG, "onFailure: ");
@@ -284,6 +284,7 @@ public class HgCompileInfoActivity extends BaseActivity {
     }
 
     private void initView() {
+        changeTitle();
         //点击事件区域
         myHead = (RelativeLayout) findViewById(R.id.my_head);
         realName = (RelativeLayout) findViewById(R.id.real_name);
@@ -308,8 +309,20 @@ public class HgCompileInfoActivity extends BaseActivity {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //不能为空时点击跳转
+                //点击跳转
                 putExtra();
+            }
+        });
+    }
+
+    private void changeTitle() {
+        TextView tvReturn = (TextView) findViewById(R.id.return_text);
+        TextView tvTitle = (TextView) findViewById(R.id.title_name);
+        tvTitle.setText("编辑资料");
+        tvReturn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }
@@ -333,9 +346,10 @@ public class HgCompileInfoActivity extends BaseActivity {
         bundle.putString("begoodat", tvBeGoodAtWork.getText().toString());
         bundle.putString("localservice", locationId);
         intent.putExtras(bundle);
-        Log.e(TAG, "putExtra: 姓名" + nameDialogText + "身份证" + identityDialogText + "性别" + genderNum +"年龄"+tvAge.getText().toString()+ "工作经验" + workExperienceDialogText
+        Log.e(TAG, "putExtra: 姓名" + nameDialogText + "身份证" + identityDialogText + "性别" + genderNum + "年龄" + tvAge.getText().toString() + "工作经验" + workExperienceDialogText
                 + "擅长的工作" + workId + "选择服务的区域" + locationId);
         startActivity(intent);
+        finish();
     }
 
     private void showPopupWindow() {

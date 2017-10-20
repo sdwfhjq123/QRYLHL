@@ -217,10 +217,10 @@ public class HsCompletePicActivity extends AppCompatActivity implements View.OnC
         builder.addFormDataPart("introduce", (String) dataMap.get("introduce"));
         builder.addFormDataPart("idNum", (String) dataMap.get("indentity"));
         builder.addFormDataPart("serviceAreaIds", (String) dataMap.get("localservice"));
-        builder.addFormDataPart("hospitalId", (String) dataMap.get("hospital"));
-        builder.addFormDataPart("departmentId", (String) dataMap.get("office"));
+        builder.addFormDataPart("hospitalId", String.valueOf(dataMap.get("hospital")));
+        builder.addFormDataPart("departmentId", String.valueOf(dataMap.get("office")));
         MultipartBody requestBody = builder.build();
-        Request request = new Request.Builder().url(ConstantValue.URL+"/dn/add").post(requestBody).build();
+        Request request = new Request.Builder().url(ConstantValue.URL + "/dn/add").post(requestBody).build();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {

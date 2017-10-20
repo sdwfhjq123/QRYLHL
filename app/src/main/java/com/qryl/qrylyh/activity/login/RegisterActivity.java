@@ -184,28 +184,45 @@ public class RegisterActivity extends BaseActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.i(TAG, "onResponse: 服务器连接成功" + response.body().string());
                 try {
                     JSONObject jsonObject = new JSONObject(response.body().string());
-                    JSONObject data = jsonObject.getJSONObject("data");
-                    int loginId = data.getInt("loginId");
-                    SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
-                    prefs.edit().putString("user_id", String.valueOf(loginId)).commit();
+                    String resultCode = jsonObject.getString("resultCode");
+                    if (resultCode.equals("200")) {
+                        JSONObject data = jsonObject.getJSONObject("data");
+                        int loginId = data.getInt("loginId");
+                        SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+                        prefs.edit().putString("user_id", String.valueOf(loginId)).commit();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (progressDialog.isShowing() && progressDialog != null) {
+                                    progressDialog.dismiss();
+                                }
+                                Toast.makeText(RegisterActivity.this, "注册成功!", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(RegisterActivity.this, FinishActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+                    } else if (resultCode.equals("500")) {
+                        final String erroMessage = jsonObject.getString("erroMessage");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (progressDialog.isShowing() && progressDialog != null) {
+                                    progressDialog.dismiss();
+                                }
+                                Toast.makeText(RegisterActivity.this, erroMessage, Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(RegisterActivity.this, FinishActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (progressDialog.isShowing() && progressDialog != null) {
-                            progressDialog.dismiss();
-                        }
-                        Toast.makeText(RegisterActivity.this, "注册成功!", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                });
+
             }
         });
     }
@@ -263,4 +280,11 @@ public class RegisterActivity extends BaseActivity {
         timer.start();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+    }
 }

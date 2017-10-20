@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -133,7 +134,7 @@ public class HgCompilePicActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void displayInHttp() {
-        HttpUtil.sendOkHttpRequestInt(ConstantValue.URL+"/carer/getMyDetail", new Callback() {
+        HttpUtil.sendOkHttpRequestInt(ConstantValue.URL + "/carer/getMyDetail", new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.i(TAG, "onFailure: ");
@@ -168,6 +169,7 @@ public class HgCompilePicActivity extends BaseActivity implements View.OnClickLi
 
 
     private void initView() {
+        changeTitle();
         sfzImage = (ImageView) findViewById(R.id.sfz_image);
         jkzImage = (ImageView) findViewById(R.id.jkz_image);
         zgzImage = (ImageView) findViewById(R.id.zgz_image);
@@ -252,7 +254,7 @@ public class HgCompilePicActivity extends BaseActivity implements View.OnClickLi
         builder.addFormDataPart("professionIds", (String) dataMap.get("begoodat"));
         builder.addFormDataPart("serviceAreaIds", "");
         MultipartBody requestBody = builder.build();
-        Request request = new Request.Builder().url(ConstantValue.URL+"/carer/modify").post(requestBody).build();
+        Request request = new Request.Builder().url(ConstantValue.URL + "/carer/modify").post(requestBody).build();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -266,8 +268,6 @@ public class HgCompilePicActivity extends BaseActivity implements View.OnClickLi
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Intent intent = new Intent(HgCompilePicActivity.this, MainActivity.class);
-                        startActivity(intent);
                         finish();
                     }
                 });
@@ -569,4 +569,16 @@ public class HgCompilePicActivity extends BaseActivity implements View.OnClickLi
         Log.i(TAG, "saveFile: 保存成功" + sp.getString(spKey, null));
     }
 
+
+    private void changeTitle() {
+        TextView tvReturn = (TextView) findViewById(R.id.return_text);
+        TextView tvTitle = (TextView) findViewById(R.id.title_name);
+        tvTitle.setText("编辑资料");
+        tvReturn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
 }

@@ -1,6 +1,7 @@
 package com.qryl.qrylyh.activity.compile;
 
 import android.content.ContentUris;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -38,8 +39,13 @@ import com.qryl.qrylyh.activity.login.complete.BeGoodAtWorkActivity;
 import com.qryl.qrylyh.activity.login.complete.HospitalActivity;
 import com.qryl.qrylyh.activity.login.complete.LocationActivity;
 import com.qryl.qrylyh.activity.login.complete.OfficeActivity;
+import com.qryl.qrylyh.util.ConstantValue;
 import com.qryl.qrylyh.util.DialogUtil;
+import com.qryl.qrylyh.util.HttpUtil;
 import com.qryl.qrylyh.view.MyAlertDialog;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -47,6 +53,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Response;
 
 public class HsCompileInfoActivity extends BaseActivity {
 
@@ -86,17 +96,94 @@ public class HsCompileInfoActivity extends BaseActivity {
     private int hospitalId;
     private int officeId;
     private String workId;
+    private String userId;
+    private String introduce;
+    private String idImg;
+    private String healthCertificateImg;
+    private String qualificationCertificateImg;
+    private SharedPreferences sp;
+    private String headshotImg;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complete_info_max);
+        SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+        userId = prefs.getString("user_id", "");
+        sp = getSharedPreferences("image", Context.MODE_PRIVATE);
+        sp.edit().putString(HEAD_KEY, "").commit();
         genderArray = getResources().getStringArray(R.array.gender);
         workExperienceArray = getResources().getStringArray(R.array.work_experience);
         initView();
+        initData();
         //点击每个条目实现dialog或者activity
         clickItemShowDialog();
+    }
+
+    private void initData() {
+        postData();
+    }
+
+    /**
+     * 获取之前编辑的数据
+     */
+    private void postData() {
+        HttpUtil.sendOkHttpRequestInt(ConstantValue.URL + "/dn/getMyDetail", new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String result = response.body().string();
+                handleJson(result);
+            }
+        }, "loginId", userId);
+    }
+
+
+    private void handleJson(String result) {
+        try {
+            JSONObject jsonObject = new JSONObject(result);
+            String resultCode = jsonObject.getString("resultCode");
+            if (resultCode.equals("200")) {
+                JSONObject data = jsonObject.getJSONObject("data");
+                headshotImg = data.getString("headshotImg");
+                final String realName = data.getString("realName");
+                final String idNum = data.getString("idNum");
+                final int gender = data.getInt("gender");//0男
+                final String age = data.getString("age");
+                final int workYears = data.getInt("workYears");
+                final int hospitalId = data.getInt("hospitalId");
+                final int departmentId = data.getInt("departmentId");
+                final String professionNames = data.getString("professionNames");
+                introduce = data.getString("introduce");
+                idImg = data.getString("idImg");
+                healthCertificateImg = data.getString("healthCertificateImg");
+                qualificationCertificateImg = data.getString("qualificationCertificateImg");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //显示
+                        Glide.with(HsCompileInfoActivity.this).load(ConstantValue.URL + headshotImg).thumbnail(0.1f).into(civHead);
+                        tvName.setText(realName);
+                        tvIdentity.setText(idNum);
+                        tvGender.setText(gender == 0 ? "男" : "女");
+                        tvAge.setText(age);
+                        tvWorkExperience.setText(workYears + "");
+                        tvHospital.setText(hospitalId + "");
+                        tvOffice.setText(departmentId + "");
+                        tvBeGoodAtWork.setText(professionNames);
+                    }
+                });
+            } else if (resultCode.equals("500")) {
+                return;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -247,6 +334,7 @@ public class HsCompileInfoActivity extends BaseActivity {
     }
 
     private void initView() {
+        changeTitle();
         //点击事件区域
         myHead = (RelativeLayout) findViewById(R.id.my_head);
         realName = (RelativeLayout) findViewById(R.id.real_name);
@@ -285,17 +373,22 @@ public class HsCompileInfoActivity extends BaseActivity {
         Intent intent = new Intent(HsCompileInfoActivity.this, HsCompilePicActivity.class);
         //传递数据
         Bundle bundle = new Bundle();
-        bundle.putString("name", ageDialogText);
-        bundle.putString("identity", identityDialogText);
+        bundle.putString("name", tvName.getText().toString());
+        bundle.putString("identity", tvIdentity.getText().toString());
         bundle.putInt("gender", genderNum);
-        bundle.putString("age", ageDialogText);
-        bundle.putString("workexperience", workExperienceDialogText);
-        bundle.putString("begoodat", workId);
+        bundle.putString("age", tvAge.getText().toString());
+        bundle.putString("workexperience",tvWorkExperience.getText().toString());
+        bundle.putString("begoodat", tvBeGoodAtWork.getText().toString());
         bundle.putString("localservice", locationId);
         bundle.putInt("hospital", hospitalId);
         bundle.putInt("office", officeId);
+        bundle.putString("introduce",introduce);
+        bundle.putString("idImg",idImg);
+        bundle.putString("qualificationCertificateImg",qualificationCertificateImg);
+        bundle.putString("healthCertificateImg",healthCertificateImg);
         intent.putExtras(bundle);
         startActivity(intent);
+        finish();
     }
 
     private void showPopupWindow() {
@@ -569,4 +662,15 @@ public class HsCompileInfoActivity extends BaseActivity {
         Log.i(TAG, "saveFile: 保存成功" + sp.getString(HEAD_KEY, null));
     }
 
+    private void changeTitle() {
+        TextView tvReturn = (TextView) findViewById(R.id.return_text);
+        TextView tvTitle = (TextView) findViewById(R.id.title_name);
+        tvTitle.setText("编辑资料");
+        tvReturn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
 }
