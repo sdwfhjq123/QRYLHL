@@ -44,9 +44,18 @@ public class OrderUnderwayAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof ItemViewHolder) {
-
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+        if (holder instanceof OrderUnderwayAdapter.ItemViewHolder) {
+            ((OrderUnderwayAdapter.ItemViewHolder) holder).tvMoney.setText(data.get(position).getPrice() + "");
+            ((OrderUnderwayAdapter.ItemViewHolder) holder).tvNote.setText(data.get(position).getNote());
+            ((OrderUnderwayAdapter.ItemViewHolder) holder).tvContent.setText(data.get(position).getContent());
+            ((OrderUnderwayAdapter.ItemViewHolder) holder).tvTitle.setText(data.get(position).getTitle());
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onItemClickListener.onItemClick(holder.itemView, position);
+                }
+            });
         }
     }
 

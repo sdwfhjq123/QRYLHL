@@ -44,9 +44,18 @@ public class OrderNoPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof ItemViewHolder) {
-
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+        if (holder instanceof OrderNoPayAdapter.ItemViewHolder) {
+            ((OrderNoPayAdapter.ItemViewHolder) holder).tvMoney.setText(data.get(position).getPrice() + "");
+            ((OrderNoPayAdapter.ItemViewHolder) holder).tvNote.setText(data.get(position).getNote());
+            ((OrderNoPayAdapter.ItemViewHolder) holder).tvContent.setText(data.get(position).getContent());
+            ((OrderNoPayAdapter.ItemViewHolder) holder).tvTitle.setText(data.get(position).getTitle());
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onItemClickListener.onItemClick(holder.itemView, position);
+                }
+            });
         }
     }
 

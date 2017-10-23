@@ -127,6 +127,7 @@ public class MeFragment extends android.support.v4.app.Fragment {
             final String headshotImg = data.getString("headshotImg");
             JSONObject loginBean = data.getJSONObject("loginBean");
             final String mobile = loginBean.getString("mobile");
+            Log.i(TAG, "handleJson: 获取的头像url:" + headshotImg);
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

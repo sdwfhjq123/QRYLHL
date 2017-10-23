@@ -16,6 +16,9 @@ import com.qryl.qrylyh.adapter.OrderFinishedAdapter;
 import com.qryl.qrylyh.fragment.BaseFragment;
 import com.qryl.qrylyh.util.ConstantValue;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +47,7 @@ public class OrderFinishedFragment extends BaseFragment {
     private int lastVisibleItemPosition;
     private boolean isLoading;
     private String userId;
+    private int roleType;
 
     @Override
     public void loadData() {
@@ -55,33 +59,54 @@ public class OrderFinishedFragment extends BaseFragment {
      * 请求网络数据
      */
     private void postData(final String page) {
-        for (int i = 0; i < 3; i++) {
-            OkHttpClient client = new OkHttpClient();
-            FormBody.Builder builder = new FormBody.Builder();
-            builder.add("status", "2");
-            builder.add("orderType", String.valueOf(i));
-            builder.add("userId", userId);//动态获取，需要写缓存
-            builder.add("page", page);
-            builder.add("limit", "2");
-            FormBody formBody = builder.build();
-            final Request request = new Request.Builder()
-                    .url(ConstantValue.URL+"/order/getOrderListByStatus")
-                    .post(formBody)
-                    .build();
-            client.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
+        int orderType = 4;
+        if (roleType == 0) {//护工登录的订单
+            orderType = 0;
+        } else if (roleType == 1 || roleType == 2) {
+            orderType = 1;
+        } else if (roleType == 3) {
+            orderType = 2;
+        }
+        OkHttpClient client = new OkHttpClient();
+        FormBody.Builder builder = new FormBody.Builder();
+        builder.add("status", "2");
+        builder.add("orderType", String.valueOf(orderType));
+        builder.add("userId", userId);//动态获取，需要写缓存
+        builder.add("page", page);
+        builder.add("limit", "2");
+        FormBody formBody = builder.build();
+        final Request request = new Request.Builder()
+                .url(ConstantValue.URL + "/order/getOrderListByStatus")
+                .post(formBody)
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String result = response.body().string();
+                Log.i(TAG, "onResponse: 页数" + page);
+                //判断data里面resultCode是否有500然后判断是否有数据或者
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    String resultCode = jsonObject.getString("resultCode");
+                    if (resultCode.equals("500")) {
+                        return;
+                    } else if (resultCode.equals("200")) {
+                        JSONObject data = jsonObject.getJSONObject("data");
+                        if (data != null) {
+                            handleJson(result);
+                            Log.i(TAG, "onResponse: " + result);
+                        }
+                    }
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    String result = response.body().string();
-                    Log.i(TAG, "onResponse: " + result);
-                    handleJson(result);
-                }
-            });
-        }
+            }
+        });
     }
 
     /**
@@ -113,6 +138,7 @@ public class OrderFinishedFragment extends BaseFragment {
     public View initView() {
         SharedPreferences prefs = getActivity().getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userId = prefs.getString("user_id", "");
+        roleType = prefs.getInt("role_type", 4);
         View view = View.inflate(getActivity(), R.layout.fragment_order_container, null);
         swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
