@@ -113,11 +113,11 @@ public class TnCompilePicActivity extends BaseActivity implements View.OnClickLi
         String introduce = bundle.getString("introduce", "");
         etMe.setText(introduce);
         String idImg = bundle.getString("idImg", "");
-        Glide.with(this).load(ConstantValue.URL + idImg).thumbnail(0.1f).into(sfzImage);
+        //Glide.with(this).load(ConstantValue.URL + idImg).thumbnail(0.1f).into(sfzImage);
         String qualificationCertificateImg = bundle.getString("qualificationCertificateImg", "");
-        Glide.with(this).load(ConstantValue.URL + qualificationCertificateImg).thumbnail(0.1f).into(zgzImage);
+        //Glide.with(this).load(ConstantValue.URL + qualificationCertificateImg).thumbnail(0.1f).into(zgzImage);
         String healthCertificateImg = bundle.getString("healthCertificateImg", "");
-        Glide.with(this).load(ConstantValue.URL + healthCertificateImg).thumbnail(0.1f).into(jkzImage);
+        //Glide.with(this).load(ConstantValue.URL + healthCertificateImg).thumbnail(0.1f).into(jkzImage);
         //dataMap.put("head", head.toString());
         dataMap.put("name", name);
         dataMap.put("indentity", indentity);

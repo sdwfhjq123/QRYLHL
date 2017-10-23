@@ -160,9 +160,9 @@ public class HgCompilePicActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void run() {
                 etMe.setText(data.getIntroduce());
-                Glide.with(HgCompilePicActivity.this).asBitmap().load(ConstantValue.URL + data.getIdImg()).thumbnail(0.1f).into(sfzImage);
-                Glide.with(HgCompilePicActivity.this).asBitmap().load(ConstantValue.URL + data.getHealthCertificateImg()).thumbnail(0.1f).into(jkzImage);
-                Glide.with(HgCompilePicActivity.this).asBitmap().load(ConstantValue.URL + data.getQualificationCertificateImg()).thumbnail(0.1f).into(zgzImage);
+//                Glide.with(HgCompilePicActivity.this).asBitmap().load(ConstantValue.URL + data.getIdImg()).thumbnail(0.1f).into(sfzImage);
+//                Glide.with(HgCompilePicActivity.this).asBitmap().load(ConstantValue.URL + data.getHealthCertificateImg()).thumbnail(0.1f).into(jkzImage);
+//                Glide.with(HgCompilePicActivity.this).asBitmap().load(ConstantValue.URL + data.getQualificationCertificateImg()).thumbnail(0.1f).into(zgzImage);
             }
         });
     }
