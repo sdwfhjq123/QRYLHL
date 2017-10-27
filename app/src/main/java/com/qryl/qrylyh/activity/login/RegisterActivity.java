@@ -27,6 +27,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import cn.jpush.android.api.JPushInterface;
 import cn.jpush.sms.SMSSDK;
 import cn.jpush.sms.listener.SmscheckListener;
 import cn.jpush.sms.listener.SmscodeListener;
@@ -54,6 +55,7 @@ public class RegisterActivity extends BaseActivity {
     private Button btnRegister;
     private AppCompatEditText etTel;
     private ProgressDialog progressDialog;
+    private String registrationID;
 
 
     @Override
@@ -135,6 +137,9 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void checkCodeSuccess(String s) {
                 Log.i(TAG, "checkCodeSuccess: 验证成功：" + s);
+                //注册极光唯一registrationId
+                registrationID = JPushInterface.getRegistrationID(RegisterActivity.this);
+                Log.i(TAG, "注册时需要提交的registrationID: " + registrationID);
                 postData();
             }
 
@@ -162,6 +167,7 @@ public class RegisterActivity extends BaseActivity {
         MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
         builder.addFormDataPart("password", etPsdComfirm.getText().toString());
         builder.addFormDataPart("mobile", etTel.getText().toString());
+        builder.addFormDataPart("registrationID", registrationID);
         MultipartBody requestBody = builder.build();
         Request requset = new Request.Builder()
                 .url(ConstantValue.URL + "/login/register")
