@@ -1,6 +1,7 @@
 package com.qryl.qrylyh.fragment.two;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import com.google.gson.Gson;
 import com.qryl.qrylyh.R;
 import com.qryl.qrylyh.VO.OrderVO.Order;
 import com.qryl.qrylyh.VO.OrderVO.OrderInfoArea;
+import com.qryl.qrylyh.activity.H5.OrderInfoActivity;
 import com.qryl.qrylyh.adapter.OrderFinishedAdapter;
 import com.qryl.qrylyh.adapter.OrderNoPayAdapter;
 import com.qryl.qrylyh.fragment.BaseFragment;
@@ -178,6 +180,20 @@ public class OrderNoPayFragment extends BaseFragment {
                 page = 1;
                 datas.clear();
                 postData(String.valueOf(1));
+            }
+        });
+        adapter.setOnItemClickListener(new OrderNoPayAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent(getActivity(), OrderInfoActivity.class);
+                intent.putExtra("orderType", datas.get(position).getOrderType());
+                intent.putExtra("orderId", datas.get(position).getId());
+                startActivity(intent);
+            }
+
+            @Override
+            public void onDeleteItemClick(View view, int position) {
+
             }
         });
         return view;

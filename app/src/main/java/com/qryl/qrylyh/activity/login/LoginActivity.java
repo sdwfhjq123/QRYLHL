@@ -42,6 +42,7 @@ public class LoginActivity extends BaseActivity {
     private int roleType;
     private CheckBox cbAuto;
     private SharedPreferences prefs;
+    private String registrationID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +78,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 //注册极光唯一registrationId
-                String registrationID = JPushInterface.getRegistrationID(LoginActivity.this);
+                registrationID = JPushInterface.getRegistrationID(LoginActivity.this);
                 Log.i(TAG, "registrationID" + registrationID);
 
                 String psd = etPsd.getText().toString();
@@ -113,6 +114,7 @@ public class LoginActivity extends BaseActivity {
         FormBody.Builder builder = new FormBody.Builder();
         builder.add("mobile", user);
         builder.add("password", psd);
+        builder.add("registrationId", registrationID);
         FormBody formBody = builder.build();
         final Request request = new Request.Builder()
                 .url(ConstantValue.URL + "/login/login")
