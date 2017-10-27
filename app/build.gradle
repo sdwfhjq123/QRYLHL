@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "26.0.1"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.qryl.qrylyh"
         minSdkVersion 21
@@ -44,5 +44,6 @@ dependencies {
     compile 'com.jude:rollviewpager:1.2.9'
     compile 'com.feezu.liuli:timeselector:1.1.3+'
     testCompile 'junit:junit:4.12'
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0'
 }

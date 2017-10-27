@@ -19,6 +19,8 @@ import com.qryl.qrylyh.fragment.MeFragment;
 import com.qryl.qrylyh.fragment.MsgFragment;
 import com.qryl.qrylyh.fragment.OrderFragment;
 
+import cn.jpush.android.api.JPushInterface;
+
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = "MainActivity";
@@ -43,6 +45,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userId = prefs.getString("user_id", "");
         roleType = prefs.getInt("role_type", 0);
@@ -92,7 +95,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void hiddenView() {
-      tvReturn= (TextView) findViewById(R.id.return_text);
+        tvReturn = (TextView) findViewById(R.id.return_text);
         tvReturn.setVisibility(View.GONE);
     }
 

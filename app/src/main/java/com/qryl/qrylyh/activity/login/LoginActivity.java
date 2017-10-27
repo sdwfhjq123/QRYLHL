@@ -25,6 +25,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 
+import cn.jpush.android.api.JPushInterface;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -46,6 +47,7 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         initView();
         //自动登录逻辑
         prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
@@ -74,6 +76,10 @@ public class LoginActivity extends BaseActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //注册极光唯一registrationId
+                String registrationID = JPushInterface.getRegistrationID(LoginActivity.this);
+                Log.i(TAG, "registrationID" + registrationID);
+
                 String psd = etPsd.getText().toString();
                 String user = etUser.getText().toString();
                 if (!TextUtils.isEmpty(psd) && !TextUtils.isEmpty(user)) {

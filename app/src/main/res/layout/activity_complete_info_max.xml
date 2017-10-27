@@ -30,8 +30,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="50dp"
-            android:background="#f00"
-            android:src="#ff0" />
+            android:src="@mipmap/ic_loading" />
 
     </RelativeLayout>
 

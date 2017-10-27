@@ -77,9 +77,9 @@ public class MeFragment extends android.support.v4.app.Fragment {
             postData(ConstantValue.URL + "/dn/getMyInfo");
             Log.i(TAG, "initData: 1,2");
             if (roleType == 1) {
-                tvProfession.setText("护士");
-            } else if (roleType == 2) {
                 tvProfession.setText("医生");
+            } else if (roleType == 2) {
+                tvProfession.setText("护士");
             }
         } else if (roleType == 3) {
             postData(ConstantValue.URL + "/massager/getMyInfo");

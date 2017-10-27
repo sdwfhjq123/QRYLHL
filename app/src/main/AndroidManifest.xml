@@ -58,20 +58,20 @@
         <activity android:name=".activity.login.complete.HgCompleteInfoActivity" />
         <activity android:name=".activity.login.complete.TnCompleteInfoActivity" />
         <activity android:name=".activity.login.complete.HgCompletePicActivity">
-            <!--<provider-->
-                <!--android:name="android.support.v4.content.FileProvider"-->
-                <!--android:authorities="com.qryl.qrylyh.activity.login.complete.fileprovider"-->
-                <!--android:exported="true"-->
-                <!--android:grantUriPermissions="true">-->
-                <!--<meta-data-->
-                    <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
-                    <!--android:resource="@xml/file_paths" />-->
-            <!--</provider>-->
+
+            <!-- <provider -->
+            <!-- android:name="android.support.v4.content.FileProvider" -->
+            <!-- android:authorities="com.qryl.qrylyh.activity.login.complete.fileprovider" -->
+            <!-- android:exported="true" -->
+            <!-- android:grantUriPermissions="true"> -->
+            <!-- <meta-data -->
+            <!-- android:name="android.support.FILE_PROVIDER_PATHS" -->
+            <!-- android:resource="@xml/file_paths" /> -->
+            <!-- </provider> -->
         </activity>
         <activity android:name=".activity.login.complete.HsCompletePicActivity" />
         <activity android:name=".activity.login.complete.YsCompletePicActivity" />
         <activity android:name=".activity.login.complete.TnCompletePicActivity" />
-
         <activity android:name=".activity.compile.HgCompileInfoActivity" />
         <activity android:name=".activity.compile.HgCompilePicActivity" />
         <activity android:name=".activity.compile.HsCompileInfoActivity" />
@@ -80,7 +80,6 @@
         <activity android:name=".activity.compile.YsCompilePicActivity" />
         <activity android:name=".activity.compile.TnCompileInfoActivity" />
         <activity android:name=".activity.compile.TnCompilePicActivity" />
-
         <activity android:name=".activity.login.complete.HospitalActivity" />
         <activity android:name=".activity.login.complete.BeGoodAtWorkActivity" />
         <activity android:name=".activity.login.complete.LocationActivity" />
@@ -88,7 +87,6 @@
         <activity android:name=".activity.login.ResetPsdActivity" />
         <activity android:name=".activity.H5.LocationAddActivity" />
         <activity android:name=".activity.H5.LocationManagerActivity" />
-
 
         <!-- Required SDK 核心功能 -->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
@@ -187,23 +185,23 @@
 
 
         <!-- User defined. 用户自定义的广播接收器 -->
-        <!-- <receiver -->
-        <!-- android:name="您自己定义的Receiver" -->
-        <!-- android:enabled="true"> -->
-        <!-- <intent-filter> -->
-        <!-- &lt;!&ndash;Required 用户注册SDK的intent&ndash;&gt; -->
-        <!-- <action android:name="cn.jpush.android.intent.REGISTRATION" /> -->
-        <!-- &lt;!&ndash;Required 用户接收SDK消息的intent&ndash;&gt; -->
-        <!-- <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> -->
-        <!-- &lt;!&ndash;Required 用户接收SDK通知栏信息的intent&ndash;&gt; -->
-        <!-- <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> -->
-        <!-- &lt;!&ndash;Required 用户打开自定义通知栏的intent&ndash;&gt; -->
-        <!-- <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> -->
-        <!-- &lt;!&ndash; 接收网络变化 连接/断开 since 1.6.3 &ndash;&gt; -->
-        <!-- <action android:name="cn.jpush.android.intent.CONNECTION" /> -->
-        <!-- <category android:name="com.qryl.qrylyh" /> -->
-        <!-- </intent-filter> -->
-        <!-- </receiver> -->
+        <receiver
+            android:name=".receiver.MyReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <!--Required 用户注册SDK的intent-->
+                <action android:name="cn.jpush.android.intent.REGISTRATION" />
+                <!--Required 用户接收SDK消息的intent-->
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+                <!--Required 用户接收SDK通知栏信息的intent-->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+                <!--Required 用户打开自定义通知栏的intent-->
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                <!-- 接收网络变化 连接/断开 since 1.6.3 -->
+                <action android:name="cn.jpush.android.intent.CONNECTION" />
+                <category android:name="com.qryl.qrylyh" />
+            </intent-filter>
+        </receiver>
 
 
         <!-- Required. For publish channel feature -->
@@ -220,7 +218,7 @@
             android:name="JPUSH_APPKEY"
             android:value="a349b956ef68f96ec8f82b3d" />
 
-
+        <activity android:name=".activity.H5.WritePatientsFileActivity"></activity>
     </application>
 
 </manifest>

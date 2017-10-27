@@ -12,8 +12,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.qryl.qrylyh.R;
+import com.qryl.qrylyh.VO.HomeOtherVO.HomeOther;
+import com.qryl.qrylyh.activity.H5.WritePatientsFileActivity;
+import com.qryl.qrylyh.activity.MainActivity;
 import com.qryl.qrylyh.util.ConstantValue;
 import com.qryl.qrylyh.util.HttpUtil;
 
@@ -46,6 +51,11 @@ public class HomeOtherFragment extends Fragment {
     private int status;
     private Button button;
     private LinearLayout llPatient;
+    private int orderId;
+    private int patientId;
+    private int puId;
+    private int serviceNum;
+    private String name;
 
     @Nullable
     @Override
@@ -73,55 +83,83 @@ public class HomeOtherFragment extends Fragment {
         HttpUtil.sendOkHttpRequestInt(ConstantValue.URL + "/order/getHomePageInfo", new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.i(TAG, "onFailure: ");
+                e.printStackTrace();
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String result = response.body().string();
                 Log.i(TAG, "获取医护首页信息" + result);
-                handleJson(result);
+                try {
+                    final JSONObject jsonObject = new JSONObject(result);
+                    String resultCode = jsonObject.getString("resultCode");
+                    if (resultCode.equals("500")) {
+                        if (getActivity() instanceof MainActivity) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        Toast.makeText(getActivity(), jsonObject.getString("erroMessage"), Toast.LENGTH_SHORT).show();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        }
+                    } else if (resultCode.equals("200")) {
+                        handleJson(result);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, "loginId", userId);
     }
 
-    private void handleJson(final String result) {
-        JSONObject jsonObject = null;
-        try {
-            jsonObject = new JSONObject(result);
-            final JSONObject jo = jsonObject.getJSONObject("data");
-            final String serviceTimes = jo.getString("serviceTimes");
-            JSONObject doctorNurse = jo.getJSONObject("doctorNurse");
-            final String realName = doctorNurse.getString("realName");
-            final String patient = jo.getString("patient");
-            status = jo.getInt("status");
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    tvServiceTimes.setText(serviceTimes + "");
-                    if (tvServiceTimes.getText().toString().equals("null")) {
-                        tvServiceTimes.setText(0 + "");
-                    } else {
-                        tvServiceTimes.setText(serviceTimes + "");
+    private void handleJson(String result) {
+        Gson gson = new Gson();
+        HomeOther homeOther = gson.fromJson(result, HomeOther.class);
+        String resultCode = homeOther.getResultCode();
+        if (resultCode.equals("500")) {
+            Toast.makeText(getActivity(), "用户已登录", Toast.LENGTH_SHORT).show();
+        } else if (resultCode.equals("200")) {
+            status = homeOther.getData().getDoctorNurse().getStatus();
+            serviceNum = homeOther.getData().getDoctorNurse().getServiceNum();
+            if (status == 2) {
+                //订单id
+                orderId = homeOther.getData().getId();
+                //病人id
+                patientId = homeOther.getData().getPatient().getId();
+                //病人的名字
+                name = homeOther.getData().getPatient().getName();
+                //病患端用户登录id
+                puId = homeOther.getData().getPatient().getPuId();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        tvServiceTimes.setText(serviceNum + "");
+                        if (tvServiceTimes.getText().toString().equals("null")) {
+                            tvServiceTimes.setText(0 + "");
+                        } else {
+                            tvServiceTimes.setText(serviceNum + "");
+                        }
+                        tvName.setText(name);
+                        if (status == 0) {//空闲
+                            button.setText(UP);
+                            tvStatus.setText("未上班");
+                            tvPatient.setText(name);
+                        } else if (status == 1) {//上班未接单
+                            button.setText(DOWN);
+                            tvStatus.setText("已上班");
+                            tvPatient.setText(name);
+                        } else if (status == 2) {
+                            button.setText(DOWN);
+                            tvStatus.setText("已上班");
+                            tvPatient.setText(name);
+                        }
                     }
-                    tvName.setText(realName);
-                    if (status == 0) {//空闲
-                        button.setText(UP);
-                        tvStatus.setText("未上班");
-                        tvPatient.setText(patient);
-                    } else if (status == 1) {//上班未接单
-                        button.setText(DOWN);
-                        tvStatus.setText("已上班");
-                        tvPatient.setText(patient);
-                    } else if (status == 2) {
-                        button.setText(DOWN);
-                        tvStatus.setText("已上班");
-                        tvPatient.setText(patient);
-                    }
-                }
-            });
-        } catch (JSONException e) {
-            e.printStackTrace();
+                });
+            }
         }
 
     }
@@ -148,6 +186,14 @@ public class HomeOtherFragment extends Fragment {
                 } else if (button.getText().toString().equals(DOWN)) {
                     getStatus(0 + "", UP);
                 }
+            }
+        });
+
+        llPatient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //点击查看详情
+                WritePatientsFileActivity.actionStart(getActivity(), puId, patientId, orderId);
             }
         });
     }

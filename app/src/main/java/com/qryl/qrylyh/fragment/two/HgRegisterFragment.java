@@ -2,21 +2,17 @@ package com.qryl.qrylyh.fragment.two;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.qryl.qrylyh.R;
 import com.qryl.qrylyh.fragment.BaseFragment;
 import com.qryl.qrylyh.util.ConstantValue;
-import com.qryl.qrylyh.util.DoubleDatePickerDialog;
 import com.qryl.qrylyh.util.HttpUtil;
 
 import org.feezu.liuli.timeselector.TimeSelector;
@@ -24,12 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.FieldPosition;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -123,14 +114,15 @@ public class HgRegisterFragment extends BaseFragment implements View.OnClickList
         cbTwelveHours.setOnClickListener(this);
         cbTwentyFourHours.setOnClickListener(this);
         button.setOnClickListener(this);
-        if (tvStatus.getText().equals("已接单,点击查看详情")) {
-            llStatus.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //点开详情
-                }
-            });
-        }
+        //if (tvStatus.getText().equals("已接单,点击查看详情")) {
+        llStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //点开详情
+               // new Intent(HgRegisterFragment.this, WritePatientsFileActivity.)
+            }
+        });
+        //}
         return view;
     }
 

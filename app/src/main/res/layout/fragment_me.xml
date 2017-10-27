@@ -45,7 +45,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:background="#f00" />
+                android:src="@mipmap/ic_loading" />
 
             <LinearLayout
                 android:id="@+id/ll_compile"

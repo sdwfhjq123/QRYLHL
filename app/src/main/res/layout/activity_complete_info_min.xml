@@ -30,8 +30,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="50dp"
-            android:background="#f00"
-            android:src="#ff0" />
+            android:src="@mipmap/ic_loading" />
 
     </RelativeLayout>
 
@@ -208,8 +207,9 @@
         <ImageView style="@style/ImgAdvanceInItemStyle" />
     </RelativeLayout>
 
-    <View style="@style/ViewLine"
-        android:id="@+id/location_view_line"/>
+    <View
+        android:id="@+id/location_view_line"
+        style="@style/ViewLine" />
 
 
     <RelativeLayout
