@@ -56,6 +56,8 @@ public class HomeOtherFragment extends Fragment {
     private int puId;
     private int serviceNum;
     private String name;
+    private int roleType;
+    private String address;
 
     @Nullable
     @Override
@@ -63,6 +65,7 @@ public class HomeOtherFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home_other, null);
         SharedPreferences prefs = getActivity().getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userId = prefs.getString("user_id", "");
+        roleType = prefs.getInt("role_type", 0);
         initView(view);
         initData();
         return view;
@@ -73,14 +76,21 @@ public class HomeOtherFragment extends Fragment {
      */
     private void initData() {
         //初始化页面时加载的状态
-        postData();
+        if (roleType == 3) {
+            address = ConstantValue.URL + "/order/getMassagerHomePageInfo";
+        } else {
+            address = ConstantValue.URL + "/order/getHomePageInfo";
+        }
+        postData(address);
     }
 
     /**
      * 初始化页面时加载的状态
+     *
+     * @param address 根据不同的角色请求不同的url
      */
-    private void postData() {
-        HttpUtil.sendOkHttpRequestInt(ConstantValue.URL + "/order/getHomePageInfo", new Callback() {
+    private void postData(String address) {
+        HttpUtil.sendOkHttpRequestInt(address, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
