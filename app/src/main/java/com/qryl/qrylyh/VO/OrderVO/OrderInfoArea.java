@@ -7,12 +7,12 @@ package com.qryl.qrylyh.VO.OrderVO;
 public class OrderInfoArea {
     private String note;
     private Double price;
-    private int id;
+    private String id;
     private String title;
     private String content;
     private int orderType;
 
-    public OrderInfoArea(String note, Double price, int id, String title, String content, int orderType) {
+    public OrderInfoArea(String note, Double price, String id, String title, String content, int orderType) {
         this.note = note;
         this.price = price;
         this.id = id;
@@ -37,11 +37,11 @@ public class OrderInfoArea {
         this.price = price;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

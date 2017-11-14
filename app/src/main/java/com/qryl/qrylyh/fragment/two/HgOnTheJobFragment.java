@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.qryl.qrylyh.R;
+import com.qryl.qrylyh.activity.MainActivity;
 import com.qryl.qrylyh.fragment.BaseFragment;
 import com.qryl.qrylyh.util.ConstantValue;
 
@@ -90,23 +91,26 @@ public class HgOnTheJobFragment extends BaseFragment {
             JSONObject patient = data.getJSONObject("patient");
             final String patientName = patient.getString("name");
             final String mobile = patient.getString("mobile");
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    String s = long2Date(startTime);
-                    tvServiceDay.setText("已服务" + serviceOverDays + "天");
-                    tvPatient.setText(patientName);
-                    tvMountGuard.setText(s);
-                    tvMountGuardLocation.setText(province + " " + city + " " + district + "" + specificSite);
-                    if (selfCare == 0) {
-                        tvPatientStatus.setText("失能");
-                    } else {
-                        tvPatientStatus.setText("自理");
+            if (getActivity() instanceof MainActivity){
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String s = long2Date(startTime);
+                        tvServiceDay.setText("已服务" + serviceOverDays + "天");
+                        tvPatient.setText(patientName);
+                        tvMountGuard.setText(s);
+                        tvMountGuardLocation.setText(province + " " + city + " " + district + "" + specificSite);
+                        if (selfCare == 0) {
+                            tvPatientStatus.setText("失能");
+                        } else {
+                            tvPatientStatus.setText("自理");
+                        }
+                        tvTel.setText(mobile);
+                        llParticular.setVisibility(View.VISIBLE);
                     }
-                    tvTel.setText(mobile);
-                    llParticular.setVisibility(View.VISIBLE);
-                }
-            });
+                });
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

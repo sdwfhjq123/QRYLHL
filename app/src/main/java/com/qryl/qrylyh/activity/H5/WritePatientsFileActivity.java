@@ -1,5 +1,6 @@
 package com.qryl.qrylyh.activity.H5;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,8 +12,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.qryl.qrylyh.R;
-import com.qryl.qrylyh.util.AndroidToJs;
 import com.qryl.qrylyh.util.ConstantValue;
+import com.qryl.qrylyh.util.HgxqAndroidToJs;
+import com.qryl.qrylyh.view.ProgressWebview;
 
 
 public class WritePatientsFileActivity extends AppCompatActivity {
@@ -24,12 +26,12 @@ public class WritePatientsFileActivity extends AppCompatActivity {
     //private static final String URL_AM = ConstantValue.URL_H5 + "/patient/worker_priority_worker_datails_massager.html";
     //private static final String URL_MY = ConstantValue.URL_H5 + "/patient/worker_priority_worker_datails_motherBaby.html";
 
-    private WebView webview;
+    private ProgressWebview webview;
     private String userId;
     private int roleType;
     private int pubId;
     private int patientId;
-    private int orderId;
+    private String orderId;
 
     /**
      * @param context
@@ -45,6 +47,7 @@ public class WritePatientsFileActivity extends AppCompatActivity {
         context.startActivity(intent);
     }
 
+    @SuppressLint("LongLogTag")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -57,20 +60,23 @@ public class WritePatientsFileActivity extends AppCompatActivity {
         Intent intent = getIntent();
         pubId = intent.getIntExtra("pub_id", 0);
         patientId = intent.getIntExtra("patient_id", 0);
-        orderId = intent.getIntExtra("order_id", 0);
+        orderId = intent.getStringExtra("order_id");
         Log.i(TAG, "onCreate: " + userId);
         Log.i(TAG, "传给H5的类型: " + roleType);
         initView();
     }
 
     private void initView() {
-        webview = (WebView) findViewById(R.id.webview);
+        webview = (ProgressWebview) findViewById(R.id.webview);
         WebSettings webSettings = webview.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
         webSettings.setDatabaseEnabled(true);
+        webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
+        webSettings.setBlockNetworkImage(true);
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webSettings.setDatabasePath(WritePatientsFileActivity.this.getApplicationContext().getCacheDir().getAbsolutePath());
-        webview.addJavascriptInterface(new AndroidToJs(this), "qrylhg");
+        webview.addJavascriptInterface(new HgxqAndroidToJs(this, this), "qrylhg");
         webview.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {

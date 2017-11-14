@@ -43,6 +43,7 @@ public class LoginActivity extends BaseActivity {
     private CheckBox cbAuto;
     private SharedPreferences prefs;
     private String registrationID;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,32 +74,40 @@ public class LoginActivity extends BaseActivity {
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
         });
+
         Button btnLogin = (Button) findViewById(R.id.btn_login_login);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //注册极光唯一registrationId
-                registrationID = JPushInterface.getRegistrationID(LoginActivity.this);
-                Log.i(TAG, "registrationID" + registrationID);
+                if (cbAuto.isChecked() && TextUtils.isEmpty(etUser.getText().toString())) {
+                    Toast.makeText(LoginActivity.this, "自动登录无法保存您的账号", Toast.LENGTH_SHORT).show();
+                } else if (cbAuto.isChecked() || !cbAuto.isChecked()) {
+                    //注册极光唯一registrationId
+                    registrationID = JPushInterface.getRegistrationID(LoginActivity.this);
+                    Log.i(TAG, "registrationID" + registrationID);
 
-                String psd = etPsd.getText().toString();
-                String user = etUser.getText().toString();
-                if (!TextUtils.isEmpty(psd) && !TextUtils.isEmpty(user)) {
-                    postData(user, psd);
+                    String psd = etPsd.getText().toString();
+                    String user = etUser.getText().toString();
+                    if (!TextUtils.isEmpty(psd) && !TextUtils.isEmpty(user)) {
+                        postData(user, psd);
+                    }
                 }
             }
         });
+
         //判断是否登录
         cbAuto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (cbAuto.isChecked()) {
                     cbAuto.setChecked(true);
+                    prefs.edit().putBoolean("is_auto_login", cbAuto.isChecked()).commit();
+                    Log.i(TAG, "保存checkbox状态:" + cbAuto.isChecked());
                 } else {
                     cbAuto.setChecked(false);
+                    prefs.edit().clear().apply();
                 }
-                prefs.edit().putBoolean("is_auto_login", cbAuto.isChecked()).commit();
-                Log.i(TAG, "保存checkbox状态:" + cbAuto.isChecked());
+
             }
         });
     }
@@ -143,6 +152,7 @@ public class LoginActivity extends BaseActivity {
                         JSONObject data = jsonObject.getJSONObject("data");
                         id = data.getInt("loginId");
                         roleType = data.getInt("roleType");
+                        token = data.getString("token");
                         Log.i(TAG, "onResponse: " + roleType);
                         runOnUiThread(new Runnable() {
                             @Override
@@ -150,6 +160,7 @@ public class LoginActivity extends BaseActivity {
                                 SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
                                 prefs.edit().putString("user_id", String.valueOf(id)).commit();
                                 prefs.edit().putInt("role_type", roleType).commit();
+                                prefs.edit().putString("token", token).apply();
                                 Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(intent);

@@ -107,7 +107,8 @@
                 android:layout_centerVertical="true"
                 android:background="@drawable/selector_btn_login"
                 android:text="支付"
-                android:textColor="#fff" />
+                android:textColor="#fff"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/btn_delete"
@@ -118,7 +119,8 @@
                 android:layout_toLeftOf="@id/btn_pay"
                 android:background="@drawable/selector_btn_login"
                 android:text="删除"
-                android:textColor="#fff" />
+                android:textColor="#fff"
+                android:visibility="gone" />
         </RelativeLayout>
 
     </LinearLayout>

@@ -62,7 +62,7 @@ public class OrderFragment extends Fragment {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {//点击第一次的tab选项回调
-                Toast.makeText(UIUtils.getContext(), tab.getText(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(UIUtils.getContext(), tab.getText(), Toast.LENGTH_SHORT).show();
             }
 
             @Override

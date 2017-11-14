@@ -8,12 +8,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.qryl.qrylyh.R;
 import com.qryl.qrylyh.VO.OrderVO.Order;
 import com.qryl.qrylyh.VO.OrderVO.OrderInfoArea;
 import com.qryl.qrylyh.activity.H5.OrderInfoActivity;
+import com.qryl.qrylyh.activity.MainActivity;
 import com.qryl.qrylyh.adapter.OrderFinishedAdapter;
 import com.qryl.qrylyh.adapter.OrderNoPayAdapter;
 import com.qryl.qrylyh.fragment.BaseFragment;
@@ -124,15 +126,18 @@ public class OrderNoPayFragment extends BaseFragment {
         for (int i = 0; i < data.size(); i++) {
             datas.add(data.get(i));
         }
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                adapter.setData(datas);
-                adapter.notifyDataSetChanged();
-                adapter.notifyItemRemoved(adapter.getItemCount());
-                swipeRefresh.setRefreshing(false);
-            }
-        });
+        if (getActivity() instanceof MainActivity){
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    adapter.setData(datas);
+                    adapter.notifyDataSetChanged();
+                    adapter.notifyItemRemoved(adapter.getItemCount());
+                    swipeRefresh.setRefreshing(false);
+                }
+            });
+        }
+
     }
 
     @Override
@@ -185,6 +190,7 @@ public class OrderNoPayFragment extends BaseFragment {
         adapter.setOnItemClickListener(new OrderNoPayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                Toast.makeText(getActivity(), datas.get(position).getId(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), OrderInfoActivity.class);
                 intent.putExtra("orderType", datas.get(position).getOrderType());
                 intent.putExtra("orderId", datas.get(position).getId());

@@ -13,6 +13,7 @@ import com.qryl.qrylyh.R;
 import com.qryl.qrylyh.activity.BaseActivity;
 import com.qryl.qrylyh.util.ConstantValue;
 import com.qryl.qrylyh.util.HgxqAndroidToJs;
+import com.qryl.qrylyh.view.ProgressWebview;
 
 public class OrderInfoActivity extends BaseActivity {
     private static final String TAG = "XzxqActivity";
@@ -21,9 +22,9 @@ public class OrderInfoActivity extends BaseActivity {
     private static final String URL_AM = ConstantValue.URL_H5 + "/medical/order_details_massager.html";
     private static final String URL_MY = ConstantValue.URL_H5 + "/medical/order_details_motherBaby.html";
 
-    private WebView webview;
+    private ProgressWebview webview;
     private String userId;
-    private int orderId;
+    private String orderId;
     private int orderType;
 
     public static void actionStart(Context context, int params, int params2) {
@@ -38,7 +39,7 @@ public class OrderInfoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         Intent intent = getIntent();
-        orderId = intent.getIntExtra("orderId", 0);
+        orderId = intent.getStringExtra("orderId");
         orderType = intent.getIntExtra("orderType", 0);
         SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userId = prefs.getString("user_id", "");
@@ -47,13 +48,16 @@ public class OrderInfoActivity extends BaseActivity {
     }
 
     private void initView() {
-        webview = (WebView) findViewById(R.id.webview);
+        webview = (ProgressWebview) findViewById(R.id.webview);
         WebSettings webSettings = webview.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
         webSettings.setDatabaseEnabled(true);
+        webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
+        webSettings.setBlockNetworkImage(true);
+        webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webSettings.setDatabasePath(OrderInfoActivity.this.getApplicationContext().getCacheDir().getAbsolutePath());
-        webview.addJavascriptInterface(new HgxqAndroidToJs(this), "qrylhg");
+        webview.addJavascriptInterface(new HgxqAndroidToJs(this,this), "qrylhg");
         webview.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {

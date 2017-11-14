@@ -1,6 +1,8 @@
 package com.qryl.qrylyh.util;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.provider.Settings;
 import android.webkit.JavascriptInterface;
 
@@ -17,9 +19,11 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 public class HgxqAndroidToJs {
 
     private Activity activity;
+    private Context context;
 
-    public HgxqAndroidToJs(Activity activity) {
+    public HgxqAndroidToJs(Activity activity, Context context) {
         this.activity = activity;
+        this.context = context;
     }
 
     /**
@@ -28,6 +32,11 @@ public class HgxqAndroidToJs {
     @JavascriptInterface
     public void finishActivity() {
         this.activity.finish();
+    }
+
+    public void forceOffline() {
+        Intent intent = new Intent("com.qryl.qrylyh.activity.BaseActivity.MustForceOfflineReceiver");
+        context.sendBroadcast(intent);
     }
 
 }

@@ -227,12 +227,14 @@ public class HomeOtherFragment extends Fragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 Log.i(TAG, "onResponse: 点击上班时获取的状态" + response.body().string());
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        button.setText(buttonText);
-                    }
-                });
+                if (getActivity() instanceof MainActivity){
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            button.setText(buttonText);
+                        }
+                    });
+                }
             }
         });
     }

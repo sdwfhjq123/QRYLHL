@@ -156,13 +156,13 @@ public class HsCompileInfoActivity extends BaseActivity {
                 final int gender = data.getInt("gender");//0男
                 final String age = data.getString("age");
                 final int workYears = data.getInt("workYears");
-                final int hospitalId = data.getInt("hospitalId");
-                final int departmentId = data.getInt("departmentId");
                 final String professionNames = data.getString("professionNames");
                 introduce = data.getString("introduce");
                 idImg = data.getString("idImg");
                 healthCertificateImg = data.getString("healthCertificateImg");
                 qualificationCertificateImg = data.getString("qualificationCertificateImg");
+                final String hospitalName = data.getString("hospitalName");
+                final String departmentName = data.getString("departmentName");
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -173,8 +173,8 @@ public class HsCompileInfoActivity extends BaseActivity {
                         tvGender.setText(gender == 0 ? "男" : "女");
                         tvAge.setText(age);
                         tvWorkExperience.setText(workYears + "");
-                        tvHospital.setText(hospitalId + "");
-                        tvOffice.setText(departmentId + "");
+                        tvHospital.setText(hospitalName + "");
+                        tvOffice.setText(departmentName + "");
                         tvBeGoodAtWork.setText(professionNames);
                     }
                 });
@@ -377,15 +377,15 @@ public class HsCompileInfoActivity extends BaseActivity {
         bundle.putString("identity", tvIdentity.getText().toString());
         bundle.putInt("gender", genderNum);
         bundle.putString("age", tvAge.getText().toString());
-        bundle.putString("workexperience",tvWorkExperience.getText().toString());
+        bundle.putString("workexperience", tvWorkExperience.getText().toString());
         bundle.putString("begoodat", tvBeGoodAtWork.getText().toString());
         bundle.putString("localservice", locationId);
         bundle.putInt("hospital", hospitalId);
         bundle.putInt("office", officeId);
-        bundle.putString("introduce",introduce);
-        bundle.putString("idImg",idImg);
-        bundle.putString("qualificationCertificateImg",qualificationCertificateImg);
-        bundle.putString("healthCertificateImg",healthCertificateImg);
+        bundle.putString("introduce", introduce);
+        bundle.putString("idImg", idImg);
+        bundle.putString("qualificationCertificateImg", qualificationCertificateImg);
+        bundle.putString("healthCertificateImg", healthCertificateImg);
         intent.putExtras(bundle);
         startActivity(intent);
         finish();

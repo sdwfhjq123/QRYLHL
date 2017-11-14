@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import com.qryl.qrylyh.R;
 import com.qryl.qrylyh.VO.OrderVO.Order;
 import com.qryl.qrylyh.VO.OrderVO.OrderInfoArea;
+import com.qryl.qrylyh.activity.MainActivity;
 import com.qryl.qrylyh.adapter.OrderFinishedAdapter;
 import com.qryl.qrylyh.fragment.BaseFragment;
 import com.qryl.qrylyh.util.ConstantValue;
@@ -121,15 +122,17 @@ public class OrderUnderwayFragment extends BaseFragment {
         for (int i = 0; i < data.size(); i++) {
             datas.add(data.get(i));
         }
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                adapter.setData(datas);
-                adapter.notifyDataSetChanged();
-                adapter.notifyItemRemoved(adapter.getItemCount());
-                swipeRefresh.setRefreshing(false);
-            }
-        });
+        if (getActivity() instanceof MainActivity){
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    adapter.setData(datas);
+                    adapter.notifyDataSetChanged();
+                    adapter.notifyItemRemoved(adapter.getItemCount());
+                    swipeRefresh.setRefreshing(false);
+                }
+            });
+        }
 
     }
 

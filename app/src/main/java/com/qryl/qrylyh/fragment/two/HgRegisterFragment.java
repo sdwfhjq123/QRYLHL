@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.qryl.qrylyh.R;
+import com.qryl.qrylyh.activity.MainActivity;
 import com.qryl.qrylyh.fragment.BaseFragment;
 import com.qryl.qrylyh.util.ConstantValue;
 import com.qryl.qrylyh.util.HttpUtil;
@@ -80,16 +81,19 @@ public class HgRegisterFragment extends BaseFragment implements View.OnClickList
             JSONObject jsonObject = new JSONObject(result);
             JSONObject data = jsonObject.getJSONObject("data");
             final int status = data.getInt("status");//有发布信息为1，没有为0
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (status == 0) {
-                        button.setText("发布");
-                    } else {
-                        button.setText("撤销");
+            if (getActivity() instanceof MainActivity){
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (status == 0) {
+                            button.setText("发布");
+                        } else {
+                            button.setText("撤销");
+                        }
                     }
-                }
-            });
+                });
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -182,12 +186,14 @@ public class HgRegisterFragment extends BaseFragment implements View.OnClickList
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 Log.i(TAG, "onResponse: 撤销的消息");
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        button.setText("发布");
-                    }
-                });
+                if (getActivity() instanceof  MainActivity){
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            button.setText("发布");
+                        }
+                    });
+                }
             }
         });
     }
@@ -215,15 +221,18 @@ public class HgRegisterFragment extends BaseFragment implements View.OnClickList
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 Log.i(TAG, "onResponse: 发布成功" + response.body().string());
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getActivity(), "发布成功", Toast.LENGTH_LONG).show();
-                        if (button.getText().toString().equals("发布")) {
-                            button.setText("撤销");
+                if (getActivity() instanceof  MainActivity){
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(), "发布成功", Toast.LENGTH_LONG).show();
+                            if (button.getText().toString().equals("发布")) {
+                                button.setText("撤销");
+                            }
                         }
-                    }
-                });
+                    });
+                }
+
             }
         });
     }

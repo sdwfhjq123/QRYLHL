@@ -203,4 +203,5 @@ public class Data {
     public void setLoginBean(String loginBean) {
         this.loginBean = loginBean;
     }
+
 }

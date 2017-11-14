@@ -156,8 +156,8 @@ public class TnCompileInfoActivity extends BaseActivity {
                 final int gender = data.getInt("gender");//0男
                 final String age = data.getString("age");
                 final int workYears = data.getInt("workYears");
-                final int hospitalId = data.getInt("hospitalId");
-                final int departmentId = data.getInt("departmentId");
+                final String hospitalName = data.getString("hospitalName");
+                final String departmentName = data.getString("departmentName");
                 final String professionNames = data.getString("professionNames");
                 introduce = data.getString("introduce");
                 idImg = data.getString("idImg");
@@ -173,8 +173,8 @@ public class TnCompileInfoActivity extends BaseActivity {
                         tvGender.setText(gender == 0 ? "男" : "女");
                         tvAge.setText(age);
                         tvWorkExperience.setText(workYears + "");
-                        tvHospital.setText(hospitalId + "");
-                        tvOffice.setText(departmentId + "");
+                        tvHospital.setText(hospitalName + "");
+                        tvOffice.setText(departmentName + "");
                         tvBeGoodAtWork.setText(professionNames);
                     }
                 });

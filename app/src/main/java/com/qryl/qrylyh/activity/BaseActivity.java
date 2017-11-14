@@ -18,7 +18,7 @@ import com.qryl.qrylyh.util.ActivityCollector;
  * Created by yinhao on 2017/10/11.
  */
 
-public class BaseActivity extends AppCompatActivity {
+public class  BaseActivity extends AppCompatActivity {
 
     private ForceOfflineReceiver receiver;
 
@@ -73,6 +73,30 @@ public class BaseActivity extends AppCompatActivity {
                     prefsUserId.edit().clear().commit();
                     SharedPreferences prefsImage = context.getSharedPreferences("image", Context.MODE_PRIVATE);
                     prefsImage.edit().clear().commit();
+                    ActivityCollector.finishAll();
+                    Intent intent = new Intent(context, LoginActivity.class);
+                    context.startActivity(intent);
+                }
+            });
+            builder.show();
+        }
+    }
+
+    class MustForceOfflineReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(final Context context, Intent intent) {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle("下线通知");
+            builder.setMessage("您以长时间未登录，请重新登录");
+            builder.setCancelable(false);
+            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    SharedPreferences prefsUserId = context.getSharedPreferences("user_id", Context.MODE_PRIVATE);
+                    prefsUserId.edit().clear().commit();
+                    SharedPreferences prefsImg = context.getSharedPreferences("image", Context.MODE_PRIVATE);
+                    prefsImg.edit().clear().commit();
                     ActivityCollector.finishAll();
                     Intent intent = new Intent(context, LoginActivity.class);
                     context.startActivity(intent);

@@ -3,6 +3,7 @@ package com.qryl.qrylyh.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -12,10 +13,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.qryl.qrylyh.R;
+import com.qryl.qrylyh.activity.MainActivity;
 import com.qryl.qrylyh.activity.compile.HgCompileInfoActivity;
 import com.qryl.qrylyh.activity.compile.HsCompileInfoActivity;
 import com.qryl.qrylyh.activity.compile.TnCompileInfoActivity;
@@ -40,7 +44,7 @@ import okhttp3.Response;
  * Created by hp on 2017/8/16.
  */
 
-public class MeFragment extends android.support.v4.app.Fragment {
+public class MeFragment extends android.support.v4.app.Fragment implements View.OnClickListener {
 
     private static final String TAG = "MeFragment";
 
@@ -128,17 +132,19 @@ public class MeFragment extends android.support.v4.app.Fragment {
             JSONObject loginBean = data.getJSONObject("loginBean");
             final String mobile = loginBean.getString("mobile");
             Log.i(TAG, "handleJson: 获取的头像url:" + headshotImg);
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    tvInfo.setText(realName);
-                    Glide.with(getActivity()).load(ConstantValue.URL + headshotImg).into(imageView);
-                    tvName.setText(realName);
-                    tvGender.setText(gender == 0 ? "男" : "女");
-                    //tvProfession.setText(healthCareNum);
-                    tvTel.setText(mobile);
-                }
-            });
+            if (getActivity() instanceof MainActivity){
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        tvInfo.setText(realName);
+                        Glide.with(getActivity()).load(ConstantValue.URL + headshotImg).into(imageView);
+                        tvName.setText(realName);
+                        tvGender.setText(gender == 0 ? "男" : "女");
+                        //tvProfession.setText(healthCareNum);
+                        tvTel.setText(mobile);
+                    }
+                });
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -183,15 +189,85 @@ public class MeFragment extends android.support.v4.app.Fragment {
                 }
             }
         });
+        //退出登录
         Button btnExit = (Button) view.findViewById(R.id.btn_exit);
         btnExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent("com.qryl.qrylyh.activity.BaseActivity.ForceOfflineReceiver");
-                getActivity().sendBroadcast(intent);
+                OkHttpClient client = new OkHttpClient();
+                FormBody.Builder builder = new FormBody.Builder();
+                builder.add("loginId", userId);
+                FormBody formBody = builder.build();
+                final Request request = new Request.Builder()
+                        .url(ConstantValue.URL + "/login/logout")
+                        .post(formBody)
+                        .build();
+                client.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        e.printStackTrace();
+                    }
 
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        String result = response.body().string();
+                        try {
+                            JSONObject jsonObject = new JSONObject(result);
+                            String resultCode = jsonObject.getString("resultCode");
+                            if (getActivity() instanceof MainActivity) {
+                                if (resultCode.equals("500")) {
+                                    Toast.makeText(getActivity(), "退出失败，请重试", Toast.LENGTH_SHORT).show();
+                                } else if (resultCode.equals("200")) {
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Intent intent = new Intent("com.qryl.qrylyh.activity.BaseActivity.ForceOfflineReceiver");
+                                            getActivity().sendBroadcast(intent);
+                                        }
+                                    });
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
             }
         });
+        //我的钱包
+        RelativeLayout rlWallet = (RelativeLayout) view.findViewById(R.id.rl_wallet);
+        RelativeLayout rlLocation = (RelativeLayout) view.findViewById(R.id.rl_location);
+        RelativeLayout rlMyfans = (RelativeLayout) view.findViewById(R.id.rl_myfans);
+        RelativeLayout rlFeedback = (RelativeLayout) view.findViewById(R.id.rl_feedback);
+        RelativeLayout rlCustomerService = (RelativeLayout) view.findViewById(R.id.rl_customer_service);
+        rlWallet.setOnClickListener(this);
+        rlLocation.setOnClickListener(this);
+        rlMyfans.setOnClickListener(this);
+        rlFeedback.setOnClickListener(this);
+        rlCustomerService.setOnClickListener(this);
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.rl_wallet:
+                Toast.makeText(getActivity(), "该功能暂未开放", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.rl_location:
+                Toast.makeText(getActivity(), "该功能暂未开放", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.rl_myfans:
+                Toast.makeText(getActivity(), "该功能暂未开放", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.rl_feedback:
+                Toast.makeText(getActivity(), "该功能暂未开放", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.rl_customer_service://调用拨号界面
+                //Toast.makeText(getActivity(), "该功能暂未开放", 0).show();
+                Intent intent1 = new Intent(Intent.ACTION_DIAL);
+                intent1.setData(Uri.parse("tel:400-8181800"));
+                startActivity(intent1);
+                break;
+        }
+    }
 }
