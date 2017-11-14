@@ -161,6 +161,7 @@ public class LoginActivity extends BaseActivity {
                                 prefs.edit().putString("user_id", String.valueOf(id)).commit();
                                 prefs.edit().putInt("role_type", roleType).commit();
                                 prefs.edit().putString("token", token).apply();
+                                prefs.edit().putBoolean("is_force_offline",false).apply();
                                 Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(intent);

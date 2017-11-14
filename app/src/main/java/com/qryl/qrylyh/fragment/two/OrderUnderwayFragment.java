@@ -16,6 +16,7 @@ import com.qryl.qrylyh.activity.MainActivity;
 import com.qryl.qrylyh.adapter.OrderFinishedAdapter;
 import com.qryl.qrylyh.fragment.BaseFragment;
 import com.qryl.qrylyh.util.ConstantValue;
+import com.qryl.qrylyh.util.EncryptionByMD5;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,6 +50,8 @@ public class OrderUnderwayFragment extends BaseFragment {
     private boolean isLoading;
     private String userId;
     private int roleType;
+    private String token;
+    private SharedPreferences prefs;
 
     @Override
     public void loadData() {
@@ -68,6 +71,11 @@ public class OrderUnderwayFragment extends BaseFragment {
         } else if (roleType == 3) {
             orderType = 2;
         }
+        Log.i(TAG, "postData: userId" + userId);
+        String currentTimeMillis = String.valueOf(System.currentTimeMillis());
+        byte[] bytes = ("/order/getOrderListByStatus-" + token + "-" + currentTimeMillis).getBytes();
+        String sign = EncryptionByMD5.getMD5(bytes);
+
         OkHttpClient client = new OkHttpClient();
         FormBody.Builder builder = new FormBody.Builder();
         builder.add("status", "2");
@@ -75,6 +83,9 @@ public class OrderUnderwayFragment extends BaseFragment {
         builder.add("userId", userId);//动态获取，需要写缓存
         builder.add("page", page);
         builder.add("limit", "2");
+        builder.add("sign", sign);
+        builder.add("tokenUserId", userId + "yh");
+        builder.add("timeStamp", currentTimeMillis);
         FormBody formBody = builder.build();
         final Request request = new Request.Builder()
                 .url(ConstantValue.URL + "/order/getOrderListByStatus")
@@ -102,6 +113,8 @@ public class OrderUnderwayFragment extends BaseFragment {
                             handleJson(result);
                             Log.i(TAG, "onResponse: " + result);
                         }
+                    }else if (resultCode.equals("400")) {//错误时
+                        prefs.edit().putBoolean("is_force_offline",true).apply();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -122,7 +135,7 @@ public class OrderUnderwayFragment extends BaseFragment {
         for (int i = 0; i < data.size(); i++) {
             datas.add(data.get(i));
         }
-        if (getActivity() instanceof MainActivity){
+        if (getActivity() instanceof MainActivity) {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -139,9 +152,10 @@ public class OrderUnderwayFragment extends BaseFragment {
 
     @Override
     public View initView() {
-        SharedPreferences prefs = getActivity().getSharedPreferences("user_id", Context.MODE_PRIVATE);
+        prefs = getActivity().getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userId = prefs.getString("user_id", "");
         roleType = prefs.getInt("role_type", 4);
+        token = prefs.getString("token", "");
         View view = View.inflate(getActivity(), R.layout.fragment_order_container, null);
         swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);

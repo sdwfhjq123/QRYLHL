@@ -1,6 +1,9 @@
 package com.qryl.qrylyh.fragment;
 
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -28,15 +31,19 @@ import java.lang.reflect.Field;
 
 public class OrderFragment extends Fragment {
 
+    private static final String TAG = "OrderFragment";
+
     private View view;
     private ViewPager viewPager;
     private TabLayout tabLayout;
+    private SharedPreferences prefs;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         //view = UIUtils.inflate(R.layout.fragment_order);
         view = View.inflate(getActivity(), R.layout.fragment_order, null);
+        prefs = UIUtils.getContext().getSharedPreferences("user_id", Context.MODE_PRIVATE);
         initUI();
         initData();
         return view;
@@ -63,6 +70,15 @@ public class OrderFragment extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {//点击第一次的tab选项回调
                 //Toast.makeText(UIUtils.getContext(), tab.getText(), Toast.LENGTH_SHORT).show();
+                if (prefs.getBoolean("is_force_offline", false)) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent("com.qryl.qryl.activity.BaseActivity.MustForceOfflineReceiver");
+                            getActivity().sendBroadcast(intent);
+                        }
+                    });
+                }
             }
 
             @Override
@@ -73,6 +89,15 @@ public class OrderFragment extends Fragment {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {//再次点击同一个tab的回调
                 //Toast.makeText(UIUtils.getContext(), tab.getText(), Toast.LENGTH_SHORT).show();
+                if (prefs.getBoolean("is_force_offline", false)) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent("com.qryl.qryl.activity.BaseActivity.MustForceOfflineReceiver");
+                            getActivity().sendBroadcast(intent);
+                        }
+                    });
+                }
             }
         });
     }

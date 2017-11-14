@@ -21,6 +21,7 @@ import com.qryl.qrylyh.util.ActivityCollector;
 public class  BaseActivity extends AppCompatActivity {
 
     private ForceOfflineReceiver receiver;
+    private MustForceOfflineReceiver mustForceOfflineReceiver;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,6 +36,11 @@ public class  BaseActivity extends AppCompatActivity {
         intentFilter.addAction("com.qryl.qrylyh.activity.BaseActivity.ForceOfflineReceiver");
         receiver = new ForceOfflineReceiver();
         registerReceiver(receiver, intentFilter);
+
+        IntentFilter intentFilter1 = new IntentFilter();
+        intentFilter1.addAction("com.qryl.qrylyh.activity.BaseActivity.ForceOfflineReceiver");
+        mustForceOfflineReceiver = new MustForceOfflineReceiver();
+        registerReceiver(mustForceOfflineReceiver, intentFilter1);
     }
 
     @Override
@@ -43,6 +49,11 @@ public class  BaseActivity extends AppCompatActivity {
         if (receiver != null) {
             unregisterReceiver(receiver);
             receiver = null;
+        }
+
+        if (mustForceOfflineReceiver != null) {
+            unregisterReceiver(mustForceOfflineReceiver);
+            mustForceOfflineReceiver = null;
         }
     }
 
