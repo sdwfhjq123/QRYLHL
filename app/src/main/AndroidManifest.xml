@@ -41,7 +41,7 @@
         android:name="android.permission.CALL_PRIVILEGED"
         tools:ignore="ProtectedPermissions" />
 
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:name=".global.QRYLHLApplication"
@@ -98,6 +98,7 @@
         <activity android:name=".activity.H5.LocationAddActivity" />
         <activity android:name=".activity.H5.LocationManagerActivity" />
         <activity android:name=".activity.H5.OrderInfoActivity" />
+        <activity android:name=".activity.H5.WritePatientsFileActivity" />
 
         <!-- Required SDK 核心功能 -->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->

@@ -39,7 +39,7 @@ public class WritePatientsFileActivity extends AppCompatActivity {
      * @param patientId 病人的id
      * @param orderId   订单的id
      */
-    public static void actionStart(Context context, int pubId, int patientId, int orderId) {
+    public static void actionStart(Context context, int pubId, int patientId, String orderId) {
         Intent intent = new Intent(context, WritePatientsFileActivity.class);
         intent.putExtra("pub_id", pubId);
         intent.putExtra("patient_id", patientId);
@@ -52,7 +52,7 @@ public class WritePatientsFileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_write_patients_file);
+        setContentView(R.layout.activity_test);
         SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userId = prefs.getString("user_id", "");
         roleType = prefs.getInt("role_type", 4);
@@ -73,7 +73,6 @@ public class WritePatientsFileActivity extends AppCompatActivity {
         webSettings.setDomStorageEnabled(true);
         webSettings.setDatabaseEnabled(true);
         webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
-        webSettings.setBlockNetworkImage(true);
         webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         webSettings.setDatabasePath(WritePatientsFileActivity.this.getApplicationContext().getCacheDir().getAbsolutePath());
         webview.addJavascriptInterface(new HgxqAndroidToJs(this, this), "qrylhg");

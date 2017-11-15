@@ -5,25 +5,25 @@ package com.qryl.qrylyh.VO.HomeOtherVO;
  */
 
 public class Data {
-    private int id;//订单id
+    private String id;//订单id
     private int status;//用户状态
     private int orderType;
     private Patient patient;
-    private DoctorNurse doctorNurse;
+    private DoctorNurse result;
 
-    public Data(int id, int status, int orderType, Patient patient, DoctorNurse doctorNurse) {
+    public Data(String id, int status, int orderType, Patient patient, DoctorNurse doctorNurse) {
         this.id = id;
         this.status = status;
         this.orderType = orderType;
         this.patient = patient;
-        this.doctorNurse = doctorNurse;
+        this.result = doctorNurse;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -52,10 +52,10 @@ public class Data {
     }
 
     public DoctorNurse getDoctorNurse() {
-        return doctorNurse;
+        return result;
     }
 
     public void setDoctorNurse(DoctorNurse doctorNurse) {
-        this.doctorNurse = doctorNurse;
+        this.result = doctorNurse;
     }
 }
