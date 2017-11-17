@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+
 import com.qryl.qrylyh.R;
 import com.qryl.qrylyh.VO.OrderVO.OrderInfoArea;
 import com.qryl.qrylyh.util.UIUtils;
@@ -27,8 +28,8 @@ public class OrderFinishedAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     private List<OrderInfoArea> data = new ArrayList<>();
 
-    public OrderFinishedAdapter(List<OrderInfoArea> datas) {
-        this.data = datas;
+    public OrderFinishedAdapter(List<OrderInfoArea> data) {
+        this.data = data;
     }
 
     @Override
@@ -45,17 +46,17 @@ public class OrderFinishedAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        if (holder instanceof OrderFinishedAdapter.ItemViewHolder) {
-            ((OrderFinishedAdapter.ItemViewHolder) holder).tvMoney.setText(data.get(position).getPrice() + "");
-            ((OrderFinishedAdapter.ItemViewHolder) holder).tvNote.setText(data.get(position).getNote());
-            ((OrderFinishedAdapter.ItemViewHolder) holder).tvContent.setText(data.get(position).getContent());
-            ((OrderFinishedAdapter.ItemViewHolder) holder).tvTitle.setText(data.get(position).getTitle());
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onItemClickListener.onItemClick(holder.itemView, position);
-                }
-            });
+        if (holder instanceof ItemViewHolder) {
+            ((ItemViewHolder) holder).tvMoney.setText(data.get(position).getPrice() + "");
+            ((ItemViewHolder) holder).tvNote.setText(data.get(position).getNote());
+            ((ItemViewHolder) holder).tvContent.setText(data.get(position).getContent());
+            ((ItemViewHolder) holder).tvTitle.setText(data.get(position).getTitle());
+//            holder.itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    onItemClickListener.onItemClick(holder.itemView, position);
+//                }
+//            });
         }
     }
 

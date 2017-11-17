@@ -37,6 +37,8 @@
                 android:textColor="#666" />
 
             <android.support.v7.widget.AppCompatEditText
+                android:cursorVisible="true"
+                android:textCursorDrawable="@null"
                 android:id="@+id/et_user_login"
                 style="@style/et_lab"
                 android:hint="请输入用户名" />
@@ -64,6 +66,8 @@
                 android:textColor="#666" />
 
             <com.qryl.qrylyh.view.PasswordToggleEditText
+                android:cursorVisible="true"
+                android:textCursorDrawable="@null"
                 android:id="@+id/et_psd_login"
                 style="@style/et_lab"
                 android:hint="请输入账号/手机号" />

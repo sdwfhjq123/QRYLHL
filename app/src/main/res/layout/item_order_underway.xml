@@ -21,33 +21,10 @@
             android:src="@mipmap/ic_peopleb" />
 
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="由"
-            android:textColor="#666" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="doctor"
-            android:textColor="#666" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="为"
-            android:textColor="#666" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="patient"
-            android:textColor="#666" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="服务"
+            android:text=""
             android:textColor="#666" />
 
         <ImageView

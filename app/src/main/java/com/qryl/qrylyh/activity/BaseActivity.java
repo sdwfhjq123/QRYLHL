@@ -18,7 +18,7 @@ import com.qryl.qrylyh.util.ActivityCollector;
  * Created by yinhao on 2017/10/11.
  */
 
-public class  BaseActivity extends AppCompatActivity {
+public class BaseActivity extends AppCompatActivity {
 
     private ForceOfflineReceiver receiver;
     private MustForceOfflineReceiver mustForceOfflineReceiver;
@@ -38,7 +38,7 @@ public class  BaseActivity extends AppCompatActivity {
         registerReceiver(receiver, intentFilter);
 
         IntentFilter intentFilter1 = new IntentFilter();
-        intentFilter1.addAction("com.qryl.qrylyh.activity.BaseActivity.ForceOfflineReceiver");
+        intentFilter1.addAction("com.qryl.qrylyh.activity.BaseActivity.MustForceOfflineReceiver");
         mustForceOfflineReceiver = new MustForceOfflineReceiver();
         registerReceiver(mustForceOfflineReceiver, intentFilter1);
     }

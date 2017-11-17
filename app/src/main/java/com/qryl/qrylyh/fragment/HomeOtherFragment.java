@@ -157,26 +157,28 @@ public class HomeOtherFragment extends Fragment {
         Gson gson = new Gson();
         HomeOther homeOther = gson.fromJson(result, HomeOther.class);
         final String resultCode = homeOther.getResultCode();
-        status = homeOther.getData().getDoctorNurse().getStatus();
-        serviceNum = homeOther.getData().getDoctorNurse().getServiceNum();
+        status = homeOther.getData().getResult().getDoctorNurse().getStatus();
+        serviceNum = homeOther.getData().getResult().getDoctorNurse().getServiceNum();
         //订单id
-        orderId = homeOther.getData().getId();
+        orderId = homeOther.getData().getResult().getId();
         //病人id
-        patientId = homeOther.getData().getPatient().getId();
+        patientId = homeOther.getData().getResult().getPatient().getId();
         //病人的名字
-        name = homeOther.getData().getPatient().getName();
+        name = homeOther.getData().getResult().getPatient().getName();
         //病患端用户登录id
-        puId = homeOther.getData().getPatient().getPuId();
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                tvServiceTimes.setText(serviceNum + "");
-                tvName.setText(name);
-                button.setText(DOWN);
-                tvStatus.setText("已上班");
-                tvClickable.setText(STATUS_ALREADY);
-            }
-        });
+        puId = homeOther.getData().getResult().getPatient().getPuId();
+        if (getActivity() instanceof MainActivity) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    tvServiceTimes.setText(serviceNum + "");
+                    tvName.setText(name);
+                    button.setText(DOWN);
+                    tvStatus.setText("已上班");
+                    tvClickable.setText(STATUS_ALREADY);
+                }
+            });
+        }
     }
 
     @Override
@@ -213,7 +215,6 @@ public class HomeOtherFragment extends Fragment {
                         (tvClickable.getText().toString().equals(STATUS_UP))) {
                     Toast.makeText(getActivity(), "未接到单子，无法点击查看患者详情", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
     }

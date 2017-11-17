@@ -13,7 +13,7 @@ import com.qryl.qrylyh.R;
 import com.qryl.qrylyh.VO.OrderVO.Order;
 import com.qryl.qrylyh.VO.OrderVO.OrderInfoArea;
 import com.qryl.qrylyh.activity.MainActivity;
-import com.qryl.qrylyh.adapter.OrderFinishedAdapter;
+import com.qryl.qrylyh.adapter.OrderUnderwayAdapter;
 import com.qryl.qrylyh.fragment.BaseFragment;
 import com.qryl.qrylyh.util.ConstantValue;
 import com.qryl.qrylyh.util.EncryptionByMD5;
@@ -44,7 +44,7 @@ public class OrderUnderwayFragment extends BaseFragment {
     private SwipeRefreshLayout swipeRefresh;
 
     private List<OrderInfoArea> datas = new ArrayList<>();
-    private OrderFinishedAdapter adapter = new OrderFinishedAdapter(datas);
+    private OrderUnderwayAdapter adapter = new OrderUnderwayAdapter(datas);
     private int page = 1;
     private int lastVisibleItemPosition;
     private boolean isLoading;
@@ -73,12 +73,12 @@ public class OrderUnderwayFragment extends BaseFragment {
         }
         Log.i(TAG, "postData: userId" + userId);
         String currentTimeMillis = String.valueOf(System.currentTimeMillis());
-        byte[] bytes = ("/order/getOrderListByStatus-" + token + "-" + currentTimeMillis).getBytes();
+        byte[] bytes = ("/test/order/getOrderListByStatus-" + token + "-" + currentTimeMillis).getBytes();
         String sign = EncryptionByMD5.getMD5(bytes);
 
         OkHttpClient client = new OkHttpClient();
         FormBody.Builder builder = new FormBody.Builder();
-        builder.add("status", "2");
+        builder.add("status", "1");
         builder.add("orderType", String.valueOf(orderType));
         builder.add("userId", userId);//动态获取，需要写缓存
         builder.add("page", page);
@@ -129,6 +129,7 @@ public class OrderUnderwayFragment extends BaseFragment {
      * @param result
      */
     private void handleJson(String result) {
+        Log.i(TAG, "handleJson: 进行中"+result);
         Gson gson = new Gson();
         Order order = gson.fromJson(result, Order.class);
         List<OrderInfoArea> data = order.getData().getData();

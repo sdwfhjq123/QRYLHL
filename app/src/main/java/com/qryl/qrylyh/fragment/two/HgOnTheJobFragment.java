@@ -50,7 +50,7 @@ public class HgOnTheJobFragment extends BaseFragment {
         OkHttpClient client = new OkHttpClient();
         FormBody.Builder builder = new FormBody.Builder();
         //builder.add("userId", userId);
-        builder.add("loginId", String.valueOf(2));
+        builder.add("loginId", String.valueOf(userId));
         FormBody formBody = builder.build();
         Request request = new Request.Builder()
                 .post(formBody)

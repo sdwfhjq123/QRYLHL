@@ -1,11 +1,13 @@
 package com.qryl.qrylyh.adapter;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
+
 
 import com.qryl.qrylyh.R;
 import com.qryl.qrylyh.VO.OrderVO.OrderInfoArea;
@@ -27,8 +29,8 @@ public class OrderUnderwayAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     private List<OrderInfoArea> data = new ArrayList<>();
 
-    public OrderUnderwayAdapter(List<OrderInfoArea> datas) {
-        this.data = datas;
+    public OrderUnderwayAdapter(List<OrderInfoArea> data) {
+        this.data = data;
     }
 
     @Override
@@ -45,15 +47,16 @@ public class OrderUnderwayAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        if (holder instanceof OrderUnderwayAdapter.ItemViewHolder) {
-            ((OrderUnderwayAdapter.ItemViewHolder) holder).tvMoney.setText(data.get(position).getPrice() + "");
-            ((OrderUnderwayAdapter.ItemViewHolder) holder).tvNote.setText(data.get(position).getNote());
-            ((OrderUnderwayAdapter.ItemViewHolder) holder).tvContent.setText(data.get(position).getContent());
-            ((OrderUnderwayAdapter.ItemViewHolder) holder).tvTitle.setText(data.get(position).getTitle());
+        if (holder instanceof ItemViewHolder) {
+            ((ItemViewHolder) holder).tvMoney.setText(data.get(position).getPrice() + "");
+            ((ItemViewHolder) holder).tvNote.setText(data.get(position).getNote());
+            ((ItemViewHolder) holder).tvContent.setText(data.get(position).getContent());
+            ((ItemViewHolder) holder).tvTitle.setText(data.get(position).getTitle());
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onItemClickListener.onItemClick(holder.itemView, position);
+                    Log.i(TAG, "onClick: 点击了条目" + position);
                 }
             });
         }
@@ -77,13 +80,12 @@ public class OrderUnderwayAdapter extends RecyclerView.Adapter<RecyclerView.View
         this.data = data;
     }
 
-    class ItemViewHolder extends RecyclerView.ViewHolder {
+    static class ItemViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvNote;
         TextView tvTitle;
         TextView tvContent;
         TextView tvMoney;
-        Button evaluate;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
@@ -91,11 +93,10 @@ public class OrderUnderwayAdapter extends RecyclerView.Adapter<RecyclerView.View
             tvTitle = (TextView) itemView.findViewById(R.id.tv_title);
             tvContent = (TextView) itemView.findViewById(R.id.tv_content);
             tvMoney = (TextView) itemView.findViewById(R.id.tv_money);
-            evaluate = (Button) itemView.findViewById(R.id.btn_evaluate);
         }
     }
 
-    class FooterViewHolder extends RecyclerView.ViewHolder {
+    static class FooterViewHolder extends RecyclerView.ViewHolder {
 
         public FooterViewHolder(View itemView) {
             super(itemView);

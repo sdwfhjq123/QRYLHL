@@ -69,7 +69,7 @@ public class OrderMakeListFragment extends BaseFragment {
     private void postData(final String page) {
         Log.i(TAG, "postData: userId" + userId);
         String currentTimeMillis = String.valueOf(System.currentTimeMillis());
-        byte[] bytes = ("/order/getOrderListByStatus-" + token + "-" + currentTimeMillis).getBytes();
+        byte[] bytes = ("/test/order/getPrescribeList-" + token + "-" + currentTimeMillis).getBytes();
         String sign = EncryptionByMD5.getMD5(bytes);
 
         OkHttpClient client = new OkHttpClient();
