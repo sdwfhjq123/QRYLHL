@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.qryl.qrylyh.R;
 import com.qryl.qrylyh.activity.MainActivity;
+import com.qryl.qrylyh.activity.WalletActivity;
 import com.qryl.qrylyh.activity.compile.HgCompileInfoActivity;
 import com.qryl.qrylyh.activity.compile.HsCompileInfoActivity;
 import com.qryl.qrylyh.activity.compile.TnCompileInfoActivity;
@@ -132,7 +133,7 @@ public class MeFragment extends android.support.v4.app.Fragment implements View.
             JSONObject loginBean = data.getJSONObject("loginBean");
             final String mobile = loginBean.getString("mobile");
             Log.i(TAG, "handleJson: 获取的头像url:" + headshotImg);
-            if (getActivity() instanceof MainActivity){
+            if (getActivity() instanceof MainActivity) {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -251,7 +252,9 @@ public class MeFragment extends android.support.v4.app.Fragment implements View.
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rl_wallet:
-                Toast.makeText(getActivity(), "该功能暂未开放", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "该功能暂未开放", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), WalletActivity.class);
+                startActivity(intent);
                 break;
             case R.id.rl_location:
                 Toast.makeText(getActivity(), "该功能暂未开放", Toast.LENGTH_SHORT).show();

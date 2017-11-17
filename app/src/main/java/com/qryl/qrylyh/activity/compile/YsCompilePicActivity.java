@@ -15,6 +15,7 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
@@ -201,6 +202,7 @@ public class YsCompilePicActivity extends BaseActivity implements View.OnClickLi
                 builder.addFormDataPart("zgzImg", "");
             }
         }
+
         builder.addFormDataPart("loginId", userId);
         builder.addFormDataPart("roleType", "2");
         builder.addFormDataPart("realName", (String) dataMap.get("name"));
@@ -428,6 +430,7 @@ public class YsCompilePicActivity extends BaseActivity implements View.OnClickLi
         displayImage(imagePath);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void handleImageOnKitKat(Intent data) {
         String imagePath = null;
         Uri uri = data.getData();

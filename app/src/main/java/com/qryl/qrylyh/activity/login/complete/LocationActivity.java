@@ -57,7 +57,6 @@ public class LocationActivity extends BaseActivity implements View.OnClickListen
         initData();
         //添加组名
 
-
     }
 
     private void initData() {
@@ -65,7 +64,7 @@ public class LocationActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void postData() {
-        HttpUtil.sendOkHttpRequest(ConstantValue.URL+"/common/getAreaByCityId", new Callback() {
+        HttpUtil.sendOkHttpRequest(ConstantValue.URL + "/common/getAreaByCityId", new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
@@ -74,7 +73,7 @@ public class LocationActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String result = response.body().string();
-                Log.i(TAG, "onResponse: " + result);
+                Log.i(TAG, "得到的可服务区域: " + result);
                 handleJson(result);
             }
         }, "cityId", 370100);

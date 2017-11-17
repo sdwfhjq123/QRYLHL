@@ -1,5 +1,6 @@
 package com.qryl.qrylyh.activity.login.complete;
 
+import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
@@ -87,6 +89,7 @@ public class HsCompletePicActivity extends AppCompatActivity implements View.OnC
     private File jkzFile;
     private File zgzFile;
     private String userId;
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,6 +174,10 @@ public class HsCompletePicActivity extends AppCompatActivity implements View.OnC
      * 向服务器发送请求
      */
     private void postData() {
+        dialog=new ProgressDialog(this);
+        dialog.setCancelable(false);
+        dialog.setMessage("正在上传，请稍后...");
+        dialog.show();
         SharedPreferences pref = getSharedPreferences("image", Context.MODE_PRIVATE);
         String headImage = pref.getString(HEAD_KEY, null);
         String sfzImage = pref.getString(SFZ_KEY, null);
@@ -234,10 +241,16 @@ public class HsCompletePicActivity extends AppCompatActivity implements View.OnC
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Intent intent = new Intent();
-                        intent.setClass(HsCompletePicActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                        finish();
+                        if (dialog!=null){
+                            dialog.dismiss();
+                            dialog=null;
+                            Intent intent = new Intent();
+                            intent.setClass(HsCompletePicActivity.this, LoginActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            finish();
+                        }
+
                     }
                 });
             }
@@ -437,6 +450,7 @@ public class HsCompletePicActivity extends AppCompatActivity implements View.OnC
         displayImage(imagePath);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void handleImageOnKitKat(Intent data) {
         String imagePath = null;
         Uri uri = data.getData();

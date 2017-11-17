@@ -87,8 +87,10 @@ public class HgRegisterFragment extends BaseFragment implements View.OnClickList
                     public void run() {
                         if (status == 0) {
                             button.setText("发布");
+                            tvStatus.setText("未登记");
                         } else {
                             button.setText("撤销");
+                            tvStatus.setText("已登记");
                         }
                     }
                 });
@@ -191,6 +193,7 @@ public class HgRegisterFragment extends BaseFragment implements View.OnClickList
                         @Override
                         public void run() {
                             button.setText("发布");
+                            tvStatus.setText("未登记");
                         }
                     });
                 }
@@ -228,6 +231,7 @@ public class HgRegisterFragment extends BaseFragment implements View.OnClickList
                             Toast.makeText(getActivity(), "发布成功", Toast.LENGTH_LONG).show();
                             if (button.getText().toString().equals("发布")) {
                                 button.setText("撤销");
+                                tvStatus.setText("已登记");
                             }
                         }
                     });
