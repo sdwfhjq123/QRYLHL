@@ -118,9 +118,9 @@ public class WritePatientsFileActivity extends AppCompatActivity {
         webview.setWebChromeClient(new OpenFileWebChromeClient());
         if (roleType == 0) {//护工
             //webview.loadUrl(URL_HS);
-        } else if (roleType == 1) {//护士
+        } else if (roleType == 2) {//护士
             webview.loadUrl(URL_HS);
-        } else if (roleType == 2) {//医生
+        } else if (roleType == 1) {//医生
             webview.loadUrl(URL_YS);
         } else if (roleType == 3) {//按摩师
             //webview.loadUrl(URL_TN);
