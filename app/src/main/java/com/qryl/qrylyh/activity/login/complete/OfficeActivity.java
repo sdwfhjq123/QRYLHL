@@ -1,18 +1,15 @@
 package com.qryl.qrylyh.activity.login.complete;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.qryl.qrylyh.R;
-import com.qryl.qrylyh.VO.HospitalVO.DataArea;
 import com.qryl.qrylyh.VO.WorkVO.Work;
 import com.qryl.qrylyh.activity.BaseActivity;
 import com.qryl.qrylyh.adapter.OfficeAdapter;
@@ -33,7 +30,6 @@ public class OfficeActivity extends BaseActivity implements View.OnClickListener
 
     private static final String TAG = "OfficeActivity";
 
-    private RecyclerView recyclerView;
     private List<com.qryl.qrylyh.VO.WorkVO.DataArea> data = new ArrayList<>();
     private OfficeAdapter adapter = new OfficeAdapter(data);
     private boolean isLoading;
@@ -84,7 +80,7 @@ public class OfficeActivity extends BaseActivity implements View.OnClickListener
     /**
      * 处理获取下来的json
      *
-     * @param result
+     * @param result 获取得到的信息
      */
     private void handleJson(String result) {
         Gson gson = new Gson();
@@ -108,7 +104,7 @@ public class OfficeActivity extends BaseActivity implements View.OnClickListener
 
     private void initView() {
         TextView tvReturn = (TextView) findViewById(R.id.return_text);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         TextView tvTitle = (TextView) findViewById(R.id.title_name);
         tvTitle.setText("选择科室");
         tvReturn.setOnClickListener(this);

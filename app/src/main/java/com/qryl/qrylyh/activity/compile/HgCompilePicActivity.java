@@ -19,8 +19,6 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -33,14 +31,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.model.stream.HttpGlideUrlLoader;
 import com.google.gson.Gson;
 import com.qryl.qrylyh.R;
 import com.qryl.qrylyh.VO.CompileVO.Compile;
 import com.qryl.qrylyh.VO.CompileVO.Data;
 import com.qryl.qrylyh.activity.BaseActivity;
-import com.qryl.qrylyh.activity.MainActivity;
-import com.qryl.qrylyh.activity.login.LoginActivity;
 import com.qryl.qrylyh.util.ConstantValue;
 import com.qryl.qrylyh.util.HttpUtil;
 
@@ -91,7 +86,6 @@ public class HgCompilePicActivity extends BaseActivity implements View.OnClickLi
     private Uri imageUri;
     private Bitmap bitmap;
     private EditText etMe;
-    private Button btnRegister;
     private File sfzFile;
     private File jkzFile;
     private File zgzFile;
@@ -105,9 +99,9 @@ public class HgCompilePicActivity extends BaseActivity implements View.OnClickLi
         SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userId = prefs.getString("user_id", "");
         sp = getSharedPreferences("image", Context.MODE_PRIVATE);
-        sp.edit().putString(SFZ_KEY, "").commit();
-        sp.edit().putString(JKZ_KEY, "").commit();
-        sp.edit().putString(ZGZ_KEY, "").commit();
+        sp.edit().putString(SFZ_KEY, "").apply();
+        sp.edit().putString(JKZ_KEY, "").apply();
+        sp.edit().putString(ZGZ_KEY, "").apply();
         initView();
         initData();
         Bundle bundle = getIntent().getExtras();
@@ -161,9 +155,6 @@ public class HgCompilePicActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void run() {
                 etMe.setText(data.getIntroduce());
-//                Glide.with(HgCompilePicActivity.this).asBitmap().load(ConstantValue.URL + data.getIdImg()).thumbnail(0.1f).into(sfzImage);
-//                Glide.with(HgCompilePicActivity.this).asBitmap().load(ConstantValue.URL + data.getHealthCertificateImg()).thumbnail(0.1f).into(jkzImage);
-//                Glide.with(HgCompilePicActivity.this).asBitmap().load(ConstantValue.URL + data.getQualificationCertificateImg()).thumbnail(0.1f).into(zgzImage);
             }
         });
     }
@@ -175,7 +166,7 @@ public class HgCompilePicActivity extends BaseActivity implements View.OnClickLi
         jkzImage = (ImageView) findViewById(R.id.jkz_image);
         zgzImage = (ImageView) findViewById(R.id.zgz_image);
         etMe = (EditText) findViewById(R.id.et_me);
-        btnRegister = (Button) findViewById(R.id.btn_register);
+        Button btnRegister = (Button) findViewById(R.id.btn_register);
         sfzImage.setOnClickListener(this);
         jkzImage.setOnClickListener(this);
         zgzImage.setOnClickListener(this);
@@ -308,7 +299,7 @@ public class HgCompilePicActivity extends BaseActivity implements View.OnClickLi
         Button btnPopCancel = (Button) popView.findViewById(R.id.btn_pop_cancel);
         //获取屏幕宽高
         int widthPixels = getResources().getDisplayMetrics().widthPixels;
-        int heightPixels = getResources().getDisplayMetrics().heightPixels * 1 / 3;
+        int heightPixels = getResources().getDisplayMetrics().heightPixels / 3;
         final PopupWindow popupWindow = new PopupWindow(popView, widthPixels, heightPixels);
         popupWindow.setAnimationStyle(R.style.anim_popup_dir);
         popupWindow.setFocusable(true);
@@ -567,7 +558,7 @@ public class HgCompilePicActivity extends BaseActivity implements View.OnClickLi
         SharedPreferences.Editor edit = sp.edit();
         edit.putString(spKey, fileName);
         //提交edit
-        edit.commit();
+        edit.apply();
         Log.i(TAG, "saveFile: 保存成功" + sp.getString(spKey, null));
     }
 

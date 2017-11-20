@@ -16,7 +16,6 @@ import com.qryl.qrylyh.VO.OrderVO.Order;
 import com.qryl.qrylyh.VO.OrderVO.OrderInfoArea;
 import com.qryl.qrylyh.activity.H5.OrderInfoActivity;
 import com.qryl.qrylyh.activity.MainActivity;
-import com.qryl.qrylyh.adapter.OrderFinishedAdapter;
 import com.qryl.qrylyh.adapter.OrderNoPayAdapter;
 import com.qryl.qrylyh.fragment.BaseFragment;
 import com.qryl.qrylyh.util.ConstantValue;
@@ -44,7 +43,6 @@ public class OrderNoPayFragment extends BaseFragment {
 
     private static final String TAG = "OrderNoPayFragment";
 
-    private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefresh;
 
     private List<OrderInfoArea> datas = new ArrayList<>();
@@ -111,9 +109,7 @@ public class OrderNoPayFragment extends BaseFragment {
                 try {
                     JSONObject jsonObject = new JSONObject(result);
                     String resultCode = jsonObject.getString("resultCode");
-                    if (resultCode.equals("500")) {
-                        return;
-                    } else if (resultCode.equals("200")) {
+                   if (resultCode.equals("200")) {
                         JSONObject data = jsonObject.getJSONObject("data");
                         if (data != null) {
                             handleJson(result);
@@ -132,7 +128,7 @@ public class OrderNoPayFragment extends BaseFragment {
     /**
      * 处理获取下来的json
      *
-     * @param result
+     * @param result 获取的网络的数据
      */
     private void handleJson(String result) {
         Gson gson = new Gson();
@@ -163,7 +159,7 @@ public class OrderNoPayFragment extends BaseFragment {
         token = prefs.getString("token", "");
         View view = View.inflate(getActivity(), R.layout.fragment_order_container, null);
         swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);

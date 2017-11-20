@@ -14,7 +14,6 @@ import com.qryl.qrylyh.util.UIUtils;
 /**
  * Created by hp on 2017/8/21.
  */
-
 public abstract class BaseFragment extends Fragment {
 
     public Context mContext;

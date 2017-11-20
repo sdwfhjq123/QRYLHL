@@ -97,7 +97,7 @@ public class HospitalAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     class FooterViewHolder extends RecyclerView.ViewHolder {
 
-        public FooterViewHolder(View itemView) {
+        FooterViewHolder(View itemView) {
             super(itemView);
         }
     }

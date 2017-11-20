@@ -1,8 +1,6 @@
 package com.qryl.qrylyh.activity.login.complete;
 
 import android.content.Intent;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,8 +30,6 @@ import okhttp3.Response;
 public class HospitalActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = "HospitalActivity";
-
-    private RecyclerView recyclerView;
 
     private List<DataArea> data = new ArrayList<>();
     private HospitalAdapter adapter = new HospitalAdapter(data);
@@ -66,7 +62,7 @@ public class HospitalActivity extends BaseActivity implements View.OnClickListen
         builder.add("limit", "3");
         FormBody formBody = builder.build();
         final Request request = new Request.Builder()
-                .url(ConstantValue.URL+"/common/getHospitals")
+                .url(ConstantValue.URL + "/common/getHospitals")
                 .post(formBody)
                 .build();
         client.newCall(request).enqueue(new Callback() {
@@ -86,7 +82,7 @@ public class HospitalActivity extends BaseActivity implements View.OnClickListen
     /**
      * 处理获取下来的json
      *
-     * @param result
+     * @param result 解析出来的结果
      */
     private void handleJson(String result) {
         Gson gson = new Gson();
@@ -95,13 +91,9 @@ public class HospitalActivity extends BaseActivity implements View.OnClickListen
         List<DataArea> dataAreas = hospital.getData().getData();
         //增加集合
         for (int i = 0; i < dataAreas.size(); i++) {
-            //Log.i(TAG, "handleJson: 解析dataArea----------------------------------------------");
-            //Log.i(TAG, "handleJson: 解析dataArea" + data.get(i).getId());
             Log.i(TAG, "handleJson: " + dataAreas.size());
             Log.i(TAG, "handleJson: 解析dataArea" + dataAreas.get(i).getName());
             Log.i(TAG, "handleJson: 解析dataArea" + total);
-            //Log.i(TAG, "handleJson: 解析dataArea" + data.get(i).getNote());
-            //data.get(i).setName("获取到数据" + i);
             this.data.add(new DataArea(dataAreas.get(i).getId(), dataAreas.get(i).getName(), dataAreas.get(i).getNote()));
         }
         runOnUiThread(new Runnable() {
@@ -120,7 +112,7 @@ public class HospitalActivity extends BaseActivity implements View.OnClickListen
         TextView tvTitle = (TextView) findViewById(R.id.title_name);
         tvTitle.setText("选择医院");
         tvReturn.setOnClickListener(this);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);

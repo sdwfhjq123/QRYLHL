@@ -1,6 +1,5 @@
 package com.qryl.qrylyh.VO;
 
-import android.inputmethodservice.Keyboard;
 
 /**
  * Created by hp on 2017/9/15.

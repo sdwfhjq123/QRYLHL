@@ -1,5 +1,6 @@
 package com.qryl.qrylyh.fragment.two;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -37,7 +38,6 @@ public class HgOnTheJobFragment extends BaseFragment {
     private LinearLayout llFailed;//未登记的布局
     private String userId;
     private LinearLayout llParticular;
-    private View viewline;
     private TextView tvServiceDay;
     private TextView tvPatient;
     private TextView tvMountGuard;
@@ -74,7 +74,7 @@ public class HgOnTheJobFragment extends BaseFragment {
     }
 
     /**
-     * @param result
+     * @param result 获取的网络的数据
      */
     private void handleJson(String result) {
         try {
@@ -93,6 +93,7 @@ public class HgOnTheJobFragment extends BaseFragment {
             final String mobile = patient.getString("mobile");
             if (getActivity() instanceof MainActivity){
                 getActivity().runOnUiThread(new Runnable() {
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void run() {
                         String s = long2Date(startTime);
@@ -119,14 +120,13 @@ public class HgOnTheJobFragment extends BaseFragment {
     /**
      * 把long类型的时间转换成date类型
      *
-     * @param startTime
+     * @param startTime  时间毫秒值
      */
     private String long2Date(long startTime) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         //前面的startTime是秒数，先乘1000得到毫秒数，再转为java.util.Date类型
         java.util.Date dt = new Date(startTime );
-        String sDateTime = sdf.format(dt);  //得到精确到秒的表示：08/31/2006 21:08:00
-        return sDateTime;
+        return sdf.format(dt);
     }
 
     @Override
@@ -138,7 +138,6 @@ public class HgOnTheJobFragment extends BaseFragment {
         llFailed = (LinearLayout) view.findViewById(R.id.ll_failed);
         llParticular = (LinearLayout) view.findViewById(R.id.ll_particular);
         llParticular.setVisibility(View.INVISIBLE);
-        viewline = view.findViewById(R.id.viewline);
         tvServiceDay = (TextView) view.findViewById(R.id.tv_service_day);
         tvPatient = (TextView) view.findViewById(R.id.tv_patient);
         tvMountGuard = (TextView) view.findViewById(R.id.tv_mount_guard);

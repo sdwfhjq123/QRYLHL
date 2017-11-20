@@ -3,8 +3,8 @@
     <string name="register"><u>《用户注册协议》</u></string>
 
     <string-array name="tab_names">
-        <item>派单模式</item>
-        <item>点单模式</item>
+        <item>登记</item>
+        <item>上岗</item>
     </string-array>
     <string-array name="hg_tab_names">
         <item>登记</item>

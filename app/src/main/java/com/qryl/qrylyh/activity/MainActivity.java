@@ -1,15 +1,11 @@
 package com.qryl.qrylyh.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.qryl.qrylyh.R;
@@ -19,7 +15,6 @@ import com.qryl.qrylyh.fragment.MeFragment;
 import com.qryl.qrylyh.fragment.MsgFragment;
 import com.qryl.qrylyh.fragment.OrderFragment;
 
-import cn.jpush.android.api.JPushInterface;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
@@ -30,16 +25,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private static final String MSG_FRAGMENT = "MSG_FRAGMENT";
     private static final String ORDER_FRAGMENT = "ORDER_FRAGMENT";
 
-    private RadioGroup rgMain;
     private TextView tvTitle;
-    private RadioButton rbHome, rbOrder, rbMsg, rbMe;
     private android.support.v4.app.FragmentManager fm;
     private android.support.v4.app.FragmentTransaction ft;
-    private TextView tvLocation;
-    private LinearLayout llSetting;
-    private TextView tvHelp, tvReturn;
-    private String userId;
     private int roleType;
+
+    public MainActivity() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +39,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         setContentView(R.layout.activity_main);
 
         SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
-        userId = prefs.getString("user_id", "");
         roleType = prefs.getInt("role_type", 0);
         Log.i(TAG, "onCreate: " + roleType);
         initUI();
@@ -81,13 +72,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      */
     private void initUI() {
         hiddenView();
-        rgMain = (RadioGroup) findViewById(R.id.rg_main);
-        rbHome = (RadioButton) findViewById(R.id.rb_home);
-        rbOrder = (RadioButton) findViewById(R.id.rb_order);
-        rbMsg = (RadioButton) findViewById(R.id.rb_msg);
-        rbMe = (RadioButton) findViewById(R.id.rb_me);
+        RadioButton rbHome = (RadioButton) findViewById(R.id.rb_home);
+        RadioButton rbOrder = (RadioButton) findViewById(R.id.rb_order);
+        RadioButton rbMsg = (RadioButton) findViewById(R.id.rb_msg);
+        RadioButton rbMe = (RadioButton) findViewById(R.id.rb_me);
         tvTitle = (TextView) findViewById(R.id.title_name);
-        tvLocation = (TextView) findViewById(R.id.tv_location);
         rbHome.setOnClickListener(this);
         rbOrder.setOnClickListener(this);
         rbMsg.setOnClickListener(this);
@@ -95,7 +84,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void hiddenView() {
-        tvReturn = (TextView) findViewById(R.id.return_text);
+        TextView tvReturn = (TextView) findViewById(R.id.return_text);
         tvReturn.setVisibility(View.GONE);
     }
 

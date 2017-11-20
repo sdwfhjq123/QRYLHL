@@ -1,5 +1,6 @@
 package com.qryl.qrylyh.activity.login.complete;
 
+import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,10 +16,10 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -74,7 +75,6 @@ public class HgCompleteInfoActivity extends BaseActivity {
     private TextView tvLocation;
     private String locationId;
     private String workId;
-    private SharedPreferences sp;
 
 
     @Override
@@ -189,6 +189,7 @@ public class HgCompleteInfoActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 DialogUtil.showMultiItemsDialog(HgCompleteInfoActivity.this, "选择工作经验", R.array.work_experience, new DialogInterface.OnClickListener() {
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         tvWorkExperience.setText(workExperienceArray[which] + "年");
@@ -309,7 +310,7 @@ public class HgCompleteInfoActivity extends BaseActivity {
         Button btnPopCancel = (Button) popView.findViewById(R.id.btn_pop_cancel);
         //获取屏幕宽高
         int widthPixels = getResources().getDisplayMetrics().widthPixels;
-        int heightPixels = getResources().getDisplayMetrics().heightPixels * 1 / 3;
+        int heightPixels = getResources().getDisplayMetrics().heightPixels / 3;
         final PopupWindow popupWindow = new PopupWindow(popView, widthPixels, heightPixels);
         popupWindow.setAnimationStyle(R.style.anim_popup_dir);
         popupWindow.setFocusable(true);
@@ -469,6 +470,7 @@ public class HgCompleteInfoActivity extends BaseActivity {
         displayImage(imagePath);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void handleImageOnKitKat(Intent data) {
         String imagePath = null;
         Uri uri = data.getData();
@@ -549,7 +551,7 @@ public class HgCompleteInfoActivity extends BaseActivity {
      * @param fileName
      */
     private void saveFile(String fileName) {
-        sp = getSharedPreferences("image", MODE_PRIVATE);
+        SharedPreferences sp = getSharedPreferences("image", MODE_PRIVATE);
         SharedPreferences.Editor edit = sp.edit();
         edit.putString(HEAD_KEY, fileName);
         //提交edit

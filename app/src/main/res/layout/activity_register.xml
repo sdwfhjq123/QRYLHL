@@ -35,10 +35,10 @@
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/et_tel_register"
-                android:cursorVisible="true"
-                android:textCursorDrawable="@null"
                 style="@style/et_lab"
-                android:hint="请输入手机号" />
+                android:cursorVisible="true"
+                android:hint="请输入手机号"
+                android:textCursorDrawable="@null" />
 
         </LinearLayout>
 
@@ -65,12 +65,12 @@
                 android:textColor="#666" />
 
             <android.support.v7.widget.AppCompatEditText
-                android:cursorVisible="true"
-                android:textCursorDrawable="@null"
                 android:id="@+id/et_verification_register"
                 style="@style/et_lab"
                 android:layout_weight="1"
-                android:hint="请输入验证码" />
+                android:cursorVisible="true"
+                android:hint="请输入验证码"
+                android:textCursorDrawable="@null" />
 
             <Button
                 android:id="@+id/btn_verification_register"
@@ -104,11 +104,11 @@
                 android:textColor="#666" />
 
             <android.support.v7.widget.AppCompatEditText
-                android:cursorVisible="true"
-                android:textCursorDrawable="@null"
                 android:id="@+id/et_psd_register"
                 style="@style/et_lab"
-                android:hint="密码为6至12个数字或字母" />
+                android:cursorVisible="true"
+                android:hint="密码为6至12个数字或字母"
+                android:textCursorDrawable="@null" />
 
         </LinearLayout>
 
@@ -133,11 +133,11 @@
                 android:textColor="#666" />
 
             <android.support.v7.widget.AppCompatEditText
-                android:cursorVisible="true"
-                android:textCursorDrawable="@null"
                 android:id="@+id/et_psd_confirm_register"
                 style="@style/et_lab"
-                android:hint="请再次确认密码" />
+                android:cursorVisible="true"
+                android:hint="请再次确认密码"
+                android:textCursorDrawable="@null" />
 
         </LinearLayout>
 

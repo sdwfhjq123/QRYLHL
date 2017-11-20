@@ -7,8 +7,6 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 
 import com.qryl.qrylyh.R;
-import com.qryl.qrylyh.VO.HospitalVO.DataArea;
-import com.qryl.qrylyh.VO.WorkVO.Work;
 import com.qryl.qrylyh.util.UIUtils;
 
 import java.util.ArrayList;
@@ -81,7 +79,7 @@ public class OfficeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     class ItemViewHolder extends RecyclerView.ViewHolder {
         CheckBox cbWork;
 
-        public ItemViewHolder(View itemView) {
+        ItemViewHolder(View itemView) {
             super(itemView);
             cbWork = (CheckBox) itemView;
         }
@@ -89,7 +87,7 @@ public class OfficeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     class FooterViewHolder extends RecyclerView.ViewHolder {
 
-        public FooterViewHolder(View itemView) {
+        FooterViewHolder(View itemView) {
             super(itemView);
         }
     }

@@ -17,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.qryl.qrylyh.R;
 import com.qryl.qrylyh.util.UIUtils;
@@ -115,7 +114,7 @@ public class OrderFragment extends Fragment {
 
         private final String[] mTabNames;
 
-        public mTabLayoutAdapter(FragmentManager fm) {
+        mTabLayoutAdapter(FragmentManager fm) {
             super(fm);
             mTabNames = UIUtils.getStringArray(R.array.tab_order_names);
         }
@@ -123,8 +122,7 @@ public class OrderFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
-            BaseFragment fragment = OrderFragmentFactory.createFragment(position);
-            return fragment;
+            return OrderFragmentFactory.createFragment(position);
         }
 
         @Override

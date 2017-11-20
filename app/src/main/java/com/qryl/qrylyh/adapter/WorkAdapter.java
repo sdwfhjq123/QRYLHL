@@ -1,5 +1,6 @@
 package com.qryl.qrylyh.adapter;
 
+import android.annotation.SuppressLint;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,7 +36,7 @@ public class WorkAdapter extends RecyclerView.Adapter<WorkAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(final WorkAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final WorkAdapter.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         holder.cbBox.setText(datas.get(position).getName());
         holder.cbBox.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,10 +61,10 @@ public class WorkAdapter extends RecyclerView.Adapter<WorkAdapter.ViewHolder> {
         this.datas = data;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         CheckBox cbBox;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             cbBox = (CheckBox) itemView;
         }

@@ -1,6 +1,6 @@
 package com.qryl.qrylyh.activity.login;
+
 import android.app.ProgressDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
@@ -25,7 +25,6 @@ import okhttp3.Callback;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class ResetPsdActivity extends BaseActivity {
@@ -36,7 +35,6 @@ public class ResetPsdActivity extends BaseActivity {
     private AppCompatEditText etVerification;
     private AppCompatEditText etPsd;
     private AppCompatEditText etPsdComfirm;
-    private Button btnSure;
     private AppCompatEditText etTel;
     private ProgressDialog progressDialog;
 
@@ -55,7 +53,7 @@ public class ResetPsdActivity extends BaseActivity {
         etVerification = (AppCompatEditText) findViewById(R.id.et_verification_register);
         etPsd = (AppCompatEditText) findViewById(R.id.et_psd_register);
         etPsdComfirm = (AppCompatEditText) findViewById(R.id.et_psd_confirm_register);
-        btnSure = (Button) findViewById(R.id.btn_register);
+        Button btnSure = (Button) findViewById(R.id.btn_register);
 
         //实现倒计时并发送请求并获取验证码的功能
         receiverSMS();
@@ -127,7 +125,7 @@ public class ResetPsdActivity extends BaseActivity {
         builder.addFormDataPart("newPassword", etPsdComfirm.getText().toString());
         builder.addFormDataPart("mobile", etTel.getText().toString());
         MultipartBody requestBody = builder.build();
-        Request requset = new Request.Builder().url(ConstantValue.URL+"/patientUser/resetPassword").post(requestBody).build();
+        Request requset = new Request.Builder().url(ConstantValue.URL + "/patientUser/resetPassword").post(requestBody).build();
         client.newCall(requset).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {

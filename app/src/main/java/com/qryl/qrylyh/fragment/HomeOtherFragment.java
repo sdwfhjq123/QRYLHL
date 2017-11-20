@@ -1,5 +1,6 @@
 package com.qryl.qrylyh.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -34,9 +35,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-/**
- * Created by yinhao on 2017/9/24.
- */
 
 public class HomeOtherFragment extends Fragment {
 
@@ -54,21 +52,18 @@ public class HomeOtherFragment extends Fragment {
     private TextView tvName;
     private TextView tvClickable;
     private TextView tvServiceTimes;
-    private int status;
     private Button button;
-    private LinearLayout llPatient;
     private String orderId;
     private int patientId;
     private int puId;
     private int serviceNum;
     private String name;
     private int roleType;
-    private String address;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home_other, null);
+        @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.fragment_home_other, null);
         SharedPreferences prefs = getActivity().getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userId = prefs.getString("user_id", "");
         roleType = prefs.getInt("role_type", 0);
@@ -82,6 +77,7 @@ public class HomeOtherFragment extends Fragment {
      */
     private void initData() {
         //初始化页面时加载的状态
+        String address;
         if (roleType == 3) {
             address = ConstantValue.URL + "/order/getMassagerHomePageInfo";
         } else {
@@ -109,37 +105,41 @@ public class HomeOtherFragment extends Fragment {
                 try {
                     final JSONObject jsonObject = new JSONObject(result);
                     String resultCode = jsonObject.getString("resultCode");
-                    if (resultCode.equals("500")) {
-                        if (getActivity() instanceof MainActivity) {
+                    switch (resultCode) {
+                        case "500":
+                            if (getActivity() instanceof MainActivity) {
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            Toast.makeText(getActivity(), jsonObject.getString("erroMessage"), Toast.LENGTH_SHORT).show();
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
+                            }
+                            break;
+                        case "200": //有订单
+                            handleJson(result);
+                            break;
+                        case "201": //没有订单
+                            JSONObject data = jsonObject.getJSONObject("data");
+                            JSONObject resultObject = data.getJSONObject("result");
+                            final String realName = resultObject.getString("realName");
+                            final int serviceNum = resultObject.getInt("serviceNum");
+                            final int status = resultObject.getInt("status");
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    try {
-                                        Toast.makeText(getActivity(), jsonObject.getString("erroMessage"), Toast.LENGTH_SHORT).show();
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
+                                    tvName.setText(realName);
+                                    tvServiceTimes.setText(String.valueOf(serviceNum));
+                                    tvStatus.setText(status == 0 ? STATUS_DOWN : STATUS_UP);
+                                    button.setText(status == 0 ? UP : DOWN);
+                                    tvClickable.setText(status == 0 ? STATUS_DOWN : STATUS_UP);
                                 }
                             });
-                        }
-                    } else if (resultCode.equals("200")) {//有订单
-                        handleJson(result);
-                    } else if (resultCode.equals("201")) {//没有订单
-                        JSONObject data = jsonObject.getJSONObject("data");
-                        JSONObject resultObject = data.getJSONObject("result");
-                        final String realName = resultObject.getString("realName");
-                        final int serviceNum = resultObject.getInt("serviceNum");
-                        final int status = resultObject.getInt("status");
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                tvName.setText(realName);
-                                tvServiceTimes.setText(serviceNum + "");
-                                tvStatus.setText(status == 0 ? STATUS_DOWN : STATUS_UP);
-                                button.setText(status == 0 ? UP : DOWN);
-                                tvClickable.setText(status == 0 ? STATUS_DOWN : STATUS_UP);
-                            }
-                        });
+                            break;
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -151,13 +151,11 @@ public class HomeOtherFragment extends Fragment {
     /**
      * 有订单时解析此类
      *
-     * @param result
+     * @param result 解析的订单
      */
     private void handleJson(String result) {
         Gson gson = new Gson();
         HomeOther homeOther = gson.fromJson(result, HomeOther.class);
-        final String resultCode = homeOther.getResultCode();
-        status = homeOther.getData().getResult().getDoctorNurse().getStatus();
         serviceNum = homeOther.getData().getResult().getDoctorNurse().getServiceNum();
         //订单id
         orderId = homeOther.getData().getResult().getId();
@@ -171,7 +169,7 @@ public class HomeOtherFragment extends Fragment {
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    tvServiceTimes.setText(serviceNum + "");
+                    tvServiceTimes.setText(String.valueOf(serviceNum));
                     tvName.setText(name);
                     button.setText(DOWN);
                     tvStatus.setText("已上班");
@@ -192,7 +190,7 @@ public class HomeOtherFragment extends Fragment {
         tvClickable = (TextView) view.findViewById(R.id.tv_clickable);
         tvServiceTimes = (TextView) view.findViewById(R.id.tv_service_times);
         button = (Button) view.findViewById(R.id.button);
-        llPatient = (LinearLayout) view.findViewById(R.id.ll_patient);
+        LinearLayout llPatient = (LinearLayout) view.findViewById(R.id.ll_patient);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override

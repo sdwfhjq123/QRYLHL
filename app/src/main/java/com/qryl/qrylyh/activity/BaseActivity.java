@@ -81,9 +81,9 @@ public class BaseActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     SharedPreferences prefsUserId = context.getSharedPreferences("user_id", Context.MODE_PRIVATE);
-                    prefsUserId.edit().clear().commit();
+                    prefsUserId.edit().clear().apply();
                     SharedPreferences prefsImage = context.getSharedPreferences("image", Context.MODE_PRIVATE);
-                    prefsImage.edit().clear().commit();
+                    prefsImage.edit().clear().apply();
                     ActivityCollector.finishAll();
                     Intent intent = new Intent(context, LoginActivity.class);
                     context.startActivity(intent);
@@ -105,9 +105,9 @@ public class BaseActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     SharedPreferences prefsUserId = context.getSharedPreferences("user_id", Context.MODE_PRIVATE);
-                    prefsUserId.edit().clear().commit();
+                    prefsUserId.edit().clear().apply();
                     SharedPreferences prefsImg = context.getSharedPreferences("image", Context.MODE_PRIVATE);
-                    prefsImg.edit().clear().commit();
+                    prefsImg.edit().clear().apply();
                     ActivityCollector.finishAll();
                     Intent intent = new Intent(context, LoginActivity.class);
                     context.startActivity(intent);

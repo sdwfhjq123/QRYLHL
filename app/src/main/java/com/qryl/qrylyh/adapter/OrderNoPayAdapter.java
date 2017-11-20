@@ -1,5 +1,6 @@
 package com.qryl.qrylyh.adapter;
 
+import android.annotation.SuppressLint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,9 +45,9 @@ public class OrderNoPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         if (holder instanceof OrderNoPayAdapter.ItemViewHolder) {
-            ((OrderNoPayAdapter.ItemViewHolder) holder).tvMoney.setText(data.get(position).getPrice() + "");
+            ((OrderNoPayAdapter.ItemViewHolder) holder).tvMoney.setText(String.valueOf(data.get(position).getPrice()));
             ((OrderNoPayAdapter.ItemViewHolder) holder).tvNote.setText(data.get(position).getNote());
             ((OrderNoPayAdapter.ItemViewHolder) holder).tvContent.setText(data.get(position).getContent());
             ((OrderNoPayAdapter.ItemViewHolder) holder).tvTitle.setText(data.get(position).getTitle());
@@ -85,7 +86,7 @@ public class OrderNoPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         TextView tvMoney;
         Button evaluate;
 
-        public ItemViewHolder(View itemView) {
+        ItemViewHolder(View itemView) {
             super(itemView);
             tvNote = (TextView) itemView.findViewById(R.id.tv_note);
             tvTitle = (TextView) itemView.findViewById(R.id.tv_title);
@@ -97,7 +98,7 @@ public class OrderNoPayAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     class FooterViewHolder extends RecyclerView.ViewHolder {
 
-        public FooterViewHolder(View itemView) {
+        FooterViewHolder(View itemView) {
             super(itemView);
         }
     }

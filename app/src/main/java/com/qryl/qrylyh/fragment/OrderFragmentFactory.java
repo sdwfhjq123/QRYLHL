@@ -1,6 +1,8 @@
 package com.qryl.qrylyh.fragment;
 
 
+import android.annotation.SuppressLint;
+
 import com.qryl.qrylyh.fragment.two.OrderFinishedFragment;
 import com.qryl.qrylyh.fragment.two.OrderMakeListFragment;
 import com.qryl.qrylyh.fragment.two.OrderNoPayFragment;
@@ -13,12 +15,13 @@ import java.util.HashMap;
  * tab标签的切换点单派单工厂类----优化代码
  */
 
-public class OrderFragmentFactory {
+class OrderFragmentFactory {
 
+    @SuppressLint("UseSparseArrays")
     private static HashMap<Integer, BaseFragment> mBaseFragments = new HashMap<Integer, BaseFragment>();
 
 
-    public static BaseFragment createFragment(int pos) {
+    static BaseFragment createFragment(int pos) {
 
         BaseFragment baseFragment = mBaseFragments.get(pos);
 

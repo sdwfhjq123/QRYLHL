@@ -20,7 +20,6 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -54,9 +53,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import static com.qryl.qrylyh.R.id.age;
-
-
 public class TnCompletePicActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = "HgCompilePicActivity";
@@ -87,7 +83,6 @@ public class TnCompletePicActivity extends BaseActivity implements View.OnClickL
     private Uri imageUri;
     private Bitmap bitmap;
     private EditText etMe;
-    private Button btnRegister;
     private File sfzFile;
     private File jkzFile;
     private File zgzFile;
@@ -129,7 +124,7 @@ public class TnCompletePicActivity extends BaseActivity implements View.OnClickL
         jkzImage = (ImageView) findViewById(R.id.jkz_image);
         zgzImage = (ImageView) findViewById(R.id.zgz_image);
         etMe = (EditText) findViewById(R.id.et_me);
-        btnRegister = (Button) findViewById(R.id.btn_register);
+        Button btnRegister = (Button) findViewById(R.id.btn_register);
         sfzImage.setOnClickListener(this);
         jkzImage.setOnClickListener(this);
         zgzImage.setOnClickListener(this);
@@ -289,7 +284,7 @@ public class TnCompletePicActivity extends BaseActivity implements View.OnClickL
         Button btnPopCancel = (Button) popView.findViewById(R.id.btn_pop_cancel);
         //获取屏幕宽高
         int widthPixels = getResources().getDisplayMetrics().widthPixels;
-        int heightPixels = getResources().getDisplayMetrics().heightPixels * 1 / 3;
+        int heightPixels = getResources().getDisplayMetrics().heightPixels / 3;
         final PopupWindow popupWindow = new PopupWindow(popView, widthPixels, heightPixels);
         popupWindow.setAnimationStyle(R.style.anim_popup_dir);
         popupWindow.setFocusable(true);
@@ -548,7 +543,7 @@ public class TnCompletePicActivity extends BaseActivity implements View.OnClickL
         SharedPreferences.Editor edit = sp.edit();
         edit.putString(spKey, fileName);
         //提交edit
-        edit.commit();
+        edit.apply();
         Log.i(TAG, "saveFile: 保存成功" + sp.getString(spKey, null));
     }
 

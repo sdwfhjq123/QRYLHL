@@ -3,6 +3,8 @@ package com.qryl.qrylyh.util;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.view.View;
 
 import com.qryl.qrylyh.global.QRYLHLApplication;
@@ -43,6 +45,7 @@ public class UIUtils {
      * @param id
      * @return
      */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public static Drawable getDrawable(int id) {
         return getContext().getResources().getDrawable(id, null);
     }

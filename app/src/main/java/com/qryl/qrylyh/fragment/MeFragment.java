@@ -121,7 +121,7 @@ public class MeFragment extends android.support.v4.app.Fragment implements View.
     /**
      * 解析json
      *
-     * @param result
+     * @param result 获取网络数据
      */
     private void handleJson(String result) {
         try {

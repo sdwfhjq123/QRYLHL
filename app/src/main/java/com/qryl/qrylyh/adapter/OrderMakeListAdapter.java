@@ -1,18 +1,17 @@
 package com.qryl.qrylyh.adapter;
 
+import android.annotation.SuppressLint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.qryl.qrylyh.R;
 import com.qryl.qrylyh.VO.MakeList.DataArea;
 import com.qryl.qrylyh.util.UIUtils;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,8 +44,9 @@ public class OrderMakeListAdapter extends RecyclerView.Adapter<RecyclerView.View
         return null;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         if (holder instanceof ItemViewHolder) {
             ((ItemViewHolder) holder).tvTitle.setText(data.get(position).getDoctorNurse().getRealName() + "为您服务");
             ((ItemViewHolder) holder).tvMoney.setText(data.get(position).getPrice() + "");
@@ -103,7 +103,7 @@ public class OrderMakeListAdapter extends RecyclerView.Adapter<RecyclerView.View
         Button btnPay;
         Button btnDelete;
 
-        public ItemViewHolder(View itemView) {
+        ItemViewHolder(View itemView) {
             super(itemView);
             tvNote = (TextView) itemView.findViewById(R.id.tv_note);
             tvTitle = (TextView) itemView.findViewById(R.id.tv_title);
@@ -116,7 +116,7 @@ public class OrderMakeListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     class FooterViewHolder extends RecyclerView.ViewHolder {
 
-        public FooterViewHolder(View itemView) {
+        FooterViewHolder(View itemView) {
             super(itemView);
         }
     }

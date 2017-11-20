@@ -97,6 +97,7 @@ public class WritePatientsFileActivity extends AppCompatActivity {
         initView();
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private void initView() {
         webview = (ProgressWebview) findViewById(R.id.webview);
         WebSettings webSettings = webview.getSettings();

@@ -1,5 +1,6 @@
 package com.qryl.qrylyh.fragment.two;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -45,11 +46,9 @@ public class HgRegisterFragment extends BaseFragment implements View.OnClickList
     private CheckBox cbEightHours;
     private CheckBox cbTwelveHours;
     private CheckBox cbTwentyFourHours;
-    private Map<String, Integer> map;
     private String chooseServiceTimes;
     private String userId;
     private int status;
-    private TextView tvServiceTimes;
 
     @Override
     public void loadData() {
@@ -71,7 +70,9 @@ public class HgRegisterFragment extends BaseFragment implements View.OnClickList
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                handleStatusJson(response.body().string());
+                String result = response.body().string();
+                Log.i(TAG, "onResponse: 获取的护工登记信息:" + result);
+                handleStatusJson(result);
             }
         }, "carerId", userId);
     }
@@ -80,17 +81,21 @@ public class HgRegisterFragment extends BaseFragment implements View.OnClickList
         try {
             JSONObject jsonObject = new JSONObject(result);
             JSONObject data = jsonObject.getJSONObject("data");
-            final int status = data.getInt("status");//有发布信息为1，没有为0
-            if (getActivity() instanceof MainActivity){
+            //有发布信息为1，没有为0
+            status = data.getInt("status");
+            if (getActivity() instanceof MainActivity) {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         if (status == 0) {
                             button.setText("发布");
                             tvStatus.setText("未登记");
-                        } else {
+                        } else if (status == 1) {
                             button.setText("撤销");
                             tvStatus.setText("已登记");
+                        } else if (status == 2) {
+                            button.setText("撤销");
+                            tvStatus.setText("已上班");
                         }
                     }
                 });
@@ -112,7 +117,7 @@ public class HgRegisterFragment extends BaseFragment implements View.OnClickList
         cbTwentyFourHours = (CheckBox) view.findViewById(R.id.cb_twenty_four_hours);
         tvServiceDay = (TextView) view.findViewById(R.id.tv_service_day);
         button = (Button) view.findViewById(R.id.button);
-        tvServiceTimes = (TextView) view.findViewById(R.id.tv_service_times);
+        TextView tvServiceTimes = (TextView) view.findViewById(R.id.tv_service_times);
         tvStatus = (TextView) view.findViewById(R.id.tv_status);
         LinearLayout llStatus = (LinearLayout) view.findViewById(R.id.ll_status);
         llChooseTime.setOnClickListener(this);
@@ -120,15 +125,13 @@ public class HgRegisterFragment extends BaseFragment implements View.OnClickList
         cbTwelveHours.setOnClickListener(this);
         cbTwentyFourHours.setOnClickListener(this);
         button.setOnClickListener(this);
-        //if (tvStatus.getText().equals("已接单,点击查看详情")) {
         llStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //点开详情
-               // new Intent(HgRegisterFragment.this, WritePatientsFileActivity.)
+                // new Intent(HgRegisterFragment.this, WritePatientsFileActivity.)
             }
         });
-        //}
         return view;
     }
 
@@ -137,6 +140,7 @@ public class HgRegisterFragment extends BaseFragment implements View.OnClickList
         switch (v.getId()) {
             case R.id.ll_choose_time:
                 TimeSelector timeSelectorStart = new TimeSelector(getActivity(), new TimeSelector.ResultHandler() {
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void handle(String time) {
                         tvServiceDay.setText(time + ":00");
@@ -160,8 +164,12 @@ public class HgRegisterFragment extends BaseFragment implements View.OnClickList
                     }
                 }
                 if (button.getText().toString().equals("撤销")) {
-                    //撤销登记信息
-                    revocationInfo();
+                    if (status == 1) {
+                        //撤销登记信息
+                        revocationInfo();
+                    } else if (status == 2) {
+                        Toast.makeText(getActivity(), "已经上班,无法撤销登记信息", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 break;
         }
@@ -188,7 +196,7 @@ public class HgRegisterFragment extends BaseFragment implements View.OnClickList
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 Log.i(TAG, "onResponse: 撤销的消息");
-                if (getActivity() instanceof  MainActivity){
+                if (getActivity() instanceof MainActivity) {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -224,7 +232,7 @@ public class HgRegisterFragment extends BaseFragment implements View.OnClickList
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 Log.i(TAG, "onResponse: 发布成功" + response.body().string());
-                if (getActivity() instanceof  MainActivity){
+                if (getActivity() instanceof MainActivity) {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -249,26 +257,26 @@ public class HgRegisterFragment extends BaseFragment implements View.OnClickList
     }
 
     public String getChooseServiceTimes() {
-        map = new HashMap<>();
+        Map<String, Integer> map1 = new HashMap<>();
         StringBuffer sb = new StringBuffer();
         if (cbEightHours.isChecked()) {
-            map.put("8", 8);
-            sb.append(map.get("8"));
+            map1.put("8", 8);
+            sb.append(map1.get("8"));
         } else {
-            map.remove("8");
+            map1.remove("8");
         }
         if (cbTwelveHours.isChecked()) {
-            map.put("12", 12);
+            map1.put("12", 12);
         } else {
-            map.remove("12");
+            map1.remove("12");
         }
         if (cbTwentyFourHours.isChecked()) {
-            map.put("24", 24);
+            map1.put("24", 24);
         } else {
-            map.remove("24");
+            map1.remove("24");
         }
         //循环map
-        for (Map.Entry<String, Integer> map : this.map.entrySet()) {
+        for (Map.Entry<String, Integer> map : map1.entrySet()) {
             sb.append(map.getValue() + ",");
         }
         return sb.toString();

@@ -1,6 +1,6 @@
 package com.qryl.qrylyh.adapter;
 
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.annotation.SuppressLint;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -46,9 +46,9 @@ public class OrderUnderwayAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     @Override
-    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         if (holder instanceof ItemViewHolder) {
-            ((ItemViewHolder) holder).tvMoney.setText(data.get(position).getPrice() + "");
+            ((ItemViewHolder) holder).tvMoney.setText(String.valueOf(data.get(position).getPrice()));
             ((ItemViewHolder) holder).tvNote.setText(data.get(position).getNote());
             ((ItemViewHolder) holder).tvContent.setText(data.get(position).getContent());
             ((ItemViewHolder) holder).tvTitle.setText(data.get(position).getTitle());
@@ -87,7 +87,7 @@ public class OrderUnderwayAdapter extends RecyclerView.Adapter<RecyclerView.View
         TextView tvContent;
         TextView tvMoney;
 
-        public ItemViewHolder(View itemView) {
+        ItemViewHolder(View itemView) {
             super(itemView);
             tvNote = (TextView) itemView.findViewById(R.id.tv_note);
             tvTitle = (TextView) itemView.findViewById(R.id.tv_title);
@@ -98,7 +98,7 @@ public class OrderUnderwayAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     static class FooterViewHolder extends RecyclerView.ViewHolder {
 
-        public FooterViewHolder(View itemView) {
+        FooterViewHolder(View itemView) {
             super(itemView);
         }
     }

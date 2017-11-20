@@ -135,7 +135,7 @@ public class LocalExpandableAdapter extends BaseExpandableListAdapter {
     }
 
     //define interface
-    public static interface OnChooseItemClickListener {
+    public interface OnChooseItemClickListener {
         void onItemClick(View view, int groupPosition, int childPosition, int id);
 
         void onDeleteItemClick(View view, int groupPosition, int childPosition);

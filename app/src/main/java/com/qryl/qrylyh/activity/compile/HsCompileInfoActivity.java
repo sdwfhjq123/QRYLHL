@@ -1,5 +1,6 @@
 package com.qryl.qrylyh.activity.compile;
 
+import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -20,8 +21,6 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -56,7 +55,6 @@ import java.io.IOException;
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.OkHttpClient;
 import okhttp3.Response;
 
 public class HsCompileInfoActivity extends BaseActivity {
@@ -96,13 +94,11 @@ public class HsCompileInfoActivity extends BaseActivity {
     private TextView tvOffice;
     private int hospitalId;
     private int officeId;
-    private String workId;
     private String userId;
     private String introduce;
     private String idImg;
     private String healthCertificateImg;
     private String qualificationCertificateImg;
-    private SharedPreferences sp;
     private String headshotImg;
 
 
@@ -112,8 +108,8 @@ public class HsCompileInfoActivity extends BaseActivity {
         setContentView(R.layout.activity_complete_info_max);
         SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userId = prefs.getString("user_id", "");
-        sp = getSharedPreferences("image", Context.MODE_PRIVATE);
-        sp.edit().putString(HEAD_KEY, "").commit();
+        SharedPreferences sp = getSharedPreferences("image", Context.MODE_PRIVATE);
+        sp.edit().putString(HEAD_KEY, "").apply();
         genderArray = getResources().getStringArray(R.array.gender);
         workExperienceArray = getResources().getStringArray(R.array.work_experience);
         initView();
@@ -173,14 +169,12 @@ public class HsCompileInfoActivity extends BaseActivity {
                         tvIdentity.setText(idNum);
                         tvGender.setText(gender == 0 ? "男" : "女");
                         tvAge.setText(age);
-                        tvWorkExperience.setText(workYears + "");
-                        tvHospital.setText(hospitalName + "");
-                        tvOffice.setText(departmentName + "");
+                        tvWorkExperience.setText(String.valueOf(workYears) );
+                        tvHospital.setText(String.valueOf(hospitalName));
+                        tvOffice.setText(String.valueOf(departmentName));
                         tvBeGoodAtWork.setText(professionNames);
                     }
                 });
-            } else if (resultCode.equals("500")) {
-                return;
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -288,9 +282,10 @@ public class HsCompileInfoActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 DialogUtil.showMultiItemsDialog(HsCompileInfoActivity.this, "选择工作经验", R.array.work_experience, new DialogInterface.OnClickListener() {
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        tvWorkExperience.setText(workExperienceArray[which] + "年");
+                        tvWorkExperience.setText(String.valueOf(workExperienceArray[which]) + "年");
                         workExperienceDialogText = workExperienceArray[which];
                         dialog.dismiss();
                     }
@@ -399,7 +394,7 @@ public class HsCompileInfoActivity extends BaseActivity {
         Button btnPopCancel = (Button) popView.findViewById(R.id.btn_pop_cancel);
         //获取屏幕宽高
         int widthPixels = getResources().getDisplayMetrics().widthPixels;
-        int heightPixels = getResources().getDisplayMetrics().heightPixels * 1 / 3;
+        int heightPixels = getResources().getDisplayMetrics().heightPixels / 3;
         final PopupWindow popupWindow = new PopupWindow(popView, widthPixels, heightPixels);
         popupWindow.setAnimationStyle(R.style.anim_popup_dir);
         popupWindow.setFocusable(true);
@@ -560,7 +555,7 @@ public class HsCompileInfoActivity extends BaseActivity {
                 break;
             case CHOOSE_WORK:
                 if (resultCode == RESULT_OK) {
-                    workId = data.getStringExtra("work_id");
+                    String workId = data.getStringExtra("work_id");
                     String workName = data.getStringExtra("work_name");
                     Log.i(TAG, "onActivityResult: 返回回来的擅长的工作的id: " + workId);
                     tvBeGoodAtWork.setText(workName);
@@ -660,7 +655,7 @@ public class HsCompileInfoActivity extends BaseActivity {
         SharedPreferences.Editor edit = sp.edit();
         edit.putString(HEAD_KEY, fileName);
         //提交edit
-        edit.commit();
+        edit.apply();
         Log.i(TAG, "saveFile: 保存成功" + sp.getString(HEAD_KEY, null));
     }
 

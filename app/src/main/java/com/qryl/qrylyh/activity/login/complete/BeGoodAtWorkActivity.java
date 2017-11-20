@@ -1,7 +1,7 @@
 package com.qryl.qrylyh.activity.login.complete;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,17 +29,14 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-/**
- * http://192.168.2.134:8080/qryl/manager/getDepartments
- */
 public class BeGoodAtWorkActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = "BeGoodAtWorkActivity";
 
-    private RecyclerView recyclerView;
     private List<Data> datas = new ArrayList<>();
     private WorkAdapter adapter = new WorkAdapter(datas);
     private int serviceId;
+    @SuppressLint("UseSparseArrays")
     private Map<Integer, String> getDataMap = new HashMap<>();
     private int addId;
     private String addName;
@@ -62,7 +59,7 @@ public class BeGoodAtWorkActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void postData() {
-        HttpUtil.sendOkHttpRequest(ConstantValue.URL+"/common/getProfessionListByRoleType", new Callback() {
+        HttpUtil.sendOkHttpRequest(ConstantValue.URL + "/common/getProfessionListByRoleType", new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
@@ -79,7 +76,7 @@ public class BeGoodAtWorkActivity extends BaseActivity implements View.OnClickLi
     /**
      * 解析json
      *
-     * @param result
+     * @param result 解析出来的结果
      */
     private void handlerJson(String result) {
         Gson gson = new Gson();
@@ -100,7 +97,7 @@ public class BeGoodAtWorkActivity extends BaseActivity implements View.OnClickLi
     private void initView() {
         TextView titleName = (TextView) findViewById(R.id.title_name);
         titleName.setText("选择擅长的工作");
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         Button btnSure = (Button) findViewById(R.id.btn_sure);
         TextView tvReturn = (TextView) findViewById(R.id.return_text);
         btnSure.setOnClickListener(this);
@@ -131,8 +128,8 @@ public class BeGoodAtWorkActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_sure:
-                StringBuffer stringBufferId = new StringBuffer();
-                StringBuffer stringBufferName = new StringBuffer();
+                StringBuilder stringBufferId = new StringBuilder();
+                StringBuilder stringBufferName = new StringBuilder();
                 for (Map.Entry<Integer, String> entry : getDataMap.entrySet()) {
                     Integer key = entry.getKey();
                     stringBufferId.append(key);

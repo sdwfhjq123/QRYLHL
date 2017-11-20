@@ -1,9 +1,7 @@
 package com.qryl.qrylyh.activity.H5;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,7 +23,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import okhttp3.Call;
@@ -46,11 +43,8 @@ public class LocationAddActivity extends BaseActivity implements View.OnClickLis
 
     private LocalExpandableAdapter adapter;
 
-    private ExpandableListView exList;
-
     private int addId;
     private String addName;
-    private TextView tvTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,11 +114,11 @@ public class LocationAddActivity extends BaseActivity implements View.OnClickLis
     private void initView() {
         TextView tvReturn = (TextView) findViewById(R.id.return_text);
         Button btnSure = (Button) findViewById(R.id.btn_sure);
-        tvTitle = (TextView) findViewById(R.id.title_name);
+        TextView tvTitle = (TextView) findViewById(R.id.title_name);
         tvTitle.setText("选择可服务的地址");
         tvReturn.setOnClickListener(this);
         btnSure.setOnClickListener(this);
-        exList = (ExpandableListView) findViewById(R.id.exList);
+        ExpandableListView exList = (ExpandableListView) findViewById(R.id.exList);
         adapter = new LocalExpandableAdapter(counties, items, this);
         exList.setAdapter(adapter);
         adapter.setOnChooseItemClickListener(new LocalExpandableAdapter.OnChooseItemClickListener() {

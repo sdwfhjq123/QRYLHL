@@ -1,5 +1,7 @@
 package com.qryl.qrylyh.fragment;
 
+import android.annotation.SuppressLint;
+
 import com.qryl.qrylyh.fragment.two.HgOnTheJobFragment;
 import com.qryl.qrylyh.fragment.two.HgRegisterFragment;
 
@@ -10,11 +12,11 @@ import java.util.Map;
  * Created by yinhao on 2017/9/24.
  */
 
-public class HgFragmentFactory {
+class HgFragmentFactory {
+    @SuppressLint("UseSparseArrays")
     private static Map<Integer, BaseFragment> mBaseFragments = new HashMap<Integer, BaseFragment>();
 
-
-    public static BaseFragment createFragment(int pos) {
+    static BaseFragment createFragment(int pos) {
 
         BaseFragment baseFragment = mBaseFragments.get(pos);
 

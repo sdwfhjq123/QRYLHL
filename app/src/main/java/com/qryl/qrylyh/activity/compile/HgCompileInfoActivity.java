@@ -1,5 +1,6 @@
 package com.qryl.qrylyh.activity.compile;
 
+import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -20,8 +21,6 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -40,7 +39,6 @@ import com.qryl.qrylyh.VO.CompileVO.Compile;
 import com.qryl.qrylyh.VO.CompileVO.Data;
 import com.qryl.qrylyh.activity.BaseActivity;
 import com.qryl.qrylyh.activity.login.complete.BeGoodAtWorkActivity;
-import com.qryl.qrylyh.activity.login.complete.LocationActivity;
 import com.qryl.qrylyh.util.ConstantValue;
 import com.qryl.qrylyh.util.DialogUtil;
 import com.qryl.qrylyh.util.HttpUtil;
@@ -54,7 +52,6 @@ import java.io.IOException;
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.OkHttpClient;
 import okhttp3.Response;
 
 public class HgCompileInfoActivity extends BaseActivity {
@@ -85,7 +82,6 @@ public class HgCompileInfoActivity extends BaseActivity {
     private String locationId;
     private String workId;
     private String userId;
-    private RelativeLayout location;
     private SharedPreferences sp;
 
 
@@ -96,7 +92,7 @@ public class HgCompileInfoActivity extends BaseActivity {
         SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userId = prefs.getString("user_id", "");
         sp = getSharedPreferences("image", Context.MODE_PRIVATE);
-        sp.edit().putString(HEAD_KEY, "").commit();
+        sp.edit().putString(HEAD_KEY, "").apply();
         genderArray = getResources().getStringArray(R.array.gender);
         workExperienceArray = getResources().getStringArray(R.array.work_experience);
         initView();
@@ -130,7 +126,7 @@ public class HgCompileInfoActivity extends BaseActivity {
     /**
      * 解析数据显示到页面上
      *
-     * @param result
+     * @param result 获取的网络数据
      */
     private void handleJson(String result) {
         Gson gson = new Gson();
@@ -142,7 +138,7 @@ public class HgCompileInfoActivity extends BaseActivity {
     /**
      * 将数据显示在文本上
      *
-     * @param data
+     * @param data 实体类
      */
     private void displayInfo(final Data data) {
         runOnUiThread(new Runnable() {
@@ -156,8 +152,8 @@ public class HgCompileInfoActivity extends BaseActivity {
                 } else if (data.getGender() == 1) {
                     tvGender.setText("女");
                 }
-                tvAge.setText(data.getAge() + "");
-                tvWorkExperience.setText(data.getWorkYears() + "");
+                tvAge.setText(String.valueOf(data.getAge()));
+                tvWorkExperience.setText(String.valueOf(data.getWorkYears()));
                 tvBeGoodAtWork.setText(data.getProfessionIds());
             }
         });
@@ -263,9 +259,10 @@ public class HgCompileInfoActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 DialogUtil.showMultiItemsDialog(HgCompileInfoActivity.this, "选择工作经验", R.array.work_experience, new DialogInterface.OnClickListener() {
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        tvWorkExperience.setText(workExperienceArray[which] + "年");
+                        tvWorkExperience.setText(String.valueOf(workExperienceArray[which]) + "年");
                         workExperienceDialogText = workExperienceArray[which];
                         dialog.dismiss();
                     }
@@ -295,7 +292,7 @@ public class HgCompileInfoActivity extends BaseActivity {
         workExperience = (RelativeLayout) findViewById(R.id.work_experience);
         beGoodAtWork = (RelativeLayout) findViewById(R.id.be_good_at_work);
         civHead = (CircleImageView) findViewById(R.id.civ_head);
-        location = (RelativeLayout) findViewById(R.id.location);
+        RelativeLayout location = (RelativeLayout) findViewById(R.id.location);
         location.setVisibility(View.GONE);
         View location_view_line = findViewById(R.id.location_view_line);
         location_view_line.setVisibility(View.GONE);
@@ -360,7 +357,7 @@ public class HgCompileInfoActivity extends BaseActivity {
         Button btnPopCancel = (Button) popView.findViewById(R.id.btn_pop_cancel);
         //获取屏幕宽高
         int widthPixels = getResources().getDisplayMetrics().widthPixels;
-        int heightPixels = getResources().getDisplayMetrics().heightPixels * 1 / 3;
+        int heightPixels = getResources().getDisplayMetrics().heightPixels / 3;
         final PopupWindow popupWindow = new PopupWindow(popView, widthPixels, heightPixels);
         popupWindow.setAnimationStyle(R.style.anim_popup_dir);
         popupWindow.setFocusable(true);
@@ -446,9 +443,9 @@ public class HgCompileInfoActivity extends BaseActivity {
     /**
      * 动态获取到的权限后的重写
      *
-     * @param requestCode
-     * @param permissions
-     * @param grantResults
+     * @param requestCode 请求码
+     * @param permissions 权限
+     * @param grantResults 结果
      */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -589,14 +586,14 @@ public class HgCompileInfoActivity extends BaseActivity {
     /**
      * 保存file到sp
      *
-     * @param fileName
+     * @param fileName 文件名字
      */
     private void saveFile(String fileName) {
         sp = getSharedPreferences("image", MODE_PRIVATE);
         SharedPreferences.Editor edit = sp.edit();
         edit.putString(HEAD_KEY, fileName);
         //提交edit
-        edit.commit();
+        edit.apply();
         Log.i(TAG, "saveFile: 保存成功" + sp.getString(HEAD_KEY, null));
     }
 

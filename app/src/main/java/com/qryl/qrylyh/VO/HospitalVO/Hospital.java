@@ -1,9 +1,5 @@
 package com.qryl.qrylyh.VO.HospitalVO;
 
-import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
-
 /**
  * Created by hp on 2017/9/14.
  */

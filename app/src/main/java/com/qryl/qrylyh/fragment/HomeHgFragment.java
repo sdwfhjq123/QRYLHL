@@ -28,7 +28,6 @@ import java.lang.reflect.Field;
 public class HomeHgFragment extends Fragment {
 
     private TabLayout tabLayout;
-    private ViewPager viewPager;
 
     @Nullable
     @Override
@@ -40,7 +39,7 @@ public class HomeHgFragment extends Fragment {
 
     private void initView(View view) {
         tabLayout = (TabLayout) view.findViewById(R.id.tablayout);
-        viewPager = (ViewPager) view.findViewById(R.id.viewpager);
+        ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         mTabLayoutAdapter adapter = new mTabLayoutAdapter(getChildFragmentManager());
         viewPager.setAdapter(adapter);
         //绑定适配器
@@ -57,7 +56,7 @@ public class HomeHgFragment extends Fragment {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {//点击第一次的tab选项回调
-                Toast.makeText(UIUtils.getContext(), tab.getText(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(UIUtils.getContext(), tab.getText(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -122,8 +121,7 @@ public class HomeHgFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
-            BaseFragment fragment = HgFragmentFactory.createFragment(position);
-            return fragment;
+            return HgFragmentFactory.createFragment(position);
         }
 
         @Override

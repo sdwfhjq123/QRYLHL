@@ -3,13 +3,11 @@ package com.qryl.qrylyh.fragment.two;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.qryl.qrylyh.R;
@@ -28,7 +26,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -45,7 +42,6 @@ public class OrderMakeListFragment extends BaseFragment {
 
     private static final String TAG = "OrderMakeListFragment";
 
-    private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefresh;
 
     private List<DataArea> datas = new ArrayList<>();
@@ -102,9 +98,7 @@ public class OrderMakeListFragment extends BaseFragment {
                 try {
                     JSONObject jsonObject = new JSONObject(result);
                     String resultCode = jsonObject.getString("resultCode");
-                    if (resultCode.equals("500")) {
-                        return;
-                    } else if (resultCode.equals("200")) {
+                      if (resultCode.equals("200")) {
                         JSONObject data = jsonObject.getJSONObject("data");
                         if (data != null) {
                             handleJson(result);
@@ -122,7 +116,7 @@ public class OrderMakeListFragment extends BaseFragment {
     /**
      * 处理获取下来的json
      *
-     * @param result
+     * @param result 获取的数据
      */
     private void handleJson(String result) {
         Gson gson = new Gson();
@@ -153,7 +147,7 @@ public class OrderMakeListFragment extends BaseFragment {
         token = prefs.getString("token", "");
         View view = View.inflate(getActivity(), R.layout.fragment_order_container, null);
         swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);

@@ -3,7 +3,6 @@ package com.qryl.qrylyh.activity.login;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.TextUtils;
@@ -17,7 +16,6 @@ import com.qryl.qrylyh.R;
 import com.qryl.qrylyh.activity.BaseActivity;
 import com.qryl.qrylyh.activity.MainActivity;
 import com.qryl.qrylyh.util.ConstantValue;
-import com.qryl.qrylyh.util.HttpUtil;
 import com.qryl.qrylyh.view.PasswordToggleEditText;
 
 import org.json.JSONException;
@@ -53,13 +51,10 @@ public class LoginActivity extends BaseActivity {
         initView();
         //自动登录逻辑
         prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
-        String userId = prefs.getString("user_id", "");
-        if (prefs.getBoolean("is_auto_login", false) == true) {
+        if (prefs.getBoolean("is_auto_login", false)) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
-        } else if (prefs.getBoolean("is_auto_login", false) == false) {
-            return;
         }
     }
 
@@ -101,7 +96,7 @@ public class LoginActivity extends BaseActivity {
             public void onClick(View v) {
                 if (cbAuto.isChecked()) {
                     cbAuto.setChecked(true);
-                    prefs.edit().putBoolean("is_auto_login", cbAuto.isChecked()).commit();
+                    prefs.edit().putBoolean("is_auto_login", cbAuto.isChecked()).apply();
                     Log.i(TAG, "保存checkbox状态:" + cbAuto.isChecked());
                 } else {
                     cbAuto.setChecked(false);
@@ -115,8 +110,8 @@ public class LoginActivity extends BaseActivity {
     /**
      * 登录
      *
-     * @param user
-     * @param psd
+     * @param user 用户输入的登录的id
+     * @param psd  用户输入的登录密码
      */
     private void postData(String user, String psd) {
         OkHttpClient client = new OkHttpClient();
@@ -158,10 +153,10 @@ public class LoginActivity extends BaseActivity {
                             @Override
                             public void run() {
                                 SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
-                                prefs.edit().putString("user_id", String.valueOf(id)).commit();
-                                prefs.edit().putInt("role_type", roleType).commit();
+                                prefs.edit().putString("user_id", String.valueOf(id)).apply();
+                                prefs.edit().putInt("role_type", roleType).apply();
                                 prefs.edit().putString("token", token).apply();
-                                prefs.edit().putBoolean("is_force_offline",false).apply();
+                                prefs.edit().putBoolean("is_force_offline", false).apply();
                                 Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(intent);
