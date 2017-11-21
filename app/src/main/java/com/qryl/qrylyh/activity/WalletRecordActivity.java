@@ -24,7 +24,7 @@ public class WalletRecordActivity extends AppCompatActivity implements View.OnCl
         hiddenSomeView();
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        //FrecyclerView.setAdapter(adapter);
+        //recyclerView.setAdapter(adapter);
     }
 
     private void hiddenSomeView() {

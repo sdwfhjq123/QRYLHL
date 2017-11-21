@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.qryl.qrylyh.R;
 import com.qryl.qrylyh.activity.BaseActivity;
 import com.qryl.qrylyh.util.ConstantValue;
+import com.qryl.qrylyh.util.RegularUtil;
 import com.qryl.qrylyh.util.VerificationCountDownTimer;
 
 import org.json.JSONException;
@@ -102,7 +103,7 @@ public class RegisterActivity extends BaseActivity {
      * 点击注册的时候要确认所有的注册信息不为空
      */
     private void registerIfNotNull() {
-        if (TextUtils.isEmpty(etTel.getText().toString())) {
+        if (!RegularUtil.isMobileNO(etTel.getText().toString())) {
             Toast.makeText(this, "请输入正确的手机号!", Toast.LENGTH_SHORT).show();
         } else {
             if (TextUtils.isEmpty(etPsd.getText().toString())) {

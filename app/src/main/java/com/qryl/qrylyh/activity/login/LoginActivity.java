@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.qryl.qrylyh.R;
 import com.qryl.qrylyh.activity.BaseActivity;
 import com.qryl.qrylyh.activity.MainActivity;
+import com.qryl.qrylyh.activity.login.complete.ChooseAreaActivity;
 import com.qryl.qrylyh.util.ConstantValue;
 import com.qryl.qrylyh.view.PasswordToggleEditText;
 
@@ -149,20 +150,29 @@ public class LoginActivity extends BaseActivity {
                         roleType = data.getInt("roleType");
                         token = data.getString("token");
                         Log.i(TAG, "onResponse: " + roleType);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
-                                prefs.edit().putString("user_id", String.valueOf(id)).apply();
-                                prefs.edit().putInt("role_type", roleType).apply();
-                                prefs.edit().putString("token", token).apply();
-                                prefs.edit().putBoolean("is_force_offline", false).apply();
-                                Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                startActivity(intent);
-                                finish();
-                            }
-                        });
+                        if (roleType == -1) {
+                            SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+                            prefs.edit().putString("user_id", String.valueOf(id)).apply();
+                            prefs.edit().putString("token", token).apply();
+                            Intent intent = new Intent(LoginActivity.this, ChooseAreaActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+                                    prefs.edit().putString("user_id", String.valueOf(id)).apply();
+                                    prefs.edit().putInt("role_type", roleType).apply();
+                                    prefs.edit().putString("token", token).apply();
+                                    prefs.edit().putBoolean("is_force_offline", false).apply();
+                                    Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            });
+                        }
                     } else if (resultCode.equals("500")) {
                         final String errorMessage = jsonObject.getString("erroMessage");
                         runOnUiThread(new Runnable() {

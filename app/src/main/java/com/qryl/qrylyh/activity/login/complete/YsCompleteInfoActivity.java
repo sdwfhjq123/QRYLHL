@@ -328,7 +328,7 @@ public class YsCompleteInfoActivity extends BaseActivity {
         Intent intent = new Intent(YsCompleteInfoActivity.this, YsCompletePicActivity.class);
         //传递数据
         Bundle bundle = new Bundle();
-        bundle.putString("name", ageDialogText);
+        bundle.putString("name", nameDialogText);
         bundle.putString("identity", identityDialogText);
         bundle.putInt("gender", genderNum);
         bundle.putString("age", ageDialogText);

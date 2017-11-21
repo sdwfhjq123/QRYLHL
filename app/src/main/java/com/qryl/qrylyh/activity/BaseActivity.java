@@ -99,7 +99,7 @@ public class BaseActivity extends AppCompatActivity {
         public void onReceive(final Context context, Intent intent) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle("下线通知");
-            builder.setMessage("您以长时间未登录，请重新登录");
+            builder.setMessage("您已超过30分钟未进行操作，请重新登录");
             builder.setCancelable(false);
             builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                 @Override

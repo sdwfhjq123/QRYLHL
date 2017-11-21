@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:text="1250"
-            android:textSize="45sp" />
+            android:textSize="50sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -35,7 +35,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
             android:text="我的账单"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_withdraw_deposit"
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_money"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="90dp"
             android:text="我要提现"
             android:textSize="15sp" />
 

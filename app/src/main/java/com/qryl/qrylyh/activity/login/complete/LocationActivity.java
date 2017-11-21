@@ -42,6 +42,7 @@ public class LocationActivity extends BaseActivity implements View.OnClickListen
 
     private int addId;
     private String addName;
+    private ExpandableListView exList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +99,7 @@ public class LocationActivity extends BaseActivity implements View.OnClickListen
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        exList.requestLayout();
                         adapter.notifyDataSetChanged();
                     }
                 });
@@ -114,7 +116,7 @@ public class LocationActivity extends BaseActivity implements View.OnClickListen
         tvTitle.setText("选择可服务的地址");
         tvReturn.setOnClickListener(this);
         btnSure.setOnClickListener(this);
-        ExpandableListView exList = (ExpandableListView) findViewById(R.id.exList);
+        exList = (ExpandableListView) findViewById(R.id.exList);
         adapter = new LocalExpandableAdapter(counties, items, this);
         exList.setAdapter(adapter);
         adapter.setOnChooseItemClickListener(new LocalExpandableAdapter.OnChooseItemClickListener() {

@@ -219,12 +219,12 @@ public class YsCompletePicActivity extends BaseActivity implements View.OnClickL
         builder.addFormDataPart("realName", (String) dataMap.get("name"));
         builder.addFormDataPart("gender", (String) dataMap.get("gender"));
         builder.addFormDataPart("age", (String) dataMap.get("age"));
-        builder.addFormDataPart("workYears", (String) dataMap.get("workexperience"));
-        builder.addFormDataPart("introduce", (String) dataMap.get("introduce"));
-        builder.addFormDataPart("idNum", (String) dataMap.get("indentity"));
-        builder.addFormDataPart("serviceAreaIds", (String) dataMap.get("localservice"));
-        builder.addFormDataPart("hospitalId", (String) dataMap.get("hospital"));
-        builder.addFormDataPart("departmentId", (String) dataMap.get("office"));
+        builder.addFormDataPart("workYears", String.valueOf(dataMap.get("workexperience")));
+        builder.addFormDataPart("introduce", String.valueOf(dataMap.get("introduce")));
+        builder.addFormDataPart("idNum", String.valueOf(dataMap.get("indentity")));
+        builder.addFormDataPart("serviceAreaIds", String.valueOf(dataMap.get("localservice")));
+        builder.addFormDataPart("hospitalId", String.valueOf(dataMap.get("hospital")));
+        builder.addFormDataPart("departmentId", String.valueOf(dataMap.get("office")));
         MultipartBody requestBody = builder.build();
         Request request = new Request.Builder().url(ConstantValue.URL + "/dn/add").post(requestBody).build();
         client.newCall(request).enqueue(new Callback() {

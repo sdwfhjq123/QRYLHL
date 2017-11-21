@@ -292,7 +292,7 @@ public class TnCompleteInfoActivity extends BaseActivity {
         Intent intent = new Intent(TnCompleteInfoActivity.this, TnCompletePicActivity.class);
         //传递数据
         Bundle bundle = new Bundle();
-        bundle.putString("name", ageDialogText);
+        bundle.putString("name", nameDialogText);
         bundle.putString("identity", identityDialogText);
         bundle.putInt("gender", genderNum);
         bundle.putString("age", ageDialogText);

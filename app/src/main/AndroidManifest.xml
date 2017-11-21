@@ -61,25 +61,6 @@
         <activity android:name=".activity.SplashActivity" />
         <activity android:name=".activity.login.FinishActivity" />
         <activity android:name=".activity.login.complete.ChooseAreaActivity" />
-        <activity android:name=".activity.login.complete.HsCompleteInfoActivity" />
-        <activity android:name=".activity.login.complete.YsCompleteInfoActivity" />
-        <activity android:name=".activity.login.complete.HgCompleteInfoActivity" />
-        <activity android:name=".activity.login.complete.TnCompleteInfoActivity" />
-        <activity android:name=".activity.login.complete.HgCompletePicActivity">
-
-            <!-- <provider -->
-            <!-- android:name="android.support.v4.content.FileProvider" -->
-            <!-- android:authorities="com.qryl.qrylyh.activity.login.complete.fileprovider" -->
-            <!-- android:exported="true" -->
-            <!-- android:grantUriPermissions="true"> -->
-            <!-- <meta-data -->
-            <!-- android:name="android.support.FILE_PROVIDER_PATHS" -->
-            <!-- android:resource="@xml/file_paths" /> -->
-            <!-- </provider> -->
-        </activity>
-        <activity android:name=".activity.login.complete.HsCompletePicActivity" />
-        <activity android:name=".activity.login.complete.YsCompletePicActivity" />
-        <activity android:name=".activity.login.complete.TnCompletePicActivity" />
         <activity android:name=".activity.compile.HgCompileInfoActivity" />
         <activity android:name=".activity.compile.HgCompilePicActivity" />
         <activity android:name=".activity.compile.HsCompileInfoActivity" />
@@ -88,6 +69,14 @@
         <activity android:name=".activity.compile.YsCompilePicActivity" />
         <activity android:name=".activity.compile.TnCompileInfoActivity" />
         <activity android:name=".activity.compile.TnCompilePicActivity" />
+        <activity android:name=".activity.login.complete.HgCompleteInfoActivity" />
+        <activity android:name=".activity.login.complete.HgCompletePicActivity" />
+        <activity android:name=".activity.login.complete.TnCompleteInfoActivity" />
+        <activity android:name=".activity.login.complete.TnCompletePicActivity" />
+        <activity android:name=".activity.login.complete.YsCompleteInfoActivity" />
+        <activity android:name=".activity.login.complete.YsCompletePicActivity" />
+        <activity android:name=".activity.login.complete.HsCompleteInfoActivity" />
+        <activity android:name=".activity.login.complete.HsCompletePicActivity" />
         <activity android:name=".activity.login.complete.HospitalActivity" />
         <activity android:name=".activity.login.complete.BeGoodAtWorkActivity" />
         <activity android:name=".activity.login.complete.LocationActivity" />
