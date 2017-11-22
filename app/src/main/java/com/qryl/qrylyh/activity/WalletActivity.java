@@ -12,7 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,8 +43,10 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
     private TextView tvMoney;
     private String userId;
     private String token;
-    private double money;
+    private double mMoney;
     private ProgressDialog dialog;
+    private int roleType;
+    private int type = 3;//判断点击支付宝或者微信的标识
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +60,7 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
         SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userId = prefs.getString("user_id", "");
         token = prefs.getString("token", "");
+        roleType = prefs.getInt("role_type", 4);
         Log.i(TAG, "WalletActivity: userId" + userId);
 
         //初始化余额
@@ -87,12 +92,12 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
                 try {
                     final JSONObject jsonObject = new JSONObject(result);
                     if (jsonObject.getString("resultCode").equals("200")) {
-                        money = jsonObject.getDouble("data");
+                        mMoney = jsonObject.getDouble("data");
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 closeProgressDialog();
-                                tvMoney.setText(String.valueOf(money));
+                                tvMoney.setText(String.valueOf(mMoney));
                             }
                         });
                     } else if (jsonObject.getString("resultCode").equals("400")) {
@@ -170,10 +175,33 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
                 startActivity(intent);
                 break;
             case R.id.tv_withdraw_deposit://点击提现
-                View view = View.inflate(this, R.layout.text_item_dialog_text, null);
-                TextView tvTitle = (TextView) view.findViewById(R.id.tv_title_dialog);
-                final EditText etMoney = (EditText) view.findViewById(R.id.et_hint_dialog);
-                tvTitle.setText("提现");
+                View view = View.inflate(this, R.layout.dialog_withdraw_deposit, null);
+                final EditText etMoney = (EditText) view.findViewById(R.id.et_money);
+                final EditText etAccount = (EditText) view.findViewById(R.id.et_account);
+                final EditText etName = (EditText) view.findViewById(R.id.et_name);
+                final RadioButton rbWx = (RadioButton) view.findViewById(R.id.rb_wx);
+                final RadioButton rbZfb = (RadioButton) view.findViewById(R.id.rb_zfb);
+                rbWx.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (rbWx.isChecked()) {
+                            rbZfb.setChecked(false);
+                            type = 2;
+                            Log.i(TAG, "onClick: type" + type);
+                        }
+                    }
+                });
+                rbZfb.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (rbZfb.isChecked()) {
+                            rbWx.setChecked(false);
+                            type = 1;
+                            Log.i(TAG, "onClick: type" + type);
+                        }
+                    }
+                });
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setView(view);
                 builder.setCancelable(true);
@@ -187,10 +215,26 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String money = etMoney.getText().toString();
-                        //Toast.makeText(WalletActivity.this, money, Toast.LENGTH_SHORT).show();
-                        if (RegularUtil.isNumber(money)) {
-                            //withdrawDeposit();//提现 http
+                        String account = etAccount.getText().toString();
+                        String name = etName.getText().toString();
+                        if (etMoney == null) {
+                            Toast.makeText(WalletActivity.this, "金额格式错误，请重新编辑", Toast.LENGTH_SHORT).show();
+                        } else {
+                            if ((RegularUtil.isNumber(money) && Double.valueOf(money) <= mMoney)
+                                    && (mMoney != 0)
+                                    && (account != null)
+                                    && (name != null)
+                                    && (rbWx.isChecked() || rbZfb.isChecked())) {
+                                withdrawDeposit(account, name, money, type);//提现 http
+                            } else if (!(RegularUtil.isNumber(money) || Double.valueOf(money) > mMoney)
+                                    || (mMoney == 0)
+                                    || (account == null)
+                                    || (name == null)
+                                    || (!rbZfb.isChecked() && !rbWx.isChecked())) {
+                                Toast.makeText(WalletActivity.this, "提交信息错误,请重新编辑", Toast.LENGTH_SHORT).show();
+                            }
                         }
+
                     }
                 });
                 builder.show();
@@ -201,8 +245,44 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
     /**
      * 提现
      */
-    private void withdrawDeposit() {
+    private void withdrawDeposit(String account, String name, String money, int type) {
+        Log.i(TAG, "withdrawDeposit: account" + account + ",name" + name + ",money:" + money + ",type:" + type);
         showProgressDialog();//显示dialog
+        Map<String, String> map = new HashMap<>();
+        map.put("amount", String.valueOf(money));
+        map.put("userId", userId);
+        map.put("roleType", String.valueOf(roleType));
+        map.put("withdrawAccount", account);
+        map.put("accountName", name);
+        map.put("accountType", String.valueOf(type));
+        HttpUtil.postAsyn(ConstantValue.URL + "/common/addWithdrawApply", map, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
 
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String result = response.body().string();
+                Log.i(TAG, "提现通知: " + result);
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    String resultCode = jsonObject.getString("resultCode");
+                    if (resultCode.equals("200")) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                closeProgressDialog();
+                                Toast.makeText(WalletActivity.this, "提交成功，请等待审核", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        });
     }
 }
