@@ -217,7 +217,10 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
                         String money = etMoney.getText().toString();
                         String account = etAccount.getText().toString();
                         String name = etName.getText().toString();
-                        if (etMoney == null) {
+                        if (money == null) {
+                            money = "0";
+                        }
+                        if (money == null) {
                             Toast.makeText(WalletActivity.this, "金额格式错误，请重新编辑", Toast.LENGTH_SHORT).show();
                         } else {
                             if ((RegularUtil.isNumber(money) && Double.valueOf(money) <= mMoney)
@@ -226,17 +229,13 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
                                     && (name != null)
                                     && (rbWx.isChecked() || rbZfb.isChecked())) {
                                 withdrawDeposit(account, name, money, type);//提现 http
-                            } else if (!(RegularUtil.isNumber(money) || Double.valueOf(money) > mMoney)
-                                    || (mMoney == 0)
-                                    || (account == null)
-                                    || (name == null)
-                                    || (!rbZfb.isChecked() && !rbWx.isChecked())) {
+                            } else {
                                 Toast.makeText(WalletActivity.this, "提交信息错误,请重新编辑", Toast.LENGTH_SHORT).show();
                             }
                         }
-
                     }
                 });
+
                 builder.show();
                 break;
         }
@@ -245,9 +244,15 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
     /**
      * 提现
      */
+
     private void withdrawDeposit(String account, String name, String money, int type) {
-        Log.i(TAG, "withdrawDeposit: account" + account + ",name" + name + ",money:" + money + ",type:" + type);
+        //Log.i(TAG, "withdrawDeposit: account" + account + ",name" + name + ",money:" + money + ",type:" + type);
         showProgressDialog();//显示dialog
+
+        String currentTimeMillis = String.valueOf(System.currentTimeMillis());
+        byte[] bytes = ("/test/common/addWithdrawApply-" + token + "-" + currentTimeMillis).getBytes();
+        String sign = EncryptionByMD5.getMD5(bytes);
+
         Map<String, String> map = new HashMap<>();
         map.put("amount", String.valueOf(money));
         map.put("userId", userId);
@@ -255,6 +260,9 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
         map.put("withdrawAccount", account);
         map.put("accountName", name);
         map.put("accountType", String.valueOf(type));
+        map.put("sign", sign);
+        map.put("tokenUserId", userId + "yh");
+        map.put("timeStamp", currentTimeMillis);
         HttpUtil.postAsyn(ConstantValue.URL + "/common/addWithdrawApply", map, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -266,7 +274,7 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
                 String result = response.body().string();
                 Log.i(TAG, "提现通知: " + result);
                 try {
-                    JSONObject jsonObject = new JSONObject(result);
+                    final JSONObject jsonObject = new JSONObject(result);
                     String resultCode = jsonObject.getString("resultCode");
                     if (resultCode.equals("200")) {
                         runOnUiThread(new Runnable() {
@@ -276,11 +284,22 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
                                 Toast.makeText(WalletActivity.this, "提交成功，请等待审核", Toast.LENGTH_SHORT).show();
                             }
                         });
+                    } else if (resultCode.equals("500")) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                closeProgressDialog();
+                                try {
+                                    Toast.makeText(WalletActivity.this, jsonObject.getString("erroMessage"), Toast.LENGTH_SHORT).show();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
 
             }
         });

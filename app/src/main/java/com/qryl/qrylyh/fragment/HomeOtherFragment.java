@@ -129,16 +129,18 @@ public class HomeOtherFragment extends Fragment {
                             final String realName = resultObject.getString("realName");
                             final int serviceNum = resultObject.getInt("serviceNum");
                             final int status = resultObject.getInt("status");
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    tvName.setText(realName);
-                                    tvServiceTimes.setText(String.valueOf(serviceNum));
-                                    tvStatus.setText(status == 0 ? STATUS_DOWN : STATUS_UP);
-                                    button.setText(status == 0 ? UP : DOWN);
-                                    tvClickable.setText(status == 0 ? STATUS_DOWN : STATUS_UP);
-                                }
-                            });
+                            if (getActivity() instanceof MainActivity) {
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        tvName.setText(realName);
+                                        tvServiceTimes.setText(String.valueOf(serviceNum));
+                                        tvStatus.setText(status == 0 ? STATUS_DOWN : STATUS_UP);
+                                        button.setText(status == 0 ? UP : DOWN);
+                                        tvClickable.setText(status == 0 ? STATUS_DOWN : STATUS_UP);
+                                    }
+                                });
+                            }
                             break;
                     }
                 } catch (JSONException e) {
@@ -209,6 +211,7 @@ public class HomeOtherFragment extends Fragment {
                 if (tvClickable.getText().toString().equals(STATUS_ALREADY)) {
                     //点击查看详情
                     WritePatientsFileActivity.actionStart(getActivity(), puId, patientId, orderId);
+
                 } else if ((tvClickable.getText().toString().equals(STATUS_DOWN)) ||
                         (tvClickable.getText().toString().equals(STATUS_UP))) {
                     Toast.makeText(getActivity(), "未接到单子，无法点击查看患者详情", Toast.LENGTH_SHORT).show();

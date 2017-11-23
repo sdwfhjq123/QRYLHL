@@ -47,8 +47,7 @@ public class WritePatientsFileActivity extends AppCompatActivity {
     private ValueCallback<Uri> mUploadFile;
     private String mCameraFilePath;
 
-    //private static final String URL_AM = ConstantValue.URL_H5 + "/patient/worker_priority_worker_datails_massager.html";
-    //private static final String URL_MY = ConstantValue.URL_H5 + "/patient/worker_priority_worker_datails_motherBaby.html";
+    private static final String URL_AM = ConstantValue.URL_H5 + "medical/massager_patient_details.html";
 
     private ProgressWebview webview;
     private String userId;
@@ -111,8 +110,11 @@ public class WritePatientsFileActivity extends AppCompatActivity {
         webview.setWebViewClient(new WebViewClient() {
 
             public void onPageFinished(WebView view, String url) {
-                //
-                webview.loadUrl("javascript:getId( " + userId + "," + pubId + "," + patientId + ",'" + orderId + "','" + token + "'" + ")");
+                if (roleType == 3) {
+                    webview.loadUrl("javascript:getId( " + userId + "," + patientId + "," + orderId + ")");
+                } else {
+                    webview.loadUrl("javascript:getId( " + userId + "," + pubId + "," + patientId + ",'" + orderId + "','" + token + "'" + ")");
+                }
             }
 
         });
@@ -124,7 +126,7 @@ public class WritePatientsFileActivity extends AppCompatActivity {
         } else if (roleType == 1) {//医生
             webview.loadUrl(URL_YS);
         } else if (roleType == 3) {//按摩师
-            //webview.loadUrl(URL_TN);
+            webview.loadUrl(URL_AM);
         }
     }
 

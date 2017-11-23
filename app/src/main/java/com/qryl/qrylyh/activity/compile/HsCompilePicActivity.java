@@ -341,7 +341,6 @@ public class HsCompilePicActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
-
     /**
      * 打开相机
      */
