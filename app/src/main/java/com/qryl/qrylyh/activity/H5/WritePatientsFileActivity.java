@@ -47,7 +47,7 @@ public class WritePatientsFileActivity extends AppCompatActivity {
     private ValueCallback<Uri> mUploadFile;
     private String mCameraFilePath;
 
-    private static final String URL_AM = ConstantValue.URL_H5 + "medical/massager_patient_details.html";
+    private static final String URL_AM = ConstantValue.URL_H5 + "/medical/massager_patient_details.html";
 
     private ProgressWebview webview;
     private String userId;
@@ -92,7 +92,7 @@ public class WritePatientsFileActivity extends AppCompatActivity {
         pubId = intent.getIntExtra("pub_id", 0);
         patientId = intent.getIntExtra("patient_id", 0);
         orderId = intent.getStringExtra("order_id");
-        Log.i(TAG, "传给H5的类型: " + pubId);
+        Log.i(TAG, "传给H5的类型: " + userId);
         initView();
     }
 
@@ -111,7 +111,7 @@ public class WritePatientsFileActivity extends AppCompatActivity {
 
             public void onPageFinished(WebView view, String url) {
                 if (roleType == 3) {
-                    webview.loadUrl("javascript:getId( " + userId + "," + patientId + "," + orderId + ")");
+                    webview.loadUrl("javascript:getId( " + userId + "," + patientId + ",'" + orderId + "')");
                 } else {
                     webview.loadUrl("javascript:getId( " + userId + "," + pubId + "," + patientId + ",'" + orderId + "','" + token + "'" + ")");
                 }
