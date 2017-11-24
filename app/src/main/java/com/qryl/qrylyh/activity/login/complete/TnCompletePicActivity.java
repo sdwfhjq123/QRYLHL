@@ -34,8 +34,12 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.qryl.qrylyh.R;
 import com.qryl.qrylyh.activity.BaseActivity;
+import com.qryl.qrylyh.activity.MainActivity;
 import com.qryl.qrylyh.activity.login.LoginActivity;
 import com.qryl.qrylyh.util.ConstantValue;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -171,7 +175,7 @@ public class TnCompletePicActivity extends BaseActivity implements View.OnClickL
      * 向服务器发送请求
      */
     private void postData() {
-        dialog=new ProgressDialog(this);
+        dialog = new ProgressDialog(this);
         dialog.setMessage("正在上传，请稍后...");
         dialog.setCancelable(false);
         dialog.show();
@@ -222,7 +226,7 @@ public class TnCompletePicActivity extends BaseActivity implements View.OnClickL
         builder.addFormDataPart("professionIds", (String) dataMap.get("begoodat"));
         builder.addFormDataPart("serviceAreaIds", (String) dataMap.get("localservice"));
         MultipartBody requestBody = builder.build();
-        Request request = new Request.Builder().url(ConstantValue.URL+"/massager/add").post(requestBody).build();
+        Request request = new Request.Builder().url(ConstantValue.URL + "/massager/add").post(requestBody).build();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -232,22 +236,37 @@ public class TnCompletePicActivity extends BaseActivity implements View.OnClickL
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.i(TAG, "onResponse: 成功 " + response.body().string());
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (dialog!=null){
-                            dialog.dismiss();
-                            dialog=null;
-                            Intent intent = new Intent();
-                            intent.setClass(TnCompletePicActivity.this, LoginActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
-                            finish();
-                        }
+                String result = response.body().string();
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    JSONObject data = jsonObject.getJSONObject("data");
+                    final int roleType = data.getInt("roleType");
+                    final String token = data.getString("token");
+                    final int loginId = data.getInt("loginId");
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (dialog != null) {
+                                dialog.dismiss();
+                                dialog = null;
+                                SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+                                prefs.edit().putInt("role_type", roleType).apply();
+                                prefs.edit().putString("token", token).apply();
+                                prefs.edit().putString("user_id", String.valueOf(loginId)).apply();
+                                prefs.edit().putBoolean("is_force_offline", false).apply();
+                                Intent intent = new Intent();
+                                intent.setClass(TnCompletePicActivity.this, MainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                finish();
+                            }
 
-                    }
-                });
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
     }

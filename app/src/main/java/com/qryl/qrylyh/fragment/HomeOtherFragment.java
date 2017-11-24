@@ -59,6 +59,9 @@ public class HomeOtherFragment extends Fragment {
     private int serviceNum;
     private String name;
     private int roleType;
+    private String address;
+    //判断医护还是按摩师的标识
+    private int flag;
 
     @Nullable
     @Override
@@ -77,10 +80,11 @@ public class HomeOtherFragment extends Fragment {
      */
     private void initData() {
         //初始化页面时加载的状态
-        String address;
         if (roleType == 3) {
+            flag = 2;
             address = ConstantValue.URL + "/order/getMassagerHomePageInfo";
         } else {
+            flag = 1;
             address = ConstantValue.URL + "/order/getHomePageInfo";
         }
         postData(address);
@@ -121,7 +125,11 @@ public class HomeOtherFragment extends Fragment {
                             }
                             break;
                         case "200": //有订单
-                            handleJson(result);
+                            if (flag == 1) {
+                                handleYhJson(result);
+                            } else if (flag == 2) {
+                                handleAmJson(result);
+                            }
                             break;
                         case "201": //没有订单
                             JSONObject data = jsonObject.getJSONObject("data");
@@ -155,7 +163,7 @@ public class HomeOtherFragment extends Fragment {
      *
      * @param result 解析的订单
      */
-    private void handleJson(String result) {
+    private void handleYhJson(String result) {
         Gson gson = new Gson();
         HomeOther homeOther = gson.fromJson(result, HomeOther.class);
         serviceNum = homeOther.getData().getResult().getDoctorNurse().getServiceNum();
@@ -181,9 +189,35 @@ public class HomeOtherFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    /**
+     * 有订单时解析此类
+     *
+     * @param result 解析的订单
+     */
+    private void handleAmJson(String result) {
+        Gson gson = new Gson();
+        com.qryl.qrylyh.VO.Massager.HomeOther homeOther = gson.fromJson(result, com.qryl.qrylyh.VO.Massager.HomeOther.class);
+        serviceNum = homeOther.getData().getResult().getMassager().getServiceNum();
+        //订单id
+        orderId = homeOther.getData().getResult().getId();
+        //病人id
+        patientId = homeOther.getData().getResult().getPatient().getId();
+        //病人的名字
+        name = homeOther.getData().getResult().getPatient().getName();
+        //病患端用户登录id
+        puId = homeOther.getData().getResult().getPatient().getPuId();
+        if (getActivity() instanceof MainActivity) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    tvServiceTimes.setText(String.valueOf(serviceNum));
+                    tvName.setText(name);
+                    button.setText(DOWN);
+                    tvStatus.setText("已上班");
+                    tvClickable.setText(STATUS_ALREADY);
+                }
+            });
+        }
     }
 
     private void initView(View view) {
@@ -198,9 +232,9 @@ public class HomeOtherFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (button.getText().toString().equals(UP)) {
-                    getStatus(1 + "", DOWN);
+                    getStatus(1 + "", DOWN, address);
                 } else if (button.getText().toString().equals(DOWN)) {
-                    getStatus(0 + "", UP);
+                    getStatus(0 + "", UP, address);
                 }
             }
         });
@@ -220,7 +254,7 @@ public class HomeOtherFragment extends Fragment {
         });
     }
 
-    private void getStatus(final String status, final String buttonText) {
+    private void getStatus(final String status, final String buttonText, String address) {
         OkHttpClient client = new OkHttpClient();
         FormBody.Builder builder = new FormBody.Builder();
         builder.add("loginId", userId);//以后修改成userId
@@ -228,7 +262,7 @@ public class HomeOtherFragment extends Fragment {
         FormBody formBody = builder.build();
         Request request = new Request.Builder()
                 .post(formBody)
-                .url(ConstantValue.URL + "/order/getHomePageInfo")
+                .url(address)
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override

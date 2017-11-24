@@ -40,18 +40,23 @@ public class WalletRecordAdapter extends RecyclerView.Adapter<WalletRecordAdapte
         holder.tvAccountName.setText(String.valueOf(datas.get(position).getAccountName()));
         holder.tvWithdrawAccount.setText(datas.get(position).getWithdrawAccount());
         holder.tvCreateTime.setText(long2Date(datas.get(position).getCreateTime()));
-        holder.tvModifyTime.setText(long2Date(datas.get(position).getModifyTime()));
         holder.tvAmount.setText(String.valueOf(datas.get(position).getAmount()) + "元");
         int status = datas.get(position).getStatus();
         switch (status) {
             case 0://正在审核中
                 holder.tvResult.setText("正在审核中...");
+                holder.tvModifyTime.setVisibility(View.GONE);
+                holder.tvResult.setVisibility(View.GONE);
+                holder.tvLastTime.setVisibility(View.GONE);
                 break;
             case 1://已到账
+                holder.tvResult.setVisibility(View.VISIBLE);
                 holder.tvResult.setText("已经到账");
+                holder.tvModifyTime.setText(long2Date(datas.get(position).getModifyTime()));
                 break;
             case 2://审核失败
                 holder.tvResult.setText("审核失败,原因:" + datas.get(position).getRejectReason());
+                holder.tvModifyTime.setText(long2Date(datas.get(position).getModifyTime()));
                 break;
         }
     }
@@ -72,6 +77,7 @@ public class WalletRecordAdapter extends RecyclerView.Adapter<WalletRecordAdapte
         TextView tvResult;
         TextView tvModifyTime;
         TextView tvAmount;
+        TextView tvLastTime;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -81,6 +87,7 @@ public class WalletRecordAdapter extends RecyclerView.Adapter<WalletRecordAdapte
             tvResult = (TextView) itemView.findViewById(R.id.tv_result);
             tvModifyTime = (TextView) itemView.findViewById(R.id.tv_modify_time);
             tvAmount = (TextView) itemView.findViewById(R.id.tv_amount);
+            tvLastTime = (TextView) itemView.findViewById(R.id.tv_last_time);
         }
     }
 

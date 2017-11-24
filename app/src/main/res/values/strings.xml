@@ -12,7 +12,6 @@
     </string-array>
 
     <string-array name="tab_order_names">
-        <item>开单子</item>
         <item>未付款</item>
         <item>进行中</item>
         <item>已结束</item>

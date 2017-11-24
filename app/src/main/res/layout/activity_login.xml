@@ -37,11 +37,11 @@
                 android:textColor="#666" />
 
             <android.support.v7.widget.AppCompatEditText
-                android:cursorVisible="true"
-                android:textCursorDrawable="@null"
                 android:id="@+id/et_user_login"
                 style="@style/et_lab"
-                android:hint="请输入用户名" />
+                android:cursorVisible="true"
+                android:hint="请输入手机号"
+                android:textCursorDrawable="@null" />
 
         </LinearLayout>
 
@@ -66,11 +66,11 @@
                 android:textColor="#666" />
 
             <com.qryl.qrylyh.view.PasswordToggleEditText
-                android:cursorVisible="true"
-                android:textCursorDrawable="@null"
                 android:id="@+id/et_psd_login"
                 style="@style/et_lab"
-                android:hint="请输入账号/手机号" />
+                android:cursorVisible="true"
+                android:hint="请输入密码"
+                android:textCursorDrawable="@null" />
 
         </LinearLayout>
 
@@ -95,8 +95,8 @@
                 android:id="@+id/cb_auto_login"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:checked="false"
                 android:background="@drawable/selector_check_box"
+                android:checked="false"
                 android:shadowColor="#4581c7" />
 
             <TextView

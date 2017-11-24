@@ -195,16 +195,41 @@ public class HgRegisterFragment extends BaseFragment implements View.OnClickList
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.i(TAG, "onResponse: 撤销的消息");
-                if (getActivity() instanceof MainActivity) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            button.setText("发布");
-                            tvStatus.setText("未登记");
+                String result = response.body().string();
+                Log.i(TAG, "onResponse: 撤销的消息" + result);
+                try {
+                    final JSONObject jsonObject = new JSONObject(result);
+                    String resultCode = jsonObject.getString("resultCode");
+                    if (resultCode.equals("500")) {
+                        if (getActivity() instanceof MainActivity) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        Toast.makeText(getActivity(), jsonObject.getString("erroMessage"), Toast.LENGTH_SHORT).show();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    button.setText("撤销");
+                                    tvStatus.setText("已登记");
+                                }
+                            });
                         }
-                    });
+                    } else if (resultCode.equals("200")) {
+                        if (getActivity() instanceof MainActivity) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    button.setText("发布");
+                                    tvStatus.setText("未登记");
+                                }
+                            });
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+
             }
         });
     }
@@ -231,18 +256,38 @@ public class HgRegisterFragment extends BaseFragment implements View.OnClickList
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.i(TAG, "onResponse: 发布成功" + response.body().string());
-                if (getActivity() instanceof MainActivity) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getActivity(), "发布成功", Toast.LENGTH_LONG).show();
-                            if (button.getText().toString().equals("发布")) {
-                                button.setText("撤销");
-                                tvStatus.setText("已登记");
-                            }
+                String result = response.body().string();
+                try {
+                    final JSONObject jsonObject = new JSONObject(result);
+                    String resultCode = jsonObject.getString("resultCode");
+                    if (resultCode.equals("500")) {
+                        if (getActivity() instanceof MainActivity) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        Toast.makeText(getActivity(), jsonObject.getString("erroMessage"), Toast.LENGTH_SHORT).show();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    button.setText("发布");
+                                    tvStatus.setText("未登记");
+                                }
+                            });
                         }
-                    });
+                    } else if (resultCode.equals("200")) {
+                        if (getActivity() instanceof MainActivity) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    button.setText("撤销");
+                                    tvStatus.setText("已登记");
+                                }
+                            });
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
 
             }

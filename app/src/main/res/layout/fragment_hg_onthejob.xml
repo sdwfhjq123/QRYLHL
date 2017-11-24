@@ -46,7 +46,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="x x x"
                 android:textColor="#666"
                 android:textSize="16sp" />
         </LinearLayout>
@@ -71,7 +70,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="x x x"
                 android:textColor="#666"
                 android:textSize="16sp" />
         </LinearLayout>
@@ -96,7 +94,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="x x x"
                 android:textColor="#666"
                 android:textSize="16sp" />
         </LinearLayout>
@@ -121,7 +118,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="x x x"
                 android:textColor="#666"
                 android:textSize="16sp" />
         </LinearLayout>
@@ -146,41 +142,40 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="x x x"
                 android:textColor="#666"
                 android:textSize="16sp" />
         </LinearLayout>
 
         <View style="@style/ViewLine" />
 
-        <LinearLayout
-            android:id="@+id/ll_particular"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:gravity="center_vertical">
+        <!--<LinearLayout-->
+            <!--android:id="@+id/ll_particular"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:gravity="center_vertical">-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="查看病人详细状况"
-                android:textColor="#666"
-                android:textSize="16sp" />
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:text="查看病人详细状况"-->
+                <!--android:textColor="#666"-->
+                <!--android:textSize="16sp" />-->
 
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="200dp"
-                android:src="@mipmap/ic_right" />
+            <!--<ImageView-->
+                <!--android:layout_width="20dp"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_marginLeft="200dp"-->
+                <!--android:src="@mipmap/ic_right" />-->
 
-        </LinearLayout>
+        <!--</LinearLayout>-->
 
-        <View style="@style/ViewLine"
-            android:id="@+id/viewline"/>
+        <!--<View style="@style/ViewLine"-->
+        <!--android:id="@+id/viewline"/>-->
 
-        <View
-            style="@style/ViewLine"
-            android:layout_marginTop="5dp" />
+        <!--<View-->
+        <!--style="@style/ViewLine"-->
+        <!--android:layout_marginTop="5dp" />-->
 
         <RelativeLayout
             android:layout_width="match_parent"

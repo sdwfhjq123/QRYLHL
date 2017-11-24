@@ -4,7 +4,6 @@ package com.qryl.qrylyh.fragment;
 import android.annotation.SuppressLint;
 
 import com.qryl.qrylyh.fragment.two.OrderFinishedFragment;
-import com.qryl.qrylyh.fragment.two.OrderMakeListFragment;
 import com.qryl.qrylyh.fragment.two.OrderNoPayFragment;
 import com.qryl.qrylyh.fragment.two.OrderUnderwayFragment;
 
@@ -28,15 +27,12 @@ class OrderFragmentFactory {
         if (baseFragment == null) {
             switch (pos) {
                 case 0:
-                    baseFragment = new OrderMakeListFragment();//全部订单
-                    break;
-                case 1:
                     baseFragment = new OrderNoPayFragment();//未付款订单
                     break;
-                case 2:
+                case 1:
                     baseFragment = new OrderUnderwayFragment();//进行中
                     break;
-                case 3:
+                case 2:
                     baseFragment = new OrderFinishedFragment();//已结束
                     break;
             }

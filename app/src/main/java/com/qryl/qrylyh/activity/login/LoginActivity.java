@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.qryl.qrylyh.R;
@@ -60,6 +61,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void initView() {
+        hiddenSomeView();
         etUser = (AppCompatEditText) findViewById(R.id.et_user_login);
         etPsd = (PasswordToggleEditText) findViewById(R.id.et_psd_login);
         Button btnRegister = (Button) findViewById(R.id.btn_register_login);
@@ -106,6 +108,13 @@ public class LoginActivity extends BaseActivity {
 
             }
         });
+    }
+
+    private void hiddenSomeView() {
+        TextView tvReturn = (TextView) findViewById(R.id.return_text);
+        tvReturn.setVisibility(View.GONE);
+        TextView tvTitle = (TextView) findViewById(R.id.title_name);
+        tvTitle.setText("用户登录");
     }
 
     /**

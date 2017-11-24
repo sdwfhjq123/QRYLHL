@@ -107,7 +107,7 @@ public class HgOnTheJobFragment extends BaseFragment {
                             tvPatientStatus.setText("自理");
                         }
                         tvTel.setText(mobile);
-                        llParticular.setVisibility(View.VISIBLE);
+                        //llParticular.setVisibility(View.VISIBLE);
                     }
                 });
             }
@@ -136,8 +136,8 @@ public class HgOnTheJobFragment extends BaseFragment {
         View view = View.inflate(mContext, R.layout.fragment_hg_onthejob, null);
         llDisplay = (LinearLayout) view.findViewById(R.id.ll_display);
         llFailed = (LinearLayout) view.findViewById(R.id.ll_failed);
-        llParticular = (LinearLayout) view.findViewById(R.id.ll_particular);
-        llParticular.setVisibility(View.INVISIBLE);
+        //llParticular = (LinearLayout) view.findViewById(R.id.ll_particular);
+        //llParticular.setVisibility(View.INVISIBLE);
         tvServiceDay = (TextView) view.findViewById(R.id.tv_service_day);
         tvPatient = (TextView) view.findViewById(R.id.tv_patient);
         tvMountGuard = (TextView) view.findViewById(R.id.tv_mount_guard);

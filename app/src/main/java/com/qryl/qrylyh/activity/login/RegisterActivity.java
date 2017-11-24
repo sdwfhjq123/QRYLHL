@@ -58,6 +58,9 @@ public class RegisterActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         initView();
+        //注册极光唯一registrationId
+        registrationID = JPushInterface.getRegistrationID(RegisterActivity.this);
+        Log.i(TAG, "注册时需要提交的registrationID: " + registrationID);
     }
 
     private void initView() {
@@ -132,9 +135,6 @@ public class RegisterActivity extends BaseActivity {
             @Override
             public void checkCodeSuccess(String s) {
                 Log.i(TAG, "checkCodeSuccess: 验证成功：" + s);
-                //注册极光唯一registrationId
-                registrationID = JPushInterface.getRegistrationID(RegisterActivity.this);
-                Log.i(TAG, "注册时需要提交的registrationID: " + registrationID);
                 postData();
             }
 
@@ -162,7 +162,7 @@ public class RegisterActivity extends BaseActivity {
         MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
         builder.addFormDataPart("password", etPsdComfirm.getText().toString());
         builder.addFormDataPart("mobile", etTel.getText().toString());
-        builder.addFormDataPart("registrationID", registrationID);
+        builder.addFormDataPart("registrationId", registrationID);
         MultipartBody requestBody = builder.build();
         Request requset = new Request.Builder()
                 .url(ConstantValue.URL + "/login/register")
@@ -190,7 +190,7 @@ public class RegisterActivity extends BaseActivity {
                     String resultCode = jsonObject.getString("resultCode");
                     if (resultCode.equals("200")) {
                         JSONObject data = jsonObject.getJSONObject("data");
-                        int loginId = data.getInt("loginId");
+                        final int loginId = data.getInt("loginId");
                         SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
                         prefs.edit().putString("user_id", String.valueOf(loginId)).apply();
                         runOnUiThread(new Runnable() {
@@ -199,6 +199,9 @@ public class RegisterActivity extends BaseActivity {
                                 if (progressDialog.isShowing() && progressDialog != null) {
                                     progressDialog.dismiss();
                                 }
+                                SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+                                prefs.edit().putString("user_id", String.valueOf(loginId)).apply();
+                                prefs.edit().putBoolean("is_force_offline", false).apply();
                                 Toast.makeText(RegisterActivity.this, "注册成功!", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(RegisterActivity.this, FinishActivity.class);
                                 startActivity(intent);

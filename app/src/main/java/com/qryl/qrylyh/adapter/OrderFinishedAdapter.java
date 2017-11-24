@@ -93,6 +93,7 @@ public class OrderFinishedAdapter extends RecyclerView.Adapter<RecyclerView.View
             tvContent = (TextView) itemView.findViewById(R.id.tv_content);
             tvMoney = (TextView) itemView.findViewById(R.id.tv_money);
             evaluate = (Button) itemView.findViewById(R.id.btn_evaluate);
+            evaluate.setVisibility(View.GONE);
         }
     }
 

@@ -87,6 +87,9 @@
         <activity android:name=".activity.H5.OrderInfoActivity" />
         <activity android:name=".activity.H5.WritePatientsFileActivity" />
 
+        <activity android:name=".activity.WalletActivity" />
+        <activity android:name=".activity.WalletRecordActivity" />
+
         <!-- Required SDK 核心功能 -->
         <!-- 可配置android:process参数将PushService放在其他进程中 -->
         <service
@@ -218,8 +221,6 @@
             android:name="JPUSH_APPKEY"
             android:value="a349b956ef68f96ec8f82b3d" />
 
-        <activity android:name=".activity.WalletActivity" />
-        <activity android:name=".activity.WalletRecordActivity"></activity>
     </application>
 
 </manifest>
