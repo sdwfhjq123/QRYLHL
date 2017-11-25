@@ -20,7 +20,6 @@
             android:textSize="18sp" />
 
         <Button
-            android:visibility="gone"
             android:id="@+id/btn_pop_camera"
             android:layout_width="match_parent"
             android:layout_height="45dp"

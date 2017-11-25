@@ -359,7 +359,7 @@ public class TnCompilePicActivity extends BaseActivity implements View.OnClickLi
             e.printStackTrace();
         }
         if (Build.VERSION.SDK_INT >= 24) {
-            imageUri = FileProvider.getUriForFile(TnCompilePicActivity.this, "com.qryl.qrylyh.activity.login.complete.fileprovider", outputImage);
+            imageUri = FileProvider.getUriForFile(TnCompilePicActivity.this, "com.qryl.qrylhl.fileprovider", outputImage);
         } else {
             imageUri = Uri.fromFile(outputImage);
         }

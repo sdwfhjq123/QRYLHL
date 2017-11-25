@@ -404,12 +404,12 @@ public class HsCompleteInfoActivity extends BaseActivity {
         }
 
         if (Build.VERSION.SDK_INT >= 24) {
-            imageUri = FileProvider.getUriForFile(HsCompleteInfoActivity.this, "com.qryl.qrylyh.activity.login.complete.fileprovider", outputImage);
+            imageUri = FileProvider.getUriForFile(HsCompleteInfoActivity.this, "com.qryl.qrylhl.fileprovider", outputImage);
         } else {
             imageUri = Uri.fromFile(outputImage);
         }
         //启动相机程序
-        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(intent, TAKE_PHOTO);
     }

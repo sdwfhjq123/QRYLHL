@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <!-- Required -->
     <permission
@@ -51,17 +52,14 @@
         android:theme="@style/AppTheme">
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.login.LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".activity.login.RegisterActivity" />
         <activity android:name=".activity.SplashActivity" />
         <activity android:name=".activity.login.FinishActivity" />
         <activity android:name=".activity.login.complete.ChooseAreaActivity" />
-        <activity android:name=".activity.compile.HgCompileInfoActivity" />
+        <activity android:name=".activity.compile.HgCompileInfoActivity" >
+        </activity>
         <activity android:name=".activity.compile.HgCompilePicActivity" />
         <activity android:name=".activity.compile.HsCompileInfoActivity" />
         <activity android:name=".activity.compile.HsCompilePicActivity" />
@@ -69,7 +67,13 @@
         <activity android:name=".activity.compile.YsCompilePicActivity" />
         <activity android:name=".activity.compile.TnCompileInfoActivity" />
         <activity android:name=".activity.compile.TnCompilePicActivity" />
-        <activity android:name=".activity.login.complete.HgCompleteInfoActivity" />
+        <activity android:name=".activity.login.complete.HgCompleteInfoActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".activity.login.complete.HgCompletePicActivity" />
         <activity android:name=".activity.login.complete.TnCompleteInfoActivity" />
         <activity android:name=".activity.login.complete.TnCompletePicActivity" />
@@ -220,6 +224,18 @@
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="a349b956ef68f96ec8f82b3d" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.qryl.qrylhl.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/files" />
+
+        </provider>
 
     </application>
 
