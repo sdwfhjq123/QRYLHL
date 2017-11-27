@@ -1,5 +1,6 @@
 package com.qryl.qrylyh.activity.compile;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
@@ -426,8 +427,13 @@ public class YsCompileInfoActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
-                //打开相机
-                openCarema();
+                if (ContextCompat.checkSelfPermission(YsCompileInfoActivity.this, Manifest.permission.CAMERA) !=
+                        PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(YsCompileInfoActivity.this, new String[]{android.Manifest.permission.CAMERA}, 1);
+                } else {
+                    //打开相机
+                    openCarema();
+                }
             }
         });
         btnPopCancel.setOnClickListener(new View.OnClickListener() {

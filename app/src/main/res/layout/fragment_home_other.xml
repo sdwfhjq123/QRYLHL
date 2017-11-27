@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -14,21 +15,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="欢迎"
-            android:textColor="#666" />
+            android:textColor="#4a4a4a" />
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
-            android:textColor="#666"
-            android:textSize="16sp" />
+            android:textColor="@color/blue"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:text="123" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="登录亲仁医疗医护端"
-            android:textColor="#666" />
+            android:textColor="#4a4a4a" />
     </LinearLayout>
 
     <View style="@style/ViewLine" />
@@ -49,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:text="服务次数"
-                android:textColor="#666"
+                android:textColor="#4a4a4a"
                 android:textSize="18sp" />
 
             <TextView
@@ -57,8 +59,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
-                android:textColor="#666"
-                android:textSize="16sp" />
+                android:textColor="#a2a2a2"
+                android:textSize="20sp" />
         </LinearLayout>
 
         <View
@@ -66,7 +68,7 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:background="#666" />
+            android:background="#a0a0a0" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -80,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:text="好评次数"
-                android:textColor="#666"
+                android:textColor="#4a4a4a"
                 android:textSize="18sp" />
 
             <TextView
@@ -88,8 +90,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
-                android:textColor="#666"
-                android:textSize="16sp" />
+                android:textColor="#a2a2a2"
+                android:textSize="20sp" />
 
         </LinearLayout>
 
@@ -98,7 +100,7 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:background="#666" />
+            android:background="#a0a0a0" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -112,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:text="星级指数"
-                android:textColor="#666"
+                android:textColor="#4a4a4a"
                 android:textSize="18sp" />
 
             <TextView
@@ -120,17 +122,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="★★★★★"
-                android:textColor="#666"
+                android:textColor="#a2a2a2"
                 android:textSize="16sp" />
 
         </LinearLayout>
     </LinearLayout>
 
     <View
-        style="@style/ViewLine"
-        android:layout_marginBottom="5dp" />
-
-    <View style="@style/ViewLine" />
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#e6e6e6" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -144,26 +145,31 @@
             android:gravity="center_vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_weight="8"
                 android:text="您现在的状态为"
-                android:textColor="#666"
+                android:textColor="#4a4a4a"
                 android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/tv_status"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="200dp"
+                android:layout_weight="2"
+                android:gravity="center"
                 android:text="未知"
-                android:textColor="#666"
+                android:textColor="#4a4a4a"
                 android:textSize="16sp" />
         </LinearLayout>
 
     </LinearLayout>
 
-    <View style="@style/ViewLine" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#e6e6e6" />
 
     <LinearLayout
         android:id="@+id/ll_patient"
@@ -175,11 +181,10 @@
             android:id="@+id/tv_clickable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text=""
-            android:textColor="#666"
+            android:layout_marginStart="10dp"
+            android:textColor="#4a4a4a"
             android:textSize="16sp"
-            />
+            tools:text="123" />
 
     </LinearLayout>
 
@@ -198,10 +203,10 @@
             android:layout_marginBottom="49dp"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:background="@drawable/selector_btn_login"
+            android:background="@drawable/selector_btn_register"
             android:text=""
-            android:textColor="#fff"
-            android:textSize="20sp" />
+            android:textColor="#3f3f3f"
+            android:textSize="22sp" />
 
     </RelativeLayout>
 

@@ -335,8 +335,13 @@ public class TnCompletePicActivity extends BaseActivity implements View.OnClickL
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
-                //打开相机
-                openCarema();
+                if (ContextCompat.checkSelfPermission(TnCompletePicActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+                        PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(TnCompletePicActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                } else {
+                    //打开相机
+                    openCarema();
+                }
             }
         });
         btnPopCancel.setOnClickListener(new View.OnClickListener() {

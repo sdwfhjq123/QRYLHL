@@ -110,8 +110,8 @@ public class OrderUnderwayFragment extends BaseFragment {
                             handleJson(result);
                             Log.i(TAG, "onResponse: " + result);
                         }
-                    }else if (resultCode.equals("400")) {//错误时
-                        prefs.edit().putBoolean("is_force_offline",true).apply();
+                    } else if (resultCode.equals("400")) {//错误时
+                        prefs.edit().putBoolean("is_force_offline", true).apply();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -126,7 +126,7 @@ public class OrderUnderwayFragment extends BaseFragment {
      * @param result
      */
     private void handleJson(String result) {
-        Log.i(TAG, "handleJson: 进行中"+result);
+        Log.i(TAG, "handleJson: 进行中" + result);
         Gson gson = new Gson();
         Order order = gson.fromJson(result, Order.class);
         List<OrderInfoArea> data = order.getData().getData();
@@ -154,7 +154,7 @@ public class OrderUnderwayFragment extends BaseFragment {
         userId = prefs.getString("user_id", "");
         roleType = prefs.getInt("role_type", 4);
         token = prefs.getString("token", "");
-        View view = View.inflate(getActivity(), R.layout.fragment_order_container, null);
+        View view = View.inflate(getActivity(), R.layout.fragment_order_container_all, null);
         swipeRefresh = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());

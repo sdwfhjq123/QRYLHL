@@ -34,13 +34,14 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="3dp"
                 android:text="账  号"
-                android:textColor="#666" />
+                android:textColor="#464646" />
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/et_user_login"
                 style="@style/et_lab"
                 android:cursorVisible="true"
                 android:hint="请输入手机号"
+                android:textColorHint="#a2a2a2"
                 android:textCursorDrawable="@null" />
 
         </LinearLayout>
@@ -63,13 +64,14 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="3dp"
                 android:text="密  码"
-                android:textColor="#666" />
+                android:textColor="#464646" />
 
             <com.qryl.qrylyh.view.PasswordToggleEditText
                 android:id="@+id/et_psd_login"
                 style="@style/et_lab"
                 android:cursorVisible="true"
                 android:hint="请输入密码"
+                android:textColorHint="#a2a2a2"
                 android:textCursorDrawable="@null" />
 
         </LinearLayout>
@@ -93,8 +95,9 @@
 
             <CheckBox
                 android:id="@+id/cb_auto_login"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
                 android:background="@drawable/selector_check_box"
                 android:checked="false"
                 android:shadowColor="#4581c7" />
@@ -145,6 +148,6 @@
         android:layout_marginBottom="3dp"
         android:layout_marginLeft="40dp"
         android:text="目前还没有亲仁医疗账号？"
-        android:textColor="#404040" />
+        android:textColor="#464646" />
 
 </RelativeLayout>

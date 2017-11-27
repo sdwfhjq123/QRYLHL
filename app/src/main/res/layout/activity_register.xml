@@ -31,13 +31,14 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="3dp"
                 android:text="手机号"
-                android:textColor="#666" />
+                android:textColor="#464646" />
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/et_tel_register"
                 style="@style/et_lab"
                 android:cursorVisible="true"
                 android:hint="请输入手机号"
+                android:textColorHint="#a2a2a2"
                 android:textCursorDrawable="@null" />
 
         </LinearLayout>
@@ -62,7 +63,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="3dp"
                 android:text="验证码"
-                android:textColor="#666" />
+                android:textColor="#464646" />
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/et_verification_register"
@@ -70,6 +71,7 @@
                 android:layout_weight="1"
                 android:cursorVisible="true"
                 android:hint="请输入验证码"
+                android:textColorHint="#a2a2a2"
                 android:textCursorDrawable="@null" />
 
             <Button
@@ -79,7 +81,7 @@
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/selector_btn_login"
                 android:padding="10dp"
-                android:text="请输入验证码"
+                android:text="获取验证码"
                 android:textColor="#fff" />
         </LinearLayout>
 
@@ -101,13 +103,14 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="3dp"
                 android:text="密码"
-                android:textColor="#666" />
+                android:textColor="#464646" />
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/et_psd_register"
                 style="@style/et_lab"
                 android:cursorVisible="true"
                 android:hint="密码为6至12个数字或字母"
+                android:textColorHint="#a2a2a2"
                 android:textCursorDrawable="@null" />
 
         </LinearLayout>
@@ -130,13 +133,14 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="3dp"
                 android:text="确认"
-                android:textColor="#666" />
+                android:textColor="#464646" />
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/et_psd_confirm_register"
                 style="@style/et_lab"
                 android:cursorVisible="true"
                 android:hint="请再次确认密码"
+                android:textColorHint="#a2a2a2"
                 android:textCursorDrawable="@null" />
 
         </LinearLayout>
@@ -159,8 +163,9 @@
 
             <CheckBox
                 android:id="@+id/cb_consent"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
                 android:background="@drawable/selector_check_box"
                 android:checked="true"
                 android:shadowColor="#4581c7" />

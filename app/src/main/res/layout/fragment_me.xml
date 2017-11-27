@@ -28,77 +28,87 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp">
+        android:layout_height="0dp"
+        android:layout_weight="3">
 
         <LinearLayout
-            android:layout_width="100dp"
+            android:layout_width="110dp"
             android:layout_height="150dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="10dp"
             android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
-                android:scaleType="centerCrop"
-                android:id="@+id/iv_head"
+                android:id="@+id/imageView"
                 android:layout_width="70dp"
                 android:layout_height="80dp"
-                android:layout_gravity="center_vertical"
+                android:layout_gravity="center"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
+                android:layout_marginTop="15dp"
+                android:scaleType="centerCrop"
                 android:src="@mipmap/ic_loading" />
 
             <LinearLayout
                 android:id="@+id/ll_compile"
-                android:layout_width="match_parent"
+                android:layout_width="100dp"
                 android:layout_height="30dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center">
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="15dp"
+                    android:layout_gravity="center"
                     android:src="@mipmap/ic_input" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:layout_gravity="center"
                     android:text="编辑资料"
-                    android:textColor="#666" />
+                    android:textColor="#4a4a4a" />
 
             </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:orientation="vertical">
-
+            android:layout_marginLeft="10dp"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:text="姓    名:"
                 android:textColor="#666" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:text="性    别:"
                 android:textColor="#666" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:text="职    业:"
                 android:textColor="#666" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:text="电    话:"
                 android:textColor="#666" />
 
@@ -109,12 +119,15 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
 
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:text=""
                 android:textColor="#666" />
 
@@ -122,6 +135,7 @@
                 android:id="@+id/tv_gender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:text=""
                 android:textColor="#666" />
 
@@ -129,6 +143,7 @@
                 android:id="@+id/tv_profession"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:text=""
                 android:textColor="#666" />
 
@@ -136,6 +151,7 @@
                 android:id="@+id/tv_tel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:text=""
                 android:textColor="#666" />
 
@@ -152,13 +168,15 @@
     <RelativeLayout
         android:id="@+id/rl_wallet"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:padding="5dp">
 
         <ImageView
             android:id="@+id/ic_wallet_2"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
             android:src="@mipmap/ic_wallet_2" />
 
@@ -185,7 +203,8 @@
     <RelativeLayout
         android:id="@+id/rl_location"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:padding="5dp">
 
         <ImageView
@@ -193,6 +212,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
             android:src="@mipmap/ic_illness_2" />
 
         <TextView
@@ -218,12 +238,14 @@
     <RelativeLayout
         android:id="@+id/rl_myfans"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:padding="5dp">
 
         <ImageView
             android:id="@+id/ic_follow"
             android:layout_width="30dp"
+            android:layout_centerVertical="true"
             android:layout_height="30dp"
             android:layout_marginRight="15dp"
             android:src="@mipmap/ic_follow" />
@@ -248,20 +270,20 @@
 
     <View
         style="@style/ViewLine"
-        android:layout_marginBottom="3dp" />
-
-    <View style="@style/ViewLine" />
+        android:layout_height="10dp" />
 
     <RelativeLayout
         android:id="@+id/rl_feedback"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:padding="5dp">
 
         <ImageView
             android:id="@+id/ic_content_2"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
             android:src="@mipmap/ic_content_2" />
 
@@ -285,17 +307,18 @@
 
     <View style="@style/ViewLine" />
 
-
     <RelativeLayout
         android:id="@+id/rl_customer_service"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:padding="5dp">
 
         <ImageView
             android:id="@+id/ic_people_2"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
             android:src="@mipmap/ic_people_2" />
 
@@ -321,15 +344,16 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="2">
 
         <Button
             android:id="@+id/btn_exit"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
             android:background="@drawable/selector_btn_login"
             android:text="退出登录"
             android:textColor="#fff" />

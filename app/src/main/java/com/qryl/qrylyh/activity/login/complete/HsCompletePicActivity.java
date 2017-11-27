@@ -338,8 +338,13 @@ public class HsCompletePicActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
-                //打开相机
-                openCarema();
+                if (ContextCompat.checkSelfPermission(HsCompletePicActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+                        PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(HsCompletePicActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                } else {
+                    //打开相机
+                    openCarema();
+                }
             }
         });
         btnPopCancel.setOnClickListener(new View.OnClickListener() {

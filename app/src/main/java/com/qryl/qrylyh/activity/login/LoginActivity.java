@@ -114,7 +114,7 @@ public class LoginActivity extends BaseActivity {
         TextView tvReturn = (TextView) findViewById(R.id.return_text);
         tvReturn.setVisibility(View.GONE);
         TextView tvTitle = (TextView) findViewById(R.id.title_name);
-        tvTitle.setText("用户登录");
+        tvTitle.setText("医护端-用户登录");
     }
 
     /**

@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.qryl.qrylyh.R;
+import com.qryl.qrylyh.activity.FeedBackActivity;
 import com.qryl.qrylyh.activity.MainActivity;
 import com.qryl.qrylyh.activity.WalletActivity;
 import com.qryl.qrylyh.activity.compile.HgCompileInfoActivity;
@@ -165,7 +166,7 @@ public class MeFragment extends android.support.v4.app.Fragment implements View.
         tvHelp.setVisibility(View.GONE);
         //需要刷新的列表
         tvInfo = (TextView) view.findViewById(R.id.tv_id);
-        imageView = (ImageView) view.findViewById(R.id.iv_head);
+        imageView = (ImageView) view.findViewById(R.id.imageView);
         LinearLayout llCompile = (LinearLayout) view.findViewById(R.id.ll_compile);
         tvName = (TextView) view.findViewById(R.id.tv_name);
         tvGender = (TextView) view.findViewById(R.id.tv_gender);
@@ -263,7 +264,7 @@ public class MeFragment extends android.support.v4.app.Fragment implements View.
                 Toast.makeText(getActivity(), "该功能暂未开放", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.rl_feedback:
-                Toast.makeText(getActivity(), "该功能暂未开放", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getActivity(), FeedBackActivity.class));
                 break;
             case R.id.rl_customer_service://调用拨号界面
                 //Toast.makeText(getActivity(), "该功能暂未开放", 0).show();

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.FeedBackActivity">
+
+    <include layout="@layout/title" />
+
+    <EditText
+        android:layout_margin="10dp"
+        android:id="@+id/info_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:background="@drawable/et_border"
+        android:gravity="left|top"
+        android:hint="请输入个人简介"
+        android:inputType="textMultiLine"
+        android:minLines="2"
+        android:padding="10dp"
+        android:textColorHint="#a2a2a2" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/submit_button"
+            style="@style/ButtonLoginStyle"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:text="提交" />
+    </RelativeLayout>
+
+
+</LinearLayout>

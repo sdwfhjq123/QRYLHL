@@ -39,6 +39,7 @@ import com.qryl.qrylyh.VO.CompileVO.Compile;
 import com.qryl.qrylyh.VO.CompileVO.Data;
 import com.qryl.qrylyh.activity.BaseActivity;
 import com.qryl.qrylyh.activity.login.complete.BeGoodAtWorkActivity;
+import com.qryl.qrylyh.activity.login.complete.HgCompleteInfoActivity;
 import com.qryl.qrylyh.util.ConstantValue;
 import com.qryl.qrylyh.util.DialogUtil;
 import com.qryl.qrylyh.util.HttpUtil;
@@ -389,8 +390,13 @@ public class HgCompileInfoActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
-                //打开相机
-                openCarema();
+                if (ContextCompat.checkSelfPermission(HgCompileInfoActivity.this, android.Manifest.permission.CAMERA) !=
+                        PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(HgCompileInfoActivity.this, new String[]{android.Manifest.permission.CAMERA}, 1);
+                } else {
+                    //打开相机
+                    openCarema();
+                }
             }
         });
         btnPopCancel.setOnClickListener(new View.OnClickListener() {

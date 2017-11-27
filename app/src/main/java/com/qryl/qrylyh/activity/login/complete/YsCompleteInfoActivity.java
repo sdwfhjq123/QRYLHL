@@ -380,8 +380,17 @@ public class YsCompleteInfoActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
-                //打开相机
-                openCarema();
+                if (ContextCompat.checkSelfPermission(YsCompleteInfoActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+                        PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(YsCompleteInfoActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                } else {
+                    if (ContextCompat.checkSelfPermission(YsCompleteInfoActivity.this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(YsCompleteInfoActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                    } else {
+                        //打开相机
+                        openCarema();
+                    }
+                }
             }
         });
         btnPopCancel.setOnClickListener(new View.OnClickListener() {

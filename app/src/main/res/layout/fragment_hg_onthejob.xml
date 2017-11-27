@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:text="未服务"
-                android:textColor="#666"
+                android:textColor="#4a4a4a"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:text="病人姓名:"
-                android:textColor="#666"
+                android:textColor="#4a4a4a"
                 android:textSize="16sp" />
 
             <TextView
@@ -46,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:textColor="#666"
+                android:textColor="#a2a2a2"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:text="联系电话:"
-                android:textColor="#666"
+                android:textColor="#4a4a4a"
                 android:textSize="16sp" />
 
             <TextView
@@ -70,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:textColor="#666"
+                android:textColor="#a2a2a2"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -86,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:text="上岗时间:"
-                android:textColor="#666"
+                android:textColor="#4a4a4a"
                 android:textSize="16sp" />
 
             <TextView
@@ -94,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:textColor="#666"
+                android:textColor="#a2a2a2"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -110,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:text="上岗地址:"
-                android:textColor="#666"
+                android:textColor="#4a4a4a"
                 android:textSize="16sp" />
 
             <TextView
@@ -118,7 +118,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:textColor="#666"
+                android:textColor="#a2a2a2"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -134,7 +134,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:text="病人状态:"
-                android:textColor="#666"
+                android:textColor="#4a4a4a"
                 android:textSize="16sp" />
 
             <TextView
@@ -142,31 +142,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:textColor="#666"
+                android:textColor="#a2a2a2"
                 android:textSize="16sp" />
         </LinearLayout>
 
         <View style="@style/ViewLine" />
 
         <!--<LinearLayout-->
-            <!--android:id="@+id/ll_particular"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="40dp"-->
-            <!--android:gravity="center_vertical">-->
+        <!--android:id="@+id/ll_particular"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="40dp"-->
+        <!--android:gravity="center_vertical">-->
 
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginLeft="20dp"-->
-                <!--android:text="查看病人详细状况"-->
-                <!--android:textColor="#666"-->
-                <!--android:textSize="16sp" />-->
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="20dp"-->
+        <!--android:text="查看病人详细状况"-->
+        <!--android:textColor="#4a4a4a"-->
+        <!--android:textSize="16sp" />-->
 
-            <!--<ImageView-->
-                <!--android:layout_width="20dp"-->
-                <!--android:layout_height="20dp"-->
-                <!--android:layout_marginLeft="200dp"-->
-                <!--android:src="@mipmap/ic_right" />-->
+        <!--<ImageView-->
+        <!--android:layout_width="20dp"-->
+        <!--android:layout_height="20dp"-->
+        <!--android:layout_marginLeft="200dp"-->
+        <!--android:src="@mipmap/ic_right" />-->
 
         <!--</LinearLayout>-->
 
@@ -189,10 +189,10 @@
                 android:layout_marginBottom="50dp"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
-                android:background="@drawable/selector_btn_circle"
+                android:background="@drawable/selector_btn_register"
                 android:text="签到"
-                android:textColor="#fff"
-                android:textSize="20sp" />
+                android:textColor="#3a3a3a"
+                android:textSize="22sp" />
         </RelativeLayout>
 
     </LinearLayout>
@@ -208,7 +208,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="您还未登记"
-            android:textColor="#666"
+            android:textColor="#4a4a4a"
             android:textSize="20sp" />
     </LinearLayout>
 

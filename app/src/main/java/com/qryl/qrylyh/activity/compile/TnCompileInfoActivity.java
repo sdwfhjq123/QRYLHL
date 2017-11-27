@@ -426,8 +426,13 @@ public class TnCompileInfoActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
-                //打开相机
-                openCarema();
+                if (ContextCompat.checkSelfPermission(TnCompileInfoActivity.this, android.Manifest.permission.CAMERA) !=
+                        PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(TnCompileInfoActivity.this, new String[]{android.Manifest.permission.CAMERA}, 1);
+                } else {
+                    //打开相机
+                    openCarema();
+                }
             }
         });
         btnPopCancel.setOnClickListener(new View.OnClickListener() {

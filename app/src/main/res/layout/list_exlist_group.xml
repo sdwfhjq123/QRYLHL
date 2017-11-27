@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    >
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="#e6e6e6" />
 
     <TextView
         android:id="@+id/tv_group_name"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:gravity="center_vertical"
-        android:paddingLeft="30dp"
-        android:text="AP"
-        android:textColor="#666"
+        android:paddingBottom="5dp"
+        android:paddingStart="30dp"
+        android:paddingTop="5dp"
+        android:textColor="#4a4a4a"
+        android:textSize="20sp"
         android:textStyle="bold"
-        android:textSize="20sp" />
+        tools:ignore="RtlSymmetry"
+        tools:text="AP" />
 
 </LinearLayout>

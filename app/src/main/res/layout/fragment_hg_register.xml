@@ -1,39 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="40dp"-->
-    <!--android:gravity="center_vertical"-->
-    <!--android:paddingLeft="10dp">-->
-
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="欢迎"-->
-    <!--android:textColor="#666"-->
-    <!--android:textSize="16sp" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/tv_name"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text=""-->
-    <!--android:textColor="#666" />-->
-
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="登录亲仁医疗医护端"-->
-    <!--android:textColor="#666" />-->
-    <!--</LinearLayout>-->
-
     <View
-        style="@style/ViewLine"
-        android:layout_marginTop="5dp" />
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_marginBottom="5dp"
+        android:background="#e6e6e6" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -51,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:text="服务次数"
-                android:textColor="#666"
+                android:textColor="#4a4a4a"
                 android:textSize="18sp" />
 
             <TextView
@@ -59,16 +35,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
-                android:textColor="#666"
-                android:textSize="16sp" />
+                android:textColor="#969696"
+                android:textSize="20sp" />
         </LinearLayout>
 
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:background="#666" />
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
+            android:background="#a0a0a0" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -82,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:text="好评次数"
-                android:textColor="#666"
+                android:textColor="#4a4a4a"
                 android:textSize="18sp" />
 
             <TextView
@@ -90,17 +66,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
-                android:textColor="#666"
-                android:textSize="16sp" />
+                android:textColor="#969696"
+                android:textSize="20sp" />
 
         </LinearLayout>
 
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:background="#666" />
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
+            android:background="#a0a0a0" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -114,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:text="星级指数"
-                android:textColor="#666"
+                android:textColor="#4a4a4a"
                 android:textSize="18sp" />
 
             <TextView
@@ -122,17 +98,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="★★★★★"
-                android:textColor="#666"
+                android:textColor="#969696"
                 android:textSize="16sp" />
 
         </LinearLayout>
     </LinearLayout>
 
     <View
-        style="@style/ViewLine"
-        android:layout_marginBottom="5dp" />
-
-    <View style="@style/ViewLine" />
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_marginBottom="5dp"
+        android:background="#e6e6e6" />
 
     <LinearLayout
         android:id="@+id/ll_choose_time"
@@ -141,25 +117,29 @@
         android:gravity="center_vertical">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_weight="10"
             android:text="选择可以服务时间"
-            android:textColor="#666"
+            android:textColor="#4a4a4a"
             android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_service_day"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="150dp"
+            android:layout_weight="2"
+            android:gravity="center"
             android:text="请选择"
-            android:textColor="#666"
+            android:textColor="#a2a2a2"
             android:textSize="16sp" />
 
         <ImageView
-            android:layout_width="20dp"
+            android:layout_width="0dp"
             android:layout_height="20dp"
+            android:layout_weight="1"
+            android:paddingEnd="5dp"
             android:src="@mipmap/ic_right" />
     </LinearLayout>
 
@@ -171,49 +151,57 @@
         android:gravity="center_vertical">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_weight="6"
+            android:paddingStart="20dp"
             android:text="能提供的工作时制"
-            android:textColor="#666"
+            android:textColor="#4a4a4a"
             android:textSize="16sp" />
 
         <CheckBox
             android:id="@+id/cb_eight_hours"
-            android:layout_width="50dp"
+            android:layout_width="0dp"
             android:layout_height="25dp"
-            android:layout_marginLeft="60dp"
+            android:layout_marginStart="60dp"
+            android:layout_weight="2"
             android:background="@drawable/seletctor_check_box_hours"
             android:button="@null"
             android:gravity="center"
             android:text="8小时"
-            android:textColor="#666" />
+            android:textColor="#a2a2a2" />
 
         <CheckBox
             android:id="@+id/cb_twelve_hours"
-            android:layout_width="50dp"
+            android:layout_width="0dp"
             android:layout_height="25dp"
             android:layout_marginLeft="5dp"
+            android:layout_weight="2"
             android:background="@drawable/seletctor_check_box_hours"
             android:button="@null"
             android:gravity="center"
             android:text="12小时"
-            android:textColor="#666" />
+            android:textColor="#a2a2a2" />
 
         <CheckBox
             android:id="@+id/cb_twenty_four_hours"
-            android:layout_width="50dp"
+            android:layout_width="0dp"
             android:layout_height="25dp"
             android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="2"
             android:background="@drawable/seletctor_check_box_hours"
             android:button="@null"
             android:gravity="center"
             android:text="24小时"
-            android:textColor="#666" />
+            android:textColor="#a2a2a2" />
 
     </LinearLayout>
 
-    <View style="@style/ViewLine" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="#e6e6e6" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -228,28 +216,29 @@
             android:gravity="center_vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
+                android:layout_weight="8"
                 android:text="您现在的状态为"
-                android:textColor="#666"
+                android:textColor="#4a4a4a"
                 android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/tv_status"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
                 android:layout_marginLeft="180dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="2"
                 android:text="未知"
-                android:textColor="#666"
+                android:textColor="#4a4a4a"
                 android:textSize="16sp" />
         </LinearLayout>
 
     </LinearLayout>
 
     <View style="@style/ViewLine" />
-
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -263,10 +252,10 @@
             android:layout_marginBottom="50dp"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:background="@drawable/selector_btn_circle"
+            android:background="@drawable/selector_btn_register"
             android:text="发布"
-            android:textColor="#fff"
-            android:textSize="20sp" />
+            android:textColor="#3f3f3f"
+            android:textSize="22sp" />
     </RelativeLayout>
 
 </LinearLayout>

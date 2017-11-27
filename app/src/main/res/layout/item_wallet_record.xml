@@ -21,7 +21,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:text="123"
-                android:textColor="#666"
+                android:textColor="#4a4a4a"
                 android:textSize="25sp" />
 
             <TextView
@@ -29,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="123"
-                android:textColor="#666"
+                android:textColor="#4a4a4a"
                 android:textSize="15sp" />
 
 
@@ -49,7 +49,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
                 android:text="申请提交时间:"
-                android:textColor="#666"
+                android:textColor="#4a4a4a"
                 android:textSize="15sp" />
 
             <TextView
@@ -59,7 +59,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@+id/tv"
                 android:text="123"
-                android:textColor="#666"
+                android:textColor="#4a4a4a"
                 android:textSize="15sp" />
 
             <TextView
@@ -69,7 +69,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="5dp"
                 android:text="123"
-                android:textColor="#666"
+                android:textColor="#4a4a4a"
                 android:textSize="25sp" />
 
         </RelativeLayout>
@@ -84,7 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
-                android:textColor="#666"
+                android:textColor="#4a4a4a"
                 android:textSize="15sp" />
 
         </LinearLayout>
@@ -100,14 +100,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:text="最后时间:"
-                android:textColor="#666"
+                android:textColor="#4a4a4a"
                 android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/tv_modify_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#666"
+                android:textColor="#4a4a4a"
                 android:textSize="15sp" />
 
         </LinearLayout>

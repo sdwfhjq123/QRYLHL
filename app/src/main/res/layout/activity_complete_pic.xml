@@ -25,6 +25,7 @@
             android:background="@drawable/et_border"
             android:gravity="left|top"
             android:hint="请输入个人简介"
+            android:textColorHint="#a2a2a2"
             android:inputType="textMultiLine"
             android:minLines="2"
             android:padding="10dp" />
@@ -36,6 +37,7 @@
             android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:padding="10dp"
+            android:textColor="#464646"
             android:text="\t\t为了病患人员了解您的情况，请尽可能详细的填写您的简介，会更有利于病患选择您的服务"
             android:textSize="14sp" />
 
@@ -77,6 +79,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:padding="10dp"
+                    android:textColor="#464646"
                     android:text="上传身份证" />
             </LinearLayout>
 
@@ -100,6 +103,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:padding="10dp"
+                    android:textColor="#464646"
                     android:text="上传健康证" />
 
             </LinearLayout>
@@ -124,6 +128,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:padding="10dp"
+                    android:textColor="#464646"
                     android:text="上传从业资格证" />
 
             </LinearLayout>
