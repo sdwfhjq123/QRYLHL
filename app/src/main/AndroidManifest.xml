@@ -52,15 +52,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.login.LoginActivity">
+        <activity android:name=".activity.login.LoginActivity"></activity>
+        <activity android:name=".activity.login.RegisterActivity" />
+        <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.login.RegisterActivity" />
-        <activity android:name=".activity.SplashActivity" />
         <activity android:name=".activity.login.FinishActivity" />
         <activity android:name=".activity.login.complete.ChooseAreaActivity" />
         <activity android:name=".activity.compile.HgCompileInfoActivity"></activity>

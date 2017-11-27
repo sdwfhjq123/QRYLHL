@@ -93,11 +93,8 @@ public class FeedBackActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             dismissProgressDialog();
-                            if (resultCode.equals("500")) {
-                                Toast.makeText(FeedBackActivity.this, "提交失败", Toast.LENGTH_SHORT).show();
-                            } else if (result.equals("200")) {
-                                Toast.makeText(FeedBackActivity.this, "提交成功", Toast.LENGTH_SHORT).show();
-                            }
+                            Toast.makeText(FeedBackActivity.this, "提交成功", Toast.LENGTH_SHORT).show();
+                            finish();
                         }
                     });
                 } catch (JSONException e) {

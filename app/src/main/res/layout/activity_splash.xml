@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rl_splash"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f00"
-    tools:context="com.qryl.qrylyh.activity.SplashActivity">
+    android:background="@mipmap/pic_background"
+    tools:context=".activity.SplashActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/timer_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:padding="10dp"
+        android:textColor="#4a4a4a"
+        android:textSize="18sp"
+        tools:text="倒计时：1" />
+
+</RelativeLayout>

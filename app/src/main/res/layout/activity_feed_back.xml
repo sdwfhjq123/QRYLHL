@@ -10,10 +10,10 @@
     <include layout="@layout/title" />
 
     <EditText
-        android:layout_margin="10dp"
         android:id="@+id/info_edittext"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_margin="10dp"
         android:layout_weight="5"
         android:background="@drawable/et_border"
         android:gravity="left|top"
