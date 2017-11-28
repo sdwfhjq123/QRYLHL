@@ -161,9 +161,7 @@
 
     <View
         style="@style/ViewLine"
-        android:layout_marginBottom="3dp" />
-
-    <View style="@style/ViewLine" />
+        android:layout_height="10dp" />
 
     <RelativeLayout
         android:id="@+id/rl_wallet"
@@ -211,8 +209,8 @@
             android:id="@+id/ic_illness_2"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginRight="15dp"
             android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
             android:src="@mipmap/ic_illness_2" />
 
         <TextView
@@ -245,8 +243,8 @@
         <ImageView
             android:id="@+id/ic_follow"
             android:layout_width="30dp"
-            android:layout_centerVertical="true"
             android:layout_height="30dp"
+            android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
             android:src="@mipmap/ic_follow" />
 

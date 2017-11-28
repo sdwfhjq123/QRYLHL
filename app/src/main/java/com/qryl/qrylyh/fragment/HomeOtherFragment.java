@@ -171,8 +171,8 @@ public class HomeOtherFragment extends Fragment {
         orderId = homeOther.getData().getResult().getId();
         //病人id
         patientId = homeOther.getData().getResult().getPatient().getId();
-        //病人的名字
-        name = homeOther.getData().getResult().getPatient().getName();
+        //医生的名字
+        name = homeOther.getData().getResult().getDoctorNurse().getRealName();
         //病患端用户登录id
         puId = homeOther.getData().getResult().getPatient().getPuId();
         if (getActivity() instanceof MainActivity) {
@@ -202,8 +202,8 @@ public class HomeOtherFragment extends Fragment {
         orderId = homeOther.getData().getResult().getId();
         //病人id
         patientId = homeOther.getData().getResult().getPatient().getId();
-        //病人的名字
-        name = homeOther.getData().getResult().getPatient().getName();
+        //医护的名字
+        name = homeOther.getData().getResult().getMassager().getRealName();
         //病患端用户登录id
         puId = homeOther.getData().getResult().getPatient().getPuId();
         if (getActivity() instanceof MainActivity) {

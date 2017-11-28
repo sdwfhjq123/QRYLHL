@@ -149,7 +149,6 @@ public class OrderFinishedFragment extends BaseFragment {
 
     }
 
-
     @Override
     public View initView() {
         prefs = getActivity().getSharedPreferences("user_id", Context.MODE_PRIVATE);

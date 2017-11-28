@@ -8,11 +8,21 @@ public class Massager {
     private int loginId;
     private int serviceNum;
     private int status;//0空闲 1上班未接单 2已接单
+    private String realName;
 
-    public Massager(int loginId, int serviceNum, int status) {
+    public Massager(int loginId, int serviceNum, int status, String realName) {
         this.loginId = loginId;
         this.serviceNum = serviceNum;
         this.status = status;
+        this.realName = realName;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
 
     public int getLoginId() {
