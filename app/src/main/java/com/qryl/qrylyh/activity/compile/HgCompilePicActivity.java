@@ -138,6 +138,7 @@ public class HgCompilePicActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String result = response.body().string();
+                Log.i(TAG, "HsCompilePicActivity: 获取编辑资料" + result);
                 handleJson(result);
             }
         }, "loginId", userId);
@@ -155,6 +156,9 @@ public class HgCompilePicActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void run() {
                 etMe.setText(data.getIntroduce());
+                Glide.with(HgCompilePicActivity.this).load(ConstantValue.URL + data.getIdImg()).into(sfzImage);
+                Glide.with(HgCompilePicActivity.this).load(ConstantValue.URL + data.getHealthCertificateImg()).into(jkzImage);
+                Glide.with(HgCompilePicActivity.this).load(ConstantValue.URL + data.getQualificationCertificateImg()).into(zgzImage);
             }
         });
     }
@@ -167,6 +171,7 @@ public class HgCompilePicActivity extends BaseActivity implements View.OnClickLi
         zgzImage = (ImageView) findViewById(R.id.zgz_image);
         etMe = (EditText) findViewById(R.id.et_me);
         Button btnRegister = (Button) findViewById(R.id.btn_register);
+        btnRegister.setText("提交");
         sfzImage.setOnClickListener(this);
         jkzImage.setOnClickListener(this);
         zgzImage.setOnClickListener(this);
@@ -199,8 +204,6 @@ public class HgCompilePicActivity extends BaseActivity implements View.OnClickLi
                 RequestBody body = RequestBody.create(MediaType.parse("image/*"), headFile);
                 // 参数分别为， 请求key ，文件名称 ， RequestBody
                 builder.addFormDataPart("txImg", headFile.getName(), body);
-            } else {
-                builder.addFormDataPart("txImg", "");
             }
         }
         if (!sfzImage.equals("")) {
@@ -210,8 +213,6 @@ public class HgCompilePicActivity extends BaseActivity implements View.OnClickLi
                 RequestBody body = RequestBody.create(MediaType.parse("image/*"), sfzFile);
                 // 参数分别为， 请求key ，文件名称 ， RequestBody
                 builder.addFormDataPart("sfzImg", sfzFile.getName(), body);
-            } else {
-                builder.addFormDataPart("sfzImg", "");
             }
         }
         if (!jkzImage.equals("")) {
@@ -221,8 +222,6 @@ public class HgCompilePicActivity extends BaseActivity implements View.OnClickLi
                 RequestBody body = RequestBody.create(MediaType.parse("image/*"), jkzFile);
                 // 参数分别为， 请求key ，文件名称 ， RequestBody
                 builder.addFormDataPart("jkzImg", jkzFile.getName(), body);
-            } else {
-                builder.addFormDataPart("jkzImg", "");
             }
         }
         if (!zgzImage.equals("")) {
@@ -232,8 +231,6 @@ public class HgCompilePicActivity extends BaseActivity implements View.OnClickLi
                 RequestBody body = RequestBody.create(MediaType.parse("image/*"), zgzFile);
                 // 参数分别为， 请求key ，文件名称 ， RequestBody
                 builder.addFormDataPart("zgzImg", zgzFile.getName(), body);
-            } else {
-                builder.addFormDataPart("zgzImg", "");
             }
         }
         builder.addFormDataPart("loginId", userId);

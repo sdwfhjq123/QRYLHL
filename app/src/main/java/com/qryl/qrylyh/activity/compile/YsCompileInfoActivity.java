@@ -367,7 +367,7 @@ public class YsCompileInfoActivity extends BaseActivity {
      * 传递数据到下个页面
      */
     private void putExtra() {
-        Intent intent = new Intent(YsCompileInfoActivity.this, HsCompilePicActivity.class);
+        Intent intent = new Intent(YsCompileInfoActivity.this, YsCompilePicActivity.class);
         //传递数据
         Bundle bundle = new Bundle();
         bundle.putString("name", tvName.getText().toString());

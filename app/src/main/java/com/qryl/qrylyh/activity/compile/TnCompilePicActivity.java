@@ -31,9 +31,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.qryl.qrylyh.R;
+import com.qryl.qrylyh.VO.CompileVO.Compile;
+import com.qryl.qrylyh.VO.CompileVO.Data;
 import com.qryl.qrylyh.activity.BaseActivity;
 import com.qryl.qrylyh.util.ConstantValue;
+import com.qryl.qrylyh.util.HttpUtil;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -94,6 +98,7 @@ public class TnCompilePicActivity extends BaseActivity implements View.OnClickLi
         SharedPreferences prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userId = prefs.getString("user_id", "");
         initView();
+        initData();
 
         Bundle bundle = getIntent().getExtras();
         String name = (String) bundle.get("name");
@@ -120,6 +125,45 @@ public class TnCompilePicActivity extends BaseActivity implements View.OnClickLi
 
     }
 
+    private void initData() {
+        displayInHttp();
+    }
+
+    private void displayInHttp() {
+        HttpUtil.sendOkHttpRequestInt(ConstantValue.URL + "/massager/getMyDetail", new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.i(TAG, "onFailure: ");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String result = response.body().string();
+                Log.i(TAG, "TnCompilePicActivity: 获取编辑资料" + result);
+                handleJson(result);
+            }
+        }, "loginId", userId);
+    }
+
+    private void handleJson(String result) {
+        Gson gson = new Gson();
+        Compile compile = gson.fromJson(result, Compile.class);
+        Data data = compile.getData();
+        displayInfo(data);
+    }
+
+    private void displayInfo(final Data data) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                etMe.setText(data.getIntroduce());
+                Glide.with(TnCompilePicActivity.this).load(ConstantValue.URL + data.getIdImg()).into(sfzImage);
+                Glide.with(TnCompilePicActivity.this).load(ConstantValue.URL + data.getHealthCertificateImg()).into(jkzImage);
+                Glide.with(TnCompilePicActivity.this).load(ConstantValue.URL + data.getQualificationCertificateImg()).into(zgzImage);
+            }
+        });
+    }
+
     private void initView() {
         changeTitle();
         sfzImage = (ImageView) findViewById(R.id.sfz_image);
@@ -127,6 +171,7 @@ public class TnCompilePicActivity extends BaseActivity implements View.OnClickLi
         zgzImage = (ImageView) findViewById(R.id.zgz_image);
         etMe = (EditText) findViewById(R.id.et_me);
         Button btnRegister = (Button) findViewById(R.id.btn_register);
+        btnRegister.setText("提交");
         sfzImage.setOnClickListener(this);
         jkzImage.setOnClickListener(this);
         zgzImage.setOnClickListener(this);
@@ -162,32 +207,24 @@ public class TnCompilePicActivity extends BaseActivity implements View.OnClickLi
                 RequestBody body = RequestBody.create(MediaType.parse("image/*"), headFile);
                 // 参数分别为， 请求key ，文件名称 ， RequestBody
                 builder.addFormDataPart("txImg", headFile.getName(), body);
-            } else {
-                builder.addFormDataPart("txImg", "");
             }
             if (sfzFile != null) {
                 // MediaType.parse() 里面是上传的文件类型。
                 RequestBody body = RequestBody.create(MediaType.parse("image/*"), sfzFile);
                 // 参数分别为， 请求key ，文件名称 ， RequestBody
                 builder.addFormDataPart("sfzImg", sfzFile.getName(), body);
-            } else {
-                builder.addFormDataPart("sfzImg", "");
             }
             if (jkzFile != null) {
                 // MediaType.parse() 里面是上传的文件类型。
                 RequestBody body = RequestBody.create(MediaType.parse("image/*"), jkzFile);
                 // 参数分别为， 请求key ，文件名称 ， RequestBody
                 builder.addFormDataPart("jkzImg", jkzFile.getName(), body);
-            } else {
-                builder.addFormDataPart("jkzImg", "");
             }
             if (zgzFile != null) {
                 // MediaType.parse() 里面是上传的文件类型。
                 RequestBody body = RequestBody.create(MediaType.parse("image/*"), zgzFile);
                 // 参数分别为， 请求key ，文件名称 ， RequestBody
                 builder.addFormDataPart("zgzImg", zgzFile.getName(), body);
-            } else {
-                builder.addFormDataPart("zgzImg", "");
             }
         }
         builder.addFormDataPart("loginId", userId);

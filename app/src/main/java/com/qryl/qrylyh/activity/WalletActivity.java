@@ -296,11 +296,19 @@ public class WalletActivity extends AppCompatActivity implements View.OnClickLis
                                 }
                             }
                         });
+                    } else if (resultCode.equals("400")) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(WalletActivity.this, "该账号已长时间未登录，无法加载信息，请重新登录", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent("com.qryl.qrylyh.activity.BaseActivity.MustForceOfflineReceiver");
+                                sendBroadcast(intent);
+                            }
+                        });
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         });
     }

@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.qryl.qrylyh.R;
@@ -101,6 +102,7 @@ public class WalletRecordActivity extends AppCompatActivity implements View.OnCl
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                Toast.makeText(WalletRecordActivity.this, "该账号已长时间未登录，无法加载信息，请重新登录", Toast.LENGTH_LONG).show();
                                 Intent intent = new Intent("com.qryl.qrylyh.activity.BaseActivity.MustForceOfflineReceiver");
                                 sendBroadcast(intent);
                             }
