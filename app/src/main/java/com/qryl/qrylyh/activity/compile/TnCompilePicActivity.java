@@ -197,29 +197,35 @@ public class TnCompilePicActivity extends BaseActivity implements View.OnClickLi
         OkHttpClient client = new OkHttpClient();
         MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-        if (!headImage.equals("") && !sfzImage.equals("") && !jkzImage.equals("") && !zgzName.equals("")) {
+        if (!headImage.equals("")) {
             File headFile = new File(storageDir, headImage);
-            File sfzFile = new File(storageDir, sfzImage);
-            File jkzFile = new File(storageDir, jkzImage);
-            File zgzFile = new File(storageDir, zgzName);
             if (headFile != null) {
                 // MediaType.parse() 里面是上传的文件类型。
                 RequestBody body = RequestBody.create(MediaType.parse("image/*"), headFile);
                 // 参数分别为， 请求key ，文件名称 ， RequestBody
                 builder.addFormDataPart("txImg", headFile.getName(), body);
             }
+        }
+        if (!sfzImage.equals("")) {
+            File sfzFile = new File(storageDir, sfzImage);
             if (sfzFile != null) {
                 // MediaType.parse() 里面是上传的文件类型。
                 RequestBody body = RequestBody.create(MediaType.parse("image/*"), sfzFile);
                 // 参数分别为， 请求key ，文件名称 ， RequestBody
                 builder.addFormDataPart("sfzImg", sfzFile.getName(), body);
             }
+        }
+        if (!jkzImage.equals("")) {
+            File jkzFile = new File(storageDir, jkzImage);
             if (jkzFile != null) {
                 // MediaType.parse() 里面是上传的文件类型。
                 RequestBody body = RequestBody.create(MediaType.parse("image/*"), jkzFile);
                 // 参数分别为， 请求key ，文件名称 ， RequestBody
                 builder.addFormDataPart("jkzImg", jkzFile.getName(), body);
             }
+        }
+        if (!zgzImage.equals("")) {
+            File zgzFile = new File(storageDir, zgzName);
             if (zgzFile != null) {
                 // MediaType.parse() 里面是上传的文件类型。
                 RequestBody body = RequestBody.create(MediaType.parse("image/*"), zgzFile);
