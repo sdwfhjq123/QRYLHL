@@ -244,6 +244,7 @@ public class YsCompilePicActivity extends BaseActivity implements View.OnClickLi
                 builder.addFormDataPart("zgzImg", zgzFile.getName(), body);
             }
         }
+        
         builder.addFormDataPart("loginId", userId);
         //builder.addFormDataPart("roleType", "1");
         builder.addFormDataPart("realName", (String) dataMap.get("name"));
