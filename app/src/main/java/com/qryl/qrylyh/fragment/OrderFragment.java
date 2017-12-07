@@ -62,7 +62,7 @@ public class OrderFragment extends Fragment {
         tabLayout.post(new Runnable() {
             @Override
             public void run() {
-                setIndicator(tabLayout, 20, 20);
+                setIndicator(tabLayout, 10, 10);
             }
         });
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

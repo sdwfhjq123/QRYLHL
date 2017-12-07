@@ -229,6 +229,7 @@ public class YsCompletePicActivity extends BaseActivity implements View.OnClickL
         builder.addFormDataPart("serviceAreaIds", String.valueOf(dataMap.get("localservice")));
         builder.addFormDataPart("hospitalId", String.valueOf(dataMap.get("hospital")));
         builder.addFormDataPart("departmentId", String.valueOf(dataMap.get("office")));
+        builder.addFormDataPart("professionIds", String.valueOf(dataMap.get("begoodat")));
         MultipartBody requestBody = builder.build();
         Request request = new Request.Builder().url(ConstantValue.URL + "/dn/add").post(requestBody).build();
         client.newCall(request).enqueue(new Callback() {

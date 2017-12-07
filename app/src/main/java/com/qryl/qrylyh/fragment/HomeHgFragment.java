@@ -50,7 +50,7 @@ public class HomeHgFragment extends Fragment {
         tabLayout.post(new Runnable() {
             @Override
             public void run() {
-                setIndicator(tabLayout, 60, 60);
+                setIndicator(tabLayout, 50, 50);
             }
         });
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

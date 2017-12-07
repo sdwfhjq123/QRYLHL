@@ -128,4 +128,9 @@
         <item name="android:windowExitAnimation">@anim/pophidden_anim</item>
     </style>
 
+    <style name="tablayout_text_size" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">@dimen/tab_layout_size</item>
+    </style>
+
 </resources>

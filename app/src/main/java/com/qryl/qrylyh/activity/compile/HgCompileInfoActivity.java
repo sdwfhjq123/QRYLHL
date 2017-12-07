@@ -79,7 +79,7 @@ public class HgCompileInfoActivity extends BaseActivity {
     private String ageDialogText;
     private String workExperienceDialogText;
     private File headFile;
-    private int genderNum;
+    private int genderNum = -1;
     private String locationId;
     private String workId;
     private String userId;
@@ -224,9 +224,9 @@ public class HgCompileInfoActivity extends BaseActivity {
                         tvGender.setText(genderArray[which]);
                         genderDialogText = tvGender.getText().toString();
                         if (genderDialogText.equals("男")) {
-                            genderNum = 1;
-                        } else if (genderDialogText.equals("女")) {
                             genderNum = 0;
+                        } else if (genderDialogText.equals("女")) {
+                            genderNum = 1;
                         }
                         Log.i(TAG, "onClick: 设置的性别" + genderDialogText);
                         dialog.dismiss();
@@ -449,8 +449,8 @@ public class HgCompileInfoActivity extends BaseActivity {
     /**
      * 动态获取到的权限后的重写
      *
-     * @param requestCode 请求码
-     * @param permissions 权限
+     * @param requestCode  请求码
+     * @param permissions  权限
      * @param grantResults 结果
      */
     @Override

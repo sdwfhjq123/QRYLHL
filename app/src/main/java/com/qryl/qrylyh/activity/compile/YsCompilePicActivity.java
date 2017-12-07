@@ -94,6 +94,7 @@ public class YsCompilePicActivity extends BaseActivity implements View.OnClickLi
     private File jkzFile;
     private File zgzFile;
     private String userId;
+    private SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +104,11 @@ public class YsCompilePicActivity extends BaseActivity implements View.OnClickLi
         userId = prefs.getString("user_id", "");
         initView();
         initData();
+
+        sp = getSharedPreferences("image", Context.MODE_PRIVATE);
+        sp.edit().putString(SFZ_KEY, "").apply();
+        sp.edit().putString(JKZ_KEY, "").apply();
+        sp.edit().putString(ZGZ_KEY, "").apply();
 
         Bundle bundle = getIntent().getExtras();
         String name = (String) bundle.get("name");
@@ -196,34 +202,41 @@ public class YsCompilePicActivity extends BaseActivity implements View.OnClickLi
         String headImage = pref.getString(HEAD_KEY, null);
         String sfzImage = pref.getString(SFZ_KEY, null);
         String jkzImage = pref.getString(JKZ_KEY, null);
-        String zgzName = pref.getString(ZGZ_KEY, null);
+        String zgzImage = pref.getString(ZGZ_KEY, null);
+        Log.i(TAG, "postData: headImage" + headImage);
         //Log.i(TAG, "postData: 头像图片名字" + imageName);
         OkHttpClient client = new OkHttpClient();
         MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-        if (!headImage.equals("") && !sfzImage.equals("") && !jkzImage.equals("") && !zgzName.equals("")) {
+        if (!headImage.equals("")) {
             File headFile = new File(storageDir, headImage);
-            File sfzFile = new File(storageDir, sfzImage);
-            File jkzFile = new File(storageDir, jkzImage);
-            File zgzFile = new File(storageDir, zgzName);
             if (headFile != null) {
                 // MediaType.parse() 里面是上传的文件类型。
                 RequestBody body = RequestBody.create(MediaType.parse("image/*"), headFile);
                 // 参数分别为， 请求key ，文件名称 ， RequestBody
                 builder.addFormDataPart("txImg", headFile.getName(), body);
             }
+        }
+        if (!sfzImage.equals("")) {
+            File sfzFile = new File(storageDir, sfzImage);
             if (sfzFile != null) {
                 // MediaType.parse() 里面是上传的文件类型。
                 RequestBody body = RequestBody.create(MediaType.parse("image/*"), sfzFile);
                 // 参数分别为， 请求key ，文件名称 ， RequestBody
                 builder.addFormDataPart("sfzImg", sfzFile.getName(), body);
             }
+        }
+        if (!jkzImage.equals("")) {
+            File jkzFile = new File(storageDir, jkzImage);
             if (jkzFile != null) {
                 // MediaType.parse() 里面是上传的文件类型。
                 RequestBody body = RequestBody.create(MediaType.parse("image/*"), jkzFile);
                 // 参数分别为， 请求key ，文件名称 ， RequestBody
                 builder.addFormDataPart("jkzImg", jkzFile.getName(), body);
             }
+        }
+        if (!zgzImage.equals("")) {
+            File zgzFile = new File(storageDir, zgzImage);
             if (zgzFile != null) {
                 // MediaType.parse() 里面是上传的文件类型。
                 RequestBody body = RequestBody.create(MediaType.parse("image/*"), zgzFile);
@@ -231,7 +244,6 @@ public class YsCompilePicActivity extends BaseActivity implements View.OnClickLi
                 builder.addFormDataPart("zgzImg", zgzFile.getName(), body);
             }
         }
-
         builder.addFormDataPart("loginId", userId);
         //builder.addFormDataPart("roleType", "1");
         builder.addFormDataPart("realName", (String) dataMap.get("name"));
@@ -556,7 +568,7 @@ public class YsCompilePicActivity extends BaseActivity implements View.OnClickLi
      * @param fileName
      */
     private void saveFile(String spKey, String fileName) {
-        SharedPreferences sp = getSharedPreferences("image", MODE_PRIVATE);
+        sp = getSharedPreferences("image", MODE_PRIVATE);
         SharedPreferences.Editor edit = sp.edit();
         edit.putString(spKey, fileName);
         //提交edit

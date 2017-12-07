@@ -84,7 +84,7 @@ public class TnCompileInfoActivity extends BaseActivity {
     private String ageDialogText;
     private String workExperienceDialogText;
     private File headFile;
-    private int genderNum;
+    private int genderNum=-1;
     private RelativeLayout hospital;
     private TextView tvHospital;
     private RelativeLayout location;
@@ -246,9 +246,9 @@ public class TnCompileInfoActivity extends BaseActivity {
                         tvGender.setText(genderArray[which]);
                         genderDialogText = tvGender.getText().toString();
                         if (genderDialogText.equals("男")) {
-                            genderNum = 1;
-                        } else if (genderDialogText.equals("女")) {
                             genderNum = 0;
+                        } else if (genderDialogText.equals("女")) {
+                            genderNum = 1;
                         }
                         Log.i(TAG, "onClick: 设置的性别" + genderDialogText);
                         dialog.dismiss();

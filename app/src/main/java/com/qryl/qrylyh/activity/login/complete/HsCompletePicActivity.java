@@ -177,7 +177,7 @@ public class HsCompletePicActivity extends AppCompatActivity implements View.OnC
      * 向服务器发送请求
      */
     private void postData() {
-        dialog=new ProgressDialog(this);
+        dialog = new ProgressDialog(this);
         dialog.setCancelable(false);
         dialog.setMessage("正在上传，请稍后...");
         dialog.show();
@@ -226,6 +226,7 @@ public class HsCompletePicActivity extends AppCompatActivity implements View.OnC
         builder.addFormDataPart("workYears", (String) dataMap.get("workexperience"));
         builder.addFormDataPart("introduce", (String) dataMap.get("introduce"));
         builder.addFormDataPart("idNum", (String) dataMap.get("indentity"));
+        builder.addFormDataPart("professionIds", String.valueOf(dataMap.get("begoodat")));
         builder.addFormDataPart("serviceAreaIds", (String) dataMap.get("localservice"));
         builder.addFormDataPart("hospitalId", String.valueOf(dataMap.get("hospital")));
         builder.addFormDataPart("departmentId", String.valueOf(dataMap.get("office")));
