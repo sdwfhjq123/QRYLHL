@@ -51,6 +51,7 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
 
         initView();
+
         //自动登录逻辑
         prefs = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         if (prefs.getBoolean("is_auto_login", false)) {
@@ -103,7 +104,7 @@ public class LoginActivity extends BaseActivity {
                     Log.i(TAG, "保存checkbox状态:" + cbAuto.isChecked());
                 } else {
                     cbAuto.setChecked(false);
-                    prefs.edit().clear().apply();
+                    prefs.edit().putBoolean("is_auto_login", cbAuto.isChecked()).apply();
                 }
 
             }
